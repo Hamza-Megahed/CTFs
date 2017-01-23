@@ -1,8 +1,10 @@
 Recon phase 
 
+First try to get the IP address of VM
 $ netdiscover -r 192.168.190.0/24 -i vmnet1
 192.168.190.132
 
+Then scanning the address with nmap
 $ nmap -p 1-65535 -T4 -A -v 192.168.190.132
 -- You can see the nmap dump here
 https://github.com/Hamza-Megahed/CTFs/blob/master/usv-101/scan/USV.nmap
