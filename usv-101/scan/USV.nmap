@@ -1,0 +1,2016 @@
+# Nmap 7.40 scan initiated Sun Jan 22 22:22:06 2017 as: nmap -p 1-65535 -T4 -A -v -oN USV.nmap 192.168.190.132
+Nmap scan report for 192.168.190.132
+Host is up (0.00043s latency).
+Not shown: 64994 closed ports
+PORT      STATE SERVICE               VERSION
+1/tcp     open  tcpmux?
+| fingerprint-strings: 
+|   NULL: 
+|_    550 12345 0000000000000000000000000000000000000000000000000000000
+22/tcp    open  ssh                   OpenSSH 7.3 (protocol 2.0)
+| ssh-hostkey: 
+|   2048 d8:b9:dd:8e:e7:d1:95:52:2c:98:bf:e0:65:7a:b0:92 (RSA)
+|_  256 08:03:90:eb:24:5b:dd:67:f9:1f:4d:1e:60:93:a7:e3 (ECDSA)
+60/tcp    open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    550 4m2v4 FUZZ_HERE
+80/tcp    open  http                  Apache httpd
+|_http-server-header: Apache
+|_http-title: Access forbidden!
+81/tcp    open  hosts2-ns?
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.572 h
+|     Date: q
+|_    Server: Embperl/pQ Apache/XsTNU (Debian GNU/Linux)
+808/tcp   open  ccproxy-http?
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.0 200 OK
+|_    Server: Nginx
+1024/tcp  open  kdm?
+| fingerprint-strings: 
+|   NULL: 
+|_    200 FUZZ_HERE
+1025/tcp  open  NFS-or-IIS?
+| fingerprint-strings: 
+|   NULL: 
+|_    200 FUZZ_HERE
+1026/tcp  open  LSA-or-nterm?
+| fingerprint-strings: 
+|   NULL: 
+|_    200 FUZZ_HERE
+1027/tcp  open  IIS?
+| fingerprint-strings: 
+|   NULL: 
+|_    200 FUZZ_HERE
+1028/tcp  open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    200 FUZZ_HERE
+1029/tcp  open  ms-lsa?
+| fingerprint-strings: 
+|   NULL: 
+|_    200 FUZZ_HERE
+1030/tcp  open  iad1?
+| fingerprint-strings: 
+|   NULL: 
+|_    200 FUZZ_HERE
+1031/tcp  open  iad2?
+1032/tcp  open  iad3?
+1033/tcp  open  netinfo?
+1034/tcp  open  zincite-a?
+1035/tcp  open  multidropper?
+1036/tcp  open  nsstp?
+1037/tcp  open  ams?
+1038/tcp  open  mtqp?
+1039/tcp  open  sbl?
+1040/tcp  open  netsaint?
+| fingerprint-strings: 
+|   NULL: 
+|_    200 FUZZ_HERE
+1041/tcp  open  danf-ak2?
+1042/tcp  open  afrog?
+1043/tcp  open  boinc?
+1044/tcp  open  dcutility?
+1045/tcp  open  fpitp?
+1046/tcp  open  wfremotertm?
+1047/tcp  open  neod1?
+1048/tcp  open  neod2?
+| fingerprint-strings: 
+|   NULL: 
+|_    200 FUZZ_HERE
+1049/tcp  open  td-postman?
+| fingerprint-strings: 
+|   NULL: 
+|_    200 FUZZ_HERE
+1050/tcp  open  java-or-OTGfileshare?
+| fingerprint-strings: 
+|   NULL: 
+|_    200 FUZZ_HERE
+1051/tcp  open  optima-vnet?
+| fingerprint-strings: 
+|   NULL: 
+|_    200 FUZZ_HERE
+1052/tcp  open  ddt?
+| fingerprint-strings: 
+|   NULL: 
+|_    200 FUZZ_HERE
+3129/tcp  open  http-proxy            Squid http proxy 3.5.22
+|_http-server-header: squid/3.5.22
+|_http-title: ERROR: The requested URL could not be retrieved
+3306/tcp  open  mysql                 MariaDB (unauthorized)
+4444/tcp  open  krb524?
+| fingerprint-strings: 
+|   NULL: 
+|_    220-j_k]+ ESMTP Sendmail SGI-9
+8100/tcp  open  smtp                  OpenSMTPD
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+8101/tcp  open  smtp                  Hotmail Popper hotmail to smtp gateway
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+8102/tcp  open  kz-migr?
+| fingerprint-strings: 
+|   NULL: 
+|_    550 12345 FUZZ_HERE
+8103/tcp  open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    +OK Lotus Notes POP3 server version lLlfMoHcd ready j* on __FUZZ_HERE__
+8104/tcp  open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1b0 200 OK
+|     Server: Apache/__FUZZ__Amazon
+|     X-Powered-By: ASP.NET
+|     Cache-Control: no-cache, must-revalidate
+|     Content-type: text/html
+|     X-Powered-By: PHP/xxx
+|     Expires: Mon, 26 Jul 1997 05:00:00 GMT
+|_    <title>Log In - Juniper Web Device Manager</title><address>Apache mod_perl/2h0c4 Perl/v5b10b1 Server at devtestemyhostscoiza Port 80</address>
+10024/tcp open  telnet                Alice S WLAN WAP telnetd pmYa
+10025/tcp open  telnet                BusyBox telnetd 1.00-pre7 - 1.14.0
+| fingerprint-strings: 
+|   NULL: 
+|_    OpenDreambox gQXBvx dmcr
+10026/tcp open  sip                   Asterisk YNYStzu
+|_sip-methods: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH
+10027/tcp open  http                  USRobotics USR8200 firewall http config
+10028/tcp open  http                  IOGear GMFPSU22W6 print server http config
+10029/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     000M
+|     SMBr0000
+|     000000000000000@
+|_    000000
+10030/tcp open  tsdns                 TeamSpeak domain name server
+10031/tcp open  irc
+10032/tcp open  telnet                Adtran Atlass 500 T1 router telnetd
+10033/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.0 200 OK
+|     Connection: close
+|     Server: WindWeb/5873698
+|     Date: d
+|     Content-Type: text/html
+|     <html>
+|     <head>
+|_    <title>oSystem Control Center</title>
+10034/tcp open  pop3                  SCO pop3d HkjyhDYD
+10035/tcp open  http                  IBM Director wmicimserver httpd
+| http-auth: 
+| HTTP/1.1 401 Unauthorized\x0D
+|_  Basic realm=esecsrva
+|_http-title: Site doesn't have a title.
+10036/tcp open  smtp                  Xserve smtpd
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10037/tcp open  http                  AEGiS Nanoweb httpd 8pckk (..)
+10038/tcp open  http                  Fortinet FortiGate 50B or FortiWifi 60C or 80C firewall http config
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: D41D8CD98F00B204E9800998ECF8427E
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: Site doesn't have a title.
+10039/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     <boinc_gui_rpc_reply>
+|     <major_version>1/major_version>
+|     <minor_version>1/minor_version>
+|_    <release>7/release>
+10040/tcp open  telnet                Cisco 1601R router telnetd
+10041/tcp open  telnet                VTrak 15100 telnetd
+10042/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.594 j
+|_    Server: Kannel/50576700
+10043/tcp open  http                  Allegro RomPager 54560 (APC Environmental Monitoring Unit http config)
+| http-auth: 
+| HTTP/1.1 401 Unauthorized\x0D
+|_  Basic realm=Environmental Monitoring Unit
+|_http-server-header: Allegro-Software-RomPager/54560
+|_http-title: Site doesn't have a title (text/html).
+10044/tcp open  irc                   IRC2000 Pro ircd
+10045/tcp open  telnet                BusyBox telnetd
+10046/tcp open  http                  CoreHTTP CdAlNrX (directory listing)
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: CFC74057E7C94E12544D8BE02E8CBEFA
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: corehttp-CdAlNrX
+|_http-title: Site doesn't have a title (text/html).
+10047/tcp open  ftp                   Xavi 7768 WAP ftpd 575
+10048/tcp open  unknown
+10049/tcp open  http                  Delta Networks Embedded HTTPD 41759214
+|_http-server-header: Embedded HTTPD v41759214, 4(c) Delta Networks Inc.
+10050/tcp open  zabbix-agent?
+| fingerprint-strings: 
+|   NULL: 
+|     "Internet Camera"
+|_    l<CENTER><FONT SIZE="5" COLOR="#FF0000" face
+10051/tcp open  zabbix-trapper?
+| fingerprint-strings: 
+|   NULL: 
+|_    22033313UC4:global001NAT {24}
+10052/tcp open  http                  Sony Bravia TV
+|_http-title: not found
+10053/tcp open  upnp                  Avtech surveillance camera http config paRDmys (Linux 2.X; UPnP S-DOrY)
+10054/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     000fneaw
+|_    00kMandrakelinux (X.Org X11 9817189, patch level kytndRoi)
+10055/tcp open  http                  Fortinet FortiGate firewall http proxy admin
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: CB44F163F9E936233479DC6FD4E6554C
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: Site doesn't have a title.
+10056/tcp open  ftp                   DEC OpenVMS MultiNet FTPd S+
+10057/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    00djkThis copy of X-Win32 will only accept connections from network 079081200
+10058/tcp open  smtp                  MailMax smtpd 0395216
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10059/tcp open  durian                Durian Web Application Server III v.L....
+10060/tcp open  http                  WYM httpd 883
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: Site doesn't have a title.
+10061/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    ?:ba?sh-9.69c?#
+10062/tcp open  telnet                DataEngine telnetd vDRtHwi
+10063/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     00000
+|     00000
+|     !00000
+|     "00000
+|     #00000
+|     $00000
+|     %00000
+|_    &0000
+10064/tcp open  http                  Blue Coat Reporter httpd 58268740
+10065/tcp open  telnet                Hughes HN7000S Satellite Modem telnetd
+10066/tcp open  ftp                   Optus Speedstream 4200 ADSL router ftpd
+10067/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     00lrromqrh0000brrjcuuq
+|     VMware7,1
+|     AFP3.3
+|     AFP3.2
+|     AFP3.1
+|     AFPX03r DHCAST128
+|     DHX2
+|     Recon1
+|     Client Krb v200pkm-]+
+|_    fafpserver/TvCX0
+10068/tcp open  http                  Cherokee httpd btKdX
+|_http-server-header: Cherokee/btKdX (UNIX)
+|_http-title: Site doesn't have a title.
+10069/tcp open  http                  Embedded HTTP Server OagRcctA (USRobotics router http config; name x)
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Embedded HTTP Server USROagRcctA
+|_http-title: Site doesn't have a title.
+10070/tcp open  imap                  ArGoSoft Pro imapd 014865435
+|_imap-capabilities: CAPABILITY
+10071/tcp open  smtp                  MailGate smtpd
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10072/tcp open  afsmain               Code-Crafters Ability FTP Server afsmain admin
+10073/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     00wfsbavyq0000uhfisxuu
+|     ]wXserve21x04
+|     AFP3.3
+|     AFP3.2
+|     AFP3.1
+|     AFPX03g DHCAST128jms-]+
+|_    xafpserver
+10074/tcp open  http                  ZNC IRC bouncer httpd wPGjmqs
+| http-auth: 
+| HTTP/1.1 401 Unauthorized\x0D
+|_  Server returned status 401 but no WWW-Authenticate header.
+|_http-server-header: ZNC wPGjmqs - http://znc.sourceforge.net
+|_http-title: Site doesn't have a title.
+10075/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.1 683 c
+|     Cache-Control: no-cache
+|     Pragma: no-cache
+|     Content-Type: text/htmle
+|     Proxy-Connection: close
+|     Connection: close
+|     Content-Length: 7r
+|     <HTML><HEAD>
+|     <TITLE>Access Denied</TITLE>
+|     </HEAD>h
+|_    <big>Access Denied (policy_denied)</big>
+10076/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.200 OK
+|_    Server: Motion/8
+10077/tcp open  http                  Edimax PS-1206P print server
+| http-auth: 
+| HTTP/1.1 401 \x0D
+|_  Basic realm=Default password:1234
+|_http-title: Site doesn't have a title.
+10078/tcp open  metatrader            MetaTrader Data Center
+10079/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.1 200
+|     Content-type: text/html
+|     Connection: close
+|     CONTENT-LENGTH: 5r
+|     <html>
+|     <head>
+|_    <title>ktGvji</title>
+10080/tcp open  smtp                  XWall smtpd 5S+
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10081/tcp open  irc                   ircu ircd
+10082/tcp open  amandaidx?
+| fingerprint-strings: 
+|   NULL: 
+|_    Only LDAP v3 is supported.
+10083/tcp open  amidxtape?
+| fingerprint-strings: 
+|   NULL: 
+|     User Access Verification
+|_    Your PassWord
+10084/tcp open  telnet                Efficient 5851 DSL router telnetd 6634
+10085/tcp open  ssh                   (protocol 02)
+| fingerprint-strings: 
+|   NULL: 
+|_    SSH-02-99497 dss F-SECURE SSH
+10086/tcp open  http                  Honeyd httpd 0659746 (Python 19798)
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: HoneydHTTP/0659746 Python/19798
+|_http-title: Site doesn't have a title.
+10087/tcp open  http                  EpsonNet WebAssist printer configuration 5mkLg
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: 39650089CB7C05D143D8C2097AEC6818
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: EpsonNet WebAssist Rev.5mkLg
+10088/tcp open  pop3                  XMail pop3d 0361965
+10089/tcp open  cyrus-sync            Cyrus sync server RfteRcp
+10090/tcp open  activefax             ActFax Communication ActiveFax (German)
+10091/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.1 200 OK
+|     Content-Length: 8r
+|     Cluster [7] {
+|     Member h?}
+|_    ConnectionCount: 8nAllConnectionCount: 2n
+10092/tcp open  boinc                 Boinc GUI RPC port
+10093/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     SAS/IntrNet Application Server Release LJMEaaMs (build 5)
+|_    p|SAS/IntrNet
+10094/tcp open  http                  Jablotron s alarm http control
+| http-auth: 
+| HTTP/1.1 401 Not Authorized\x0D
+|_  Basic realm=Communicator Jablotron s
+|_http-title: Site doesn't have a title.
+10095/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    220S+ running Eudora Internet Mail Server 3S+
+10096/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    "raop" nonce
+10097/tcp open  rtsp                  Helix DNA Server 28474755 (SunOS 9395 sparc)
+|_rtsp-methods: ERROR: Script execution failed (use -d to debug)
+10098/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    000000k000
+10099/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.1 200 OK
+|     Date: k
+|     Content-Length: 4r
+|     Content-Type: text/html
+|     Last-Modified: r d+
+|_    Expires: b
+10100/tcp open  rtsp                  Helix Mobile Server rtspd exKUhQ
+|_rtsp-methods: OPTIONS, DESCRIBE, PLAY, PAUSE, SETUP, GET_PARAMETER, SET_PARAMETER, TEARDOWN
+10101/tcp open  ezmeeting-2?
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.392s
+|     Date:t
+|_    Server: Stronghold
+10102/tcp open  http                  Simpserver MSN encryption or DAAP from Rhythmbox httpd
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: Site doesn't have a title.
+10103/tcp open  ezrelay?
+| fingerprint-strings: 
+|   NULL: 
+|_    2999 Invalid command
+10104/tcp open  swdtp?
+| fingerprint-strings: 
+|   NULL: 
+|     00fuervvuo0000rwqetbur
+|     *VMware14x05
+|     AFP3.4
+|     AFP3.3
+|     AFP3.2
+|     AFP3.1
+|     AFPX03
+|     DHCAST128
+|     DHX2
+|     Recon1
+|     Client Krb v2
+|     User Authentk
+|_    $not_defined_in_RFC4178@please_ignore
+10105/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    HTTP/1.1 129 gServer: *Linux/TT, UPnP/Hce, TwonkyVision UPnP SDK/lIxkYeh
+10106/tcp open  http                  Intelligent Security Systems webcam httpd woHdIGU-
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: D41D8CD98F00B204E9800998ECF8427E
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: ISS-HttpMod/woHdIGU-
+|_http-title: Site doesn't have a title.
+10107/tcp open  bctp-server?
+| fingerprint-strings: 
+|   NULL: 
+|_    0 u17
+10108/tcp open  unknown
+10109/tcp open  sip                   FPBX-pawnE (Status: 200 OK)
+| fingerprint-strings: 
+|   NULL: 
+|     SIP/2.0 200 OK
+|_    kServer: FPBX-pawnE
+10110/tcp open  telnet                RemotelyAnywhere telnetd 2925141 (Name P)
+10111/tcp open  http                  uTorrent WebUI
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: Site doesn't have a title (text/html).
+10112/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.0 200 OK
+|     Date: c
+|     Server: Tomcat/iAvwTfK
+|     Content-Type: text/html
+|     Content-Length: 5r
+|_    Servlet-Engine: Tomcat/-YyBluR (Java fKI; SunOS yTfr i java.vendor=Sun Microsystems Inc.)
+10113/tcp open  http                  Pcounter httpd
+|_http-title: Site doesn't have a title (text/plain).
+10114/tcp open  smtp
+| fingerprint-strings: 
+|   NULL: 
+|_    220 uKos-CE -- Server ESMTP (Sun Java(tm) System Messaging Server AAdEHI 3it (built y))
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10115/tcp open  telnet                Cisco 1601R router telnetd
+10116/tcp open  http                  Phex HTML-Shared File Export httpd 0236
+|_http-server-header: Phex 0236
+|_http-title: Site doesn't have a title.
+10117/tcp open  domain                ISC BIND igvs
+10118/tcp open  http                  dCache httpd (Distributed Storage Node)
+|_http-server-header: Java Cell Server
+10119/tcp open  http                  AudioCodes Mediant 200 VoIP gateway http config
+|_http-title: Site doesn't have a title.
+10120/tcp open  http                  Router httpd 27358807 (D-Link DI-804V VPN router http config)
+| http-auth: 
+| HTTP/1.0 401 Unauthorized\x0D
+|_  Basic Realm=Login as admin
+|_http-server-header: Router/27358807
+|_http-title: Site doesn't have a title (text/html).
+10121/tcp open  http                  WYM httpd fqNDy (Wowwee Rovio webcam)
+| http-auth: 
+| HTTP/1.0 401 Unauthorized\x0D
+|_  Server returned status 401 but no WWW-Authenticate header.
+|_http-title: Site doesn't have a title.
+10122/tcp open  pop3-proxy            AVG pop3 proxy 248611
+10123/tcp open  smtp                  i5/OS V5R4M0 or OS/400 smtpd
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10124/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    <?xml version="1.0" ?><methodResponse><fault><value><struct><member><name>faultCode</name><value><i4>-99</i4></value></member><member><name>faultString</name><value><string>Method nmap.probe missing or wrong number of parameters!</string></value></member></struct></value></fault></methodResponse>
+10125/tcp open  cimple?
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.356 g
+|     Date: a
+|_    Server: Embperl/PTEBQlW Apache/Xb (Debian GNU/Linux) c
+10126/tcp open  http-proxy            UserGate http proxy
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: Site doesn't have a title (text/html; charset=windows-1251).
+10127/tcp open  icy                   Icecast streaming media server 2435088 (Bitrate 9883331)
+10128/tcp open  sip                   (SIP end point; Status: 200 OK)
+| fingerprint-strings: 
+|   NULL: 
+|     SIP/2.0 200 OK
+|     dAllow: INVITE, ACK, CANCEL, OPTIONS, BYE, UPDATE, OPTIONS, MESSAGE, NOTIFY, INFO, REFER
+|_    xUser-Agent: SightSpeedClient v. vqWA_TsU
+10129/tcp open  napster               WinMX or Lopster Napster P2P client
+10130/tcp open  http                  Virata-EmWeb 718
+| http-methods: 
+|_  Supported Methods: HEAD
+|_http-server-header: Virata-EmWeb/R718
+10131/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     ICA0
+|_    ICA0
+10132/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.0 200 OK
+|     Content-Length: 6r
+|     Content-Type: text/html
+|     Server: SIMS/fiyQ
+|     <HTML>
+|     <HEAD>
+|     <TITLE>Stalker Internet Mail Server: Setup Entrance</TITLE>
+|     </HEAD>
+|     <BODY BGCOLOR=white>
+|     <H2><TABLE WIDTH="100%" BORDER=0 CELLSPACING=0 CELLPADDING=0>
+|     <TR>
+|_    <TD><H3><IMG SRC="/Icon.gif" ALIGN=MIDDLE>zC</H3>
+10133/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.481 i
+|_    Server: LseriesWeb/LYhdxkVY (HP_UNIQUE)
+10134/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     7{14}Z
+|     88030208860651Z
+|     x02?:
+|     hpl|
+|     krbtgt
+|_    &Client not found in Kerberos database0
+10135/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    dropbox-client0
+10136/tcp open  imap                  FirstClass imapd 0661940
+|_imap-capabilities: CAPABILITY
+10137/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.783 e
+|     Date: q
+|_    Server: PWS/_NCnLU
+10138/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.1 200 OK
+|     Server: yawcam/m
+|_    Content-Length:5r
+10139/tcp open  http                  Dell PowerEdge OpenManage Server Administrator httpd
+10140/tcp open  http                  whostmgr httpd 8277
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: whostmgr/8277
+|_http-title: Site doesn't have a title.
+10141/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     p000
+|_    0-_OOdCpNi0
+10142/tcp open  imap                  Microsoft Exchange 2007-2010 imapd
+|_imap-capabilities: CAPABILITY
+10143/tcp open  smtp                  Microsoft Exchange 2010 smtpd cR
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10144/tcp open  telnet
+| fingerprint-strings: 
+|   NULL: 
+|     "[Fallen Heroes Console] remote control session.
+|_    Password:0
+10145/tcp open  http                  foobar2000 media player httpd (now playing: v)
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: 7AF7DAA2165A9F963BBB62FB9E3B898A
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: v - foobar2000
+10146/tcp open  http                  Local HTTPD (based on NanoHTTPD)
+|_http-title: Site doesn't have a title (text/plain).
+10147/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.0 302 Redirect
+|     Pragma: no-cache
+|     Cache-Control: no-cache
+|     Content-Length: 0
+|     Connection: close
+|_    Location: http://dewUtKyL:9?:nohost|nonauth/nohost.php
+10148/tcp open  ftp                   Bftpd
+10149/tcp open  smtp                  SoftStack Advanced smtpd
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10150/tcp open  http                  Ricoh Aficio IS200e scanner http config HD
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: C982C5A42E10AB08CD953AAA838EF355
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: Site doesn't have a title (text/html).
+10151/tcp open  ripbot                RipBot video encoding server
+10152/tcp open  ftp                   ProFTPD
+10153/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    220 AXIS cVideo Server 8S+ (i) ready.
+10154/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     Slirp vnmJt?: (BETA)??: FULL_BOLT?
+|     Copyright (c) 1995,1996 Danny Gasparovski and others.
+|_    p|Slirp PPP/SLIP-on-terminal emulator telnetd
+10155/tcp open  http-proxy            Varnish
+|_http-server-header: Varnish
+|_http-title: Site doesn't have a title.
+10156/tcp open  telnet                Foundry Networks telnetd
+10157/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.0 400 Bad Request
+|     Server: 
+|     Content-Type: text/html
+|     Content-Length: 57
+|     HTTP/1.0 400 Bad Request: Invalid or unsupported method
+|_    p|Alcatel/Thomson SpeedTouch ADSL http config
+10158/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    lhjpjm
+10159/tcp open  http                  Allegro RomPager aouLQPaSz (Kyocera 7035 printer http config)
+|_http-server-header: Allegro-Software-RomPager/aouLQPaSz
+10160/tcp open  http                  PRINT_SERVER WEB D (Netgear oos print server http config)
+|_http-favicon: Unknown favicon MD5: 160BD877957E4EC2CC431FFBE15D713E
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: PRINT_SERVER WEB D
+|_http-title: NetGear Print Server Setup
+10161/tcp open  boinc                 Boinc GUI RPC port
+10162/tcp open  snmptls-trap?
+10163/tcp open  smtp-proxy            Trend Micro SMTP Proxy
+10164/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     [0;37;40m
+|     [0;37;40m
+|_    [15;22HAT-b version 235
+10165/tcp open  http                  FRITZ!Box http config
+10166/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    GET 0000TP/1.0
+10167/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    000000 CKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA00!0
+10168/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/0.0 400 Bad Request
+|_    Server: Windows/eteKqCP.2600/Service Pack 2 UPnP/911560298, TVersity Media Server/Ww
+10169/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    Invalid command
+10170/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.0 200 OK
+|     Content-Type: text/html
+|     Set-Cookie: rg_cookie_session_id=-28; path=/; expires=Fri, 01 Jan 2038 00:00:00 GMT; HttpOnly
+|     Cache-Control: no-cache,no-store
+|     Pragma: no-cache
+|     d<!--- Page(page_login)=[Zaloguj si
+|_    --->
+10171/tcp open  telnet                Foundry Networks telnetd
+10172/tcp open  http                  NetPort httpd b (Polycom VSX 8000 http config ......^L)
+|_http-server-header: NetPort Software b
+10173/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    Nhd67355619900do
+10174/tcp open  telnet
+| fingerprint-strings: 
+|   NULL: 
+|     ELSA LANCOM DSL/I-10 Office
+|_    Ver. 5350379 / 644518
+10175/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.1 200 OK
+|     Pragma: no-cache
+|     Expires: -1
+|     Cache-Control: no-cache
+|     Content-Length: 132
+|     Date: t GMT
+|     Connection: close
+|     Server: 
+|_    <html><head><meta http-equiv='Refresh' content='0;url=https?://SOZ:5director.jsp'></head><body></body></html>
+10176/tcp open  http                  Tomato WAP firmware httpd
+| http-auth: 
+| HTTP/1.0 401 Unauthorized\x0D
+|_  Basic realm=g\x92\x82\x9C
+|_http-title: Error
+10177/tcp open  http                  Cisco WAP2000 WAP http config
+|_http-server-header: httpd
+10178/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.1 200 OK
+|     Date: a
+|     Server: ENI-Web/R618
+|     Content-Type: text/html
+|     Expires: e
+|     Last-Modified: s
+|     Cache-Control: no-cache
+|     Pragma: no-cache
+|     <html>
+|     <head>
+|     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+|     <title>SpeedStream 5Management Interface</title>
+|_    </head>
+10179/tcp open  http                  WYM httpd Lt-WD (Wowwee Rovio webcam)
+| http-auth: 
+| HTTP/1.0 401 Unauthorized\x0D
+|_  Server returned status 401 but no WWW-Authenticate header.
+|_http-title: Site doesn't have a title.
+10180/tcp open  telnet
+| fingerprint-strings: 
+|   NULL: 
+|     [2;28H
+|_    [1mNetopia nv27
+10181/tcp open  unknown
+10182/tcp open  http                  SNMP Research DR-Web http config K
+| http-auth: 
+| HTTP/1.0 401 Unauthorized\x0D
+|_  Basic realm=DR-Web
+|_http-server-header: SNMP Research DR-Web Agent/K
+|_http-title: Site doesn't have a title.
+10183/tcp open  athinfod              Athena athinfod
+10184/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     000Q~O0M
+|     51669665481725Z
+|_    <unspecified realm>
+10185/tcp open  http                  PowerSchool student information system httpd
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: PowerSchool
+|_http-title: Site doesn't have a title.
+10186/tcp open  http                  HP System Management Homepage
+|_http-server-header: HPSMH
+10187/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    login: uucpd: 29The user is not known.
+10188/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     +OK Citadel POP3 server <8yEysuyCG>
+|     -ERR Not logged in.
+|_    -ERR Not logged in.
+10189/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     version
+|_    bindj-ax_ ]{3,20}
+10190/tcp open  unknown
+10191/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    <CSC/>0
+10192/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    220S+ running Eudora Internet Mail Server X 2S+
+10193/tcp open  http                  Dreambox httpd
+10194/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     help
+|_    0000 CKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA00!0
+10195/tcp open  http                  OCServer httpd (WebConnect http service)
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: OCServer
+|_http-title: Site doesn't have a title (text/html).
+10196/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    HTTP/1.1 404 Not found
+10197/tcp open  telnet                ZyXEL pMxu_EoY broadband router telnetd
+10198/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     manavasd0000kvgcgnbw
+|     *MacPro29x04
+|     AFP3.3
+|     AFP3.2
+|     AFP3.1
+|     AFPX03a DHCAST128dca-]+
+|_    tafpserver
+10199/tcp open  http                  Virata-EmWeb 0113 (HP LaserJet http config)
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: 1ACDE4800FC486C23A9E8D18A47AEAC1
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Virata-EmWeb/R0113
+|_http-title: Site doesn't have a title (text/html;charset=ISO-8859-1).
+10200/tcp open  trisoap?
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.1 200 OKc
+|     Server: Web Server
+|_    v<TITLE>Netgear System Login</TITLE>d<IMG SRC = "/base/images/Netgear_fsmabanner.gif"
+10201/tcp open  http                  Axway SecureTransport httpd JJ
+| http-auth: 
+| HTTP/1.1 401 Authorization Required\x0D
+|_  Server returned status 401 but no WWW-Authenticate header.
+|_http-title: Site doesn't have a title.
+10202/tcp open  smtp                  ArGoSoft Pro smtpd lXXjeUV
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10203/tcp open  pop3-proxy            Astaro firewall pop3 proxy
+10204/tcp open  ssh                   F-Secure sshd 054 (protocol 543382641)
+10205/tcp open  unknown
+10206/tcp open  ftp                   Kaba B-web 93 00 timeclock ftpd ftdjqTjoj
+10207/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     000H000
+|_    S00000000000000000000000000000000000000000
+10208/tcp open  http                  Lexmark printer http config
+| http-methods: 
+|   Supported Methods: GET HEAD POST PUT
+|_  Potentially risky methods: PUT
+|_http-title: Site doesn't have a title.
+10209/tcp open  smtp                  Check Point FireWall-1 smtpd
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10210/tcp open  telnet                Cisco Catalyst switch telnetd
+10211/tcp open  ftp                   Dell klVrwR laser printer ftpd
+10212/tcp open  http                  Indy httpd 5 (RaidenMAIL http config)
+10213/tcp open  telnet
+| fingerprint-strings: 
+|   NULL: 
+|     Precise/RTCS v12630 Telnet server
+|     Service Port Manager Active
+|_    <Esc> Ends Session
+10214/tcp open  telnet
+| fingerprint-strings: 
+|   NULL: 
+|     Welcome to D-Link Print Server *
+|     +Telnet Console +*
+|     Server Name : dGIEsVbC0+
+|     Server Model : rdPlN0+
+|     Version : UKcakE *0r0+
+|     Address : g
+|_    Uptime : q#b4
+10215/tcp open  http                  DigiSprite httpd
+| http-auth: 
+| HTTP/1.0 401 Unauthorized\x0D
+|_  Basic realm=/webpages
+|_http-server-header: DigiSprite
+|_http-title: Site doesn't have a title.
+10216/tcp open  ftp                   Zope Medusa ftpd 80
+10217/tcp open  csync                 csync2
+10218/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    HTTP/1.791 vServer: CherryPy/-IJ
+10219/tcp open  http                  RapidLogic httpd 32478 (Netgear WAG102 WAP http config)
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: A875B47F446FFE5E3EE502ABB4338F5C
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: RapidLogic/32478
+|_http-title: Site doesn't have a title (text/html).
+10220/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    HTTP/1.0 299 wUSEMAP=dSwitchMasthead ALT=\"Fast Ethernet Switch 8275-416\n
+10221/tcp open  http                  BlueIris 66162703
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: BlueIris-HTTP/66162703
+|_http-title: Site doesn't have a title.
+10222/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     0000
+|     0000
+|_    S300-S400 SeriesfETr{2}x{2}d{2}a{2}c{2}i{2}
+10223/tcp open  rtsp                  Apple QuickTime Streaming Server 1 [9]-Linux
+|_rtsp-methods: ERROR: Script execution failed (use -d to debug)
+10224/tcp open  ftp                   pSOSystem ftpd wT (m68k)
+10225/tcp open  upnp                  Portable SDK for UPnP devices Hig (Linux hDsfQUZc; DLNADOC 7; UPnP 4064)
+10226/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    salut 632} 92161378 17n
+10227/tcp open  telnet                BusyBox telnetd X (open; OpenWrt)
+10228/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     00kbyosiaf0000ubrduabt
+|     Macintosh
+|     AFP3.1
+|     AFPX03
+|_    AFP2.2r DHCAST128okh-]+0
+10229/tcp open  http                  pkspxy
+|_http-title: Site doesn't have a title.
+10230/tcp open  http                  Mbedthis-Appweb yIWpop (PHP VPkBmnhk)
+10231/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.1 200 OK
+|     c<!-- Copyright (c) ?:2 573 Fuji Xerox Co., Ltd. All Rights Reserved. -->h<TITLE>
+|     Document Centre o- 3406
+|_    </TITLE>
+10232/tcp open  whois                 rwhois 9648192
+10233/tcp open  telnet                Motorola VT1000v VOIP Adapter telnetd (Access denied)
+10234/tcp open  http                  Tivoli Access Manager WebSEAL httpd 6339 build 0
+|_http-server-header: WebSEAL/6339 (Build 0)
+|_http-title: Site doesn't have a title.
+10235/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    421 Cannot establish SSL with SMTP server nl_:-]+, SSL_connect error 336031996
+10236/tcp open  http                  Transmission BitTorrent management httpd (unauthorized)
+|_http-server-header: Transmission
+|_http-title: Site doesn't have a title (text/html; charset=ISO-8859-1).
+10237/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    a-z]{2} a-z]{2} +5{1,2} 46:18:45 REH 2088
+10238/tcp open  ftp-proxy             CoolProxy ftp proxy
+10239/tcp open  imap                  Kerio imapd
+|_imap-capabilities: CAPABILITY
+10240/tcp open  unknown
+10241/tcp open  smtp                  Hotmail Popper hotmail to smtp gateway
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10242/tcp open  http                  HP/Compaq Integrated Lights-Out http config
+|_http-title: Remote Insight
+10243/tcp open  telnet
+| fingerprint-strings: 
+|   NULL: 
+|     262194 PAAMCO TA eGen3
+|_    user:
+10244/tcp open  http-proxy            Cisco ACNS outbound proxying 38023181
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: D41D8CD98F00B204E9800998ECF8427E
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-open-proxy: Proxy might be redirecting requests
+|_http-title: Site doesn't have a title.
+10245/tcp open  http                  Planet Uv switch http config
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: 2045147DAE63D71A57E5E4D69B389ACE
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: Site doesn't have a title (text/html).
+10246/tcp open  pop3pw                CommuniGate Pro pop3 password change daemon 1SgUtxavNM
+10247/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    l{6}HTTP
+10248/tcp open  tor-info              Tor nodes info httpd
+10249/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    [000000
+10250/tcp open  powerchute            APC PowerChute Agent 6.x|7.x
+10251/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     000M
+|     SMBr0000
+|     0000000000000000xx00
+|     0000
+|     0000
+|     00titeoseotn
+|_    000000000
+10252/tcp open  telnet                Aruba switch telnetd (Cisco Controller)
+10253/tcp open  ftp                   Merak ftpd 537
+10254/tcp open  smtp                  IronPort C600 smtpd
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10255/tcp open  telnet
+| fingerprint-strings: 
+|   NULL: 
+|     Welcome to D-Link Print Server *
+|     +Telnet Console +*
+|     Server Name : qPs-0+
+|_    Server Model : -nk0
+10256/tcp open  http                  NTL/Ambit DOCSIS router http config (R25664)
+10257/tcp open  nntp-proxy            Avast! anti-virus NNTP proxy
+10258/tcp open  ftp                   ProFTPD
+10259/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     STAT pid 4r
+|     STAT uptime 1r
+|     y?STAT version iHDN-
+|     w?STAT curr_items 1r
+|     STAT total_items 0r
+|_    STAT bytes 1r
+10260/tcp open  pop3                  VisNetic MailServer pop3d eFTY
+10261/tcp open  http                  Belkin Encore 3G router http config
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: 604DC1CC3AB7F327DD4B3519C340E2EE
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: prelogin
+10262/tcp open  http                  Generic router http config
+|_http-title: 400 Bad Request
+10263/tcp open  xboxdebug             Microsoft XBox Debugging Kit
+10264/tcp open  pop3                  IA MailServer pop3d
+10265/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.071o
+|     Server: Apacheoyote/483
+|_    p|Apache Tomcat/Coyote JSP engine
+10266/tcp open  http                  Apache httpd (.Dl...)
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.1 200 OK
+|     Date: m
+|_    Server: Apache
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: D41D8CD98F00B204E9800998ECF8427E
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Apache \x9DDl\xE9\x90\x8E
+|_http-title: Site doesn't have a title.
+10267/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.1 200 OK
+|     Server: Menuet
+|     Connection: close
+|     Content-Length: 00r
+|_    Content-Type: image/bmp
+10268/tcp open  ftp-proxy             NetApp NetCache ftp proxy
+10269/tcp open  unknown
+10270/tcp open  http                  Knowledge On Demand httpd 41193028
+|_http-server-header: WWW-KODEKS/41193028
+|_http-title: Site doesn't have a title.
+10271/tcp open  http                  Indy httpd 60406 (German Wikipedia DVD browser)
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Indy/60406
+|_http-title: Did not follow redirect to /Wikipedia/
+10272/tcp open  omniback              HP OpenView OmniBackII o
+10273/tcp open  http                  D-Link DGE-530T network adapter http config
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: 490630A9BEEB57B898FF9EFE2CC6F67B
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title:  Broadband NAT Router Web-Console           
+10274/tcp open  http                  Caucho Resin JSP engine 4cycQb
+|_http-server-header: Resin/4cycQb
+10275/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    220S+ ESMTP Merak 1)^;
+10276/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     E000
+|_    SFATAL0C0A0000Munsupported frontend protocol 65363.19778: server supports 1.0 to 3.00Fpostmaster.c0L17060RProcessStartupPacket00
+10277/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    ENAMEv{1}iJSONs{1}2ERSx{1}fUUIDr{1}e
+10278/tcp open  http-proxy            Junkbuster webproxy
+|_http-title: Site doesn't have a title.
+10279/tcp open  gnuserv               Gnuserv
+10280/tcp open  http                  PrintSir WEBPORT 0721 (Hawking HP1SU Printserver http config; default password "1234")
+| http-auth: 
+| HTTP/1.1 401 \x0D
+|_  Basic realm=Default password:1234
+|_http-server-header: PrintSir WEBPORT 0721
+|_http-title: Site doesn't have a title.
+10281/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     GET / HTTP/1.0 is not known at this site.
+|_    p|Mercury/32 fingerd
+10282/tcp open  http                  Boa httpd 6qZtvzgFNJ (with Intersil Extensions) (Netgear WG602v2 wireless router http config)
+| http-auth: 
+| HTTP/1.0 401 Unauthorized\x0D
+|_  Basic realm=WG602 v2
+|_http-server-header: Boa/6qZtvzgFNJ (with Intersil Extensions)
+|_http-title: Site doesn't have a title.
+10283/tcp open  ftp                   OEM FTPD 20 (Epson StylusPhoto750)
+10284/tcp open  telnet                Belkin network USB hub telnetd J
+10285/tcp open  http                  Linksys RVS4000 security router http config
+|_http-server-header: <empty>
+10286/tcp open  http                  David WebBox httpd wvTRK.6
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: David-WebBox/wvTRK (6)
+|_http-title: Site doesn't have a title.
+10287/tcp open  ssh                   (protocol 3114764)
+| fingerprint-strings: 
+|   NULL: 
+|_    SSH-3114764-OpenSSH_Eaq-FC-ADKK.fc2r
+10288/tcp open  smtp                  ZMailer smtpd
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10289/tcp open  smtp
+| fingerprint-strings: 
+|   NULL: 
+|     220 vJDRGFhBb SMTP; n +6{4}
+|_    Syntax error, command unrecognized
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10290/tcp open  ident                 Nullidentd (Claimed user: z)
+10291/tcp open  http                  HighPoint Raidman web config http 25
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: D41D8CD98F00B204E9800998ECF8427E
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: HighPoint Raidman WebServer/25
+|_http-title: Site doesn't have a title.
+10292/tcp open  sip                   Aastra MX-ONE PBX SIP et-WNF
+10293/tcp open  oem-agent             Oracle Enterprise Manager Agent httpd 74
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: Site doesn't have a title.
+10294/tcp open  telnet                Nut/OS Demo telnetd
+10295/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    E000gSb0C0A0000Mel protocolo 65363
+10296/tcp open  http                  Teradici PCoIP remote management http config
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: Did not follow redirect to https://(null)/
+10297/tcp open  http                  Dolbey Fusion Focus Task Manager httpd
+10298/tcp open  http                  Dionaea honeypot httpd
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: C45B58E9C06DE28CAD6CAF0E9F2ABD32
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: Directory listing for /
+10299/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     000000000
+|     00000000000000
+|     0000000000000Z00
+|_    0:000000000000000
+10300/tcp open  http                  Samsung AllShare httpd
+|_http-title: Site doesn't have a title.
+10301/tcp open  telnet
+| fingerprint-strings: 
+|   NULL: 
+|     +Welcome 
+|     Software Release S
+|     Copyright (c) 2001-2004
+|_    login:
+10302/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    @PJL INFO ID
+10303/tcp open  http                  Monoprice MS NU62P11 or Sedna print server http config
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: 0E1D9F28C49BB679195A0ACDCB78F1A9
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: Site doesn't have a title.
+10304/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    HTTP/1.989 uServer: Caudium
+10305/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.0 200 OK
+|     Date: o
+|     MIME-version: 1.0
+|     Server: ZOT-PS-19/BrDA
+|_    m<title>Index</title>
+10306/tcp open  http                  Maxtor Shared Storage Plus http config
+|_http-favicon: Unknown favicon MD5: D41D8CD98F00B204E9800998ECF8427E
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: httpd
+|_http-title: Site doesn't have a title.
+10307/tcp open  http                  HP/Compaq Integrated Lights-Out http config
+|_http-title: Remote Insight
+10308/tcp open  http                  Toshiba Tec printer http config
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: TOSHIBA TEC CORPORATION
+|_http-title: Did not follow redirect to /TopAccess/default.htm
+10309/tcp open  upnp                  Conexant-EmWeb 26434 (Zoom A6 ADSL modem UPnP; UPnP 91)
+10310/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     000000
+|     version
+|_    bind00
+10311/tcp open  http                  Cisco ASA firewall http config
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: Site doesn't have a title.
+10312/tcp open  http                  EpsonNet WebAssist printer configuration 2UbXm
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: 9F8347F2487A3B7FFA497835FEAD3DA6
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: EpsonNet WebAssist Rev.2UbXm
+10313/tcp open  http                  ircservices httpd
+| http-auth: 
+| HTTP/1.1 401 Unauthorized\x0D
+|   basic realm=IRC
+|_  Services
+|_http-title: Site doesn't have a title (text/html).
+10314/tcp open  nntp-proxy            CCProxy NNTP proxy
+10315/tcp open  finger                OpenBSD fingerd (ported to Linux)
+|_finger: ERROR: Script execution failed (use -d to debug)
+10316/tcp open  http                  Dorgem webcam server http pEaXGKwM
+|_http-server-header: Dorgem/pEaXGKwM
+|_http-title: Site doesn't have a title.
+10317/tcp open  http                  DirecTV JSON RPC
+|_http-title: Site doesn't have a title (application/json; charset=UTF-8).
+10318/tcp open  telnet                Huawei telnetd
+| fingerprint-strings: 
+|   NULL: 
+|_    Copyright(c) 1998-2007 Huawei Technologies Co., Ltd. All rights reserved.
+10319/tcp open  ssh                   (protocol 79171478)
+| fingerprint-strings: 
+|   NULL: 
+|_    SSH-79171478-VWoqSFM VShell
+10320/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    c0000IBM Infoprint u0
+10321/tcp open  telnet                ZEM200 biometric device config telnetd (Linux GQB)
+10322/tcp open  imap                  Microsoft Exchange Server imapd 978 (French)
+|_imap-capabilities: CAPABILITY
+10323/tcp open  http-proxy            IBM-PROXY-FW http proxy 0012096
+|_http-title: Site doesn't have a title.
+10324/tcp open  http                  EdgePrism 486293 (Limelight Networks Content Delivery Network)
+|_http-server-header: EdgePrism/486293
+|_http-title: Site doesn't have a title.
+10325/tcp open  ssh                   (protocol 1.99)
+| fingerprint-strings: 
+|   NULL: 
+|_    SSH-1.99-InteropSecShell_0408578
+10326/tcp open  imap                  Dovecot imapd 2.0.11
+|_imap-capabilities: CAPABILITY
+10327/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     -{62}
+|     UNINET WHOIS Server {40}|
+|     Created by i-DNS.net |
+|_    INFO: This domain name has not been registered.
+10328/tcp open  ftp                   Kyocera Mita TASKalfa 300ci printer ftpd cOPH
+10329/tcp open  smtp                  AvMailGate smtp anti-virus mail gateway 1kmSyrEDmf
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10330/tcp open  pop3                  Solid pop3d
+10331/tcp open  http                  Peoplesoft REN Server httpd 4
+|_http-server-header: PeopleSoft RENSRV/v4
+|_http-title: Site doesn't have a title.
+10332/tcp open  http                  TwistedWeb httpd U_kWER (Twisted IlptbEMV; Mac OS X teamsserver)
+|_http-title: Site doesn't have a title.
+10333/tcp open  http                  Satel ETHM-1 alarm control unit
+10334/tcp open  http                  Boa 8Om (with Intersil Extensions) (Medion router http config)
+| http-auth: 
+| HTTP/1.0 401 Unauthorized\x0D
+|_  Basic realm=LOGIN Enter Password (default is medion, ignore username)
+|_http-server-header: Boa/8Om (with Intersil Extensions)
+|_http-title: Site doesn't have a title.
+10335/tcp open  imap                  Winmail imapd
+|_imap-capabilities: CAPABILITY
+10336/tcp open  http                  iTP Secure WebServer c)U (HP Tandem NonStop)
+|_http-title: Not Found
+10337/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     "Internet Camera"
+|_    n<CENTER><FONT SIZE="5" COLOR="#FF0000" face
+10338/tcp open  telnet-proxy          WinProxy telnet proxy
+10339/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     0000arwa0000mpnhqyai
+|     ]wcIJ*Netatalk0jqT
+|     AFP2.2
+|     AFPX03
+|     AFP3.1
+|     AFP3.2
+|_    AFP3.3
+10340/tcp open  pop3-proxy            Proxy+ pop3d
+10341/tcp open  boinc                 Boinc GUI RPC port
+10342/tcp open  http                  Apple Personal Websharing httpd
+|_http-server-header: Web Sharing
+|_http-title: 400 Bad Request
+10343/tcp open  http                  Globus Web Service httpd
+10344/tcp open  http                  Rhinosoft Serv-U httpd ClbudkDO
+|_http-favicon: Unknown favicon MD5: D41D8CD98F00B204E9800998ECF8427E
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Serv-U/ClbudkDO
+|_http-title: Site doesn't have a title.
+10345/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    220erv-U FTPerver vhWVp
+10346/tcp open  ssh                   (protocol 25936)
+| fingerprint-strings: 
+|   NULL: 
+|_    SSH-25936-DLink Corp. SSH server ver 8951
+10347/tcp open  http                  RapidLogic httpd 2627598 (WireSpeed Data Gateway router http config)
+|_http-server-header: RapidLogic/2627598
+10348/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    HTTP/1.866 uServer: Sun-ONE-Web-Server/KYTyikr
+10349/tcp open  telnet                Nortel 460-24T-PWR switch telnetd
+10350/tcp open  http                  Hitachi Web Server httpd
+10351/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     StoneGate firewall (1) 
+|_    ?:SG login|Login:
+10352/tcp open  telnet                Linksys WRT54G with wifi-box.net firmware telnetd 59947
+10353/tcp open  netsaint              NC_Net nagios server
+10354/tcp open  telnet                Cisco 2621 router telnetd (Banner: a)
+10355/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    154}nXAvc01KqG
+10356/tcp open  http                  AXIS 2400 video httpd
+10357/tcp open  http                  Good.iWare WebDAV Server (GoodReader PDF reader; iPad)
+10358/tcp open  ftp                   Dionaea honeypot ftpd
+10359/tcp open  http                  micro_httpd (Huawei SmartAX o ADSL router http config)
+| http-auth: 
+| HTTP/1.1 401 Unauthorized\x0D
+|_  Server returned status 401 but no WWW-Authenticate header.
+|_http-server-header: micro_httpd
+|_http-title: Site doesn't have a title.
+10360/tcp open  http                  Serviio media server http status 1.2
+10361/tcp open  kazaa-peerpoint       KaZaA P2P client Peer Point Manager
+10362/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     000M
+|     SMBr0000
+|     0000000000000000im00
+|     0000
+|     0000
+|     00jpnphkfqpc
+|_    000000000
+10363/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.852 o
+|     Date: a
+|_    Server: PicoWebServer
+10364/tcp open  pop3
+| fingerprint-strings: 
+|   NULL: 
+|_    +OK aCEIOHn IceWarp PcHEuXj POP3 j 6k8548d+ <LsjdZU@ehOzbFP>
+10365/tcp open  http                  UI-View Automatic Packet Reporting System httpd _kA
+|_http-favicon: Unknown favicon MD5: D41D8CD98F00B204E9800998ECF8427E
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: UI-WebServer V_kA
+|_http-title: Site doesn't have a title.
+10366/tcp open  ftp-proxy             NetApp NetCache ftp proxy
+10367/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    0:23:30
+10368/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     000=0
+|     00000
+|_    ?u0DECWINDOWS Digital Equipment Corporation Digital UNIX V4z00
+10369/tcp open  telnet                CyberSwitching Dualcom power device rabbit 2000 embedded telnetd
+10370/tcp open  http-proxy            BlueCoat WinProxy http proxy
+|_http-title: Site doesn't have a title.
+10371/tcp open  login                 Digital UNIX login
+10372/tcp open  telnet                Nortel BayStack 470-24T switch telnetd
+10373/tcp open  hp-gsg                IEEE 1284.4 scan peripheral gateway (connection error)
+10374/tcp open  smtp                  SUN JES smtpd 6.x
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10375/tcp open  http                  IPWEBS eJZZxhxM (Huawei broadband router http admin)
+|_http-server-header: IPWEBS/eJZZxhxM
+10376/tcp open  ftp                   Konica Minolta bizhub printer smtpd
+10377/tcp open  telnet                BusyBox telnetd 0.61 - 1.00-pre7
+| fingerprint-strings: 
+|   NULL: 
+|     BCMwADSL Router version J (oYR)
+|_    Login:
+10378/tcp open  http                  OCServer httpd (WebConnect http service)
+|_http-favicon: Unknown favicon MD5: 365660B29E7D2128436C240EC8AB3E51
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: OCServer
+|_http-title: Site doesn't have a title (text/html).
+10379/tcp open  smtp                  BorderWare firewall smtpd
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10380/tcp open  telnet                Proxim Tsunami telnetd
+10381/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    0.0.0.0:01:?
+10382/tcp open  gnuserv               Gnuserv
+10383/tcp open  http                  JBoss service httpd
+|_http-title: Site doesn't have a title (text/html).
+10384/tcp open  ftp                   Kiss DP-558 PVR ftpd
+10385/tcp open  http                  Knowledge On Demand httpd 920249899
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: WWW-KODEKS/920249899
+|_http-title: Site doesn't have a title.
+10386/tcp open  pop3pw                ApplePasswordServer pop3 password change daemon 3hmIURIpWc
+10387/tcp open  telnet                utelnetd (FetchTV DVR)
+10388/tcp open  ftp                   NetComm NS4000 Network Camera (ARM_BE PhaPoQeYS)
+10389/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.401 Unauthorized
+|_    WWW-Authenticate: Basic realm="NETGEAR WNRw
+10390/tcp open  ssh                   Cyberoam firewall sshd (protocol 4409938)
+10391/tcp open  ftp                   SimpleFTPd vIbHEkh
+|_ftp-bounce: no banner
+10392/tcp open  ftp                   Konica Minolta KMWRxanp ftpd 2637
+10393/tcp open  pop3                  GoMail mass mailing plugin pop3d 2760496
+10394/tcp open  telnet                BusyBox telnetd 1.00-pre7 - 1.14.0
+| fingerprint-strings: 
+|   NULL: 
+|     Welcome to OpenPhone pIP
+|     Version kPMhcUSxb
+|     last reset cause: software reset (memory controller also reset)
+|_    login:
+10395/tcp open  http                  Pcounter httpd
+|_http-title: Site doesn't have a title (text/plain).
+10396/tcp open  telnet                Olicom 8601 CrossFire token-ring switch manager telnetd
+10397/tcp open  ftp-proxy             Webshield2 FTP proxy
+10398/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     000`000
+|     00'com.sun.star.bridge.XProtocolProperties
+|     UrpProtocolProperties00
+|_    wi00pjbcjnkatscndkua00cxqc
+10399/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.1 401 Unauthorized
+|_    WWW-Authenticate: Basic realm="ANLYX2"
+10400/tcp open  smtp-proxy            Arkoon smtp replay (Sendmail)
+10401/tcp open  http                  WindWeb xlkAKAX (Iwatsu ADIX PBX http config)
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: D41D8CD98F00B204E9800998ECF8427E
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: WindWeb/xlkAKAX
+|_http-title: Site doesn't have a title.
+10402/tcp open  pop3                  Novell GroupWise pop3d
+10403/tcp open  telnet                Merit Internet Routing Registry telnet config Q
+10404/tcp open  http                  Plex Media Server httpd
+| http-methods: 
+|_  Supported Methods: HEAD
+10405/tcp open  ftp                   ProFTPD 1.2.6
+10406/tcp open  telnet                D-Link DWL access point telnetd
+10407/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    220 v (glFTPd 0HURTEK_qLinux+TLS) ready.?
+10408/tcp open  ftp                   Panasonic WV-NP1000 webcam ftpd 564245
+10409/tcp open  http                  CMSHTTPD ZhEEsP (z/VM hzOWvhn; ..)
+10410/tcp open  http                  Sun Java System Application Server httpd lfDuWYUUs (Servlet tsrt)
+|_http-title: Site doesn't have a title.
+10411/tcp open  http                  Xerox WorkCentre Pro httpd
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: Site doesn't have a title.
+10412/tcp open  http                  BusyBox httpd
+|_http-title: 501 Not Implemented
+10413/tcp open  http                  Sonos Play:5 streaming media server
+|_http-title: Error 403
+10414/tcp open  ftp                   IBM NPS 540+/542+ print server ftpd h
+10415/tcp open  ftp                   BisonWare BisonFTPd 638960921
+|_ftp-bounce: no banner
+10416/tcp open  http                  GoAhead WebServer (Gigabyte GN-i WAP http config)
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: GoAhead-Webs
+|_http-title: Site doesn't have a title.
+10417/tcp open  ssh                   (protocol 973)
+| fingerprint-strings: 
+|   NULL: 
+|_    SSH-973-NOS-SSH_4714833
+10418/tcp open  telnet                Cisco SRW2016 or SRW2024 router telnetd
+10419/tcp open  telnet                NovaNET-WEB backup server telnetd
+10420/tcp open  sip                   (SIP end point; Status: 500 Server Internal Error..v)
+| fingerprint-strings: 
+|   NULL: 
+|     SIP/2.0 500 Server Internal Error
+|_    User-Agent: BT Home Hub 5r
+10421/tcp open  pop3-proxy            AnalogX POP3 proxy 7yVowSV
+10422/tcp open  http                  Webduino LcVUUzx (SainSmart Ethernet shield for Arduino httpd)
+|_http-server-header: Webduino/LcVUUzx
+|_http-title: Site doesn't have a title (text/html).
+10423/tcp open  ftp                   AXIS 250S Network Video ftpd 0929472
+10424/tcp open  upnp                  MiniDLNA TwaTIifF (Linux Bqss; DLNADOC 88; UPnP 5183)
+10425/tcp open  http                  MikroTik router http config (RouterOS 5417974)
+10426/tcp open  smtp                  Tobit David.fx smtpd LFSX
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10427/tcp open  smtp-proxy            spamd smtpd
+10428/tcp open  ftp                   Kyocera FS-1000D-series print server ftpd 7603527
+10429/tcp open  telnet                Adtran NetVanta 6355 VoIP gateway telnetd (TACACS enabled)
+10430/tcp open  imap                  Google Gmail imapd (437534)
+|_imap-capabilities: CAPABILITY
+10431/tcp open  telnet
+| fingerprint-strings: 
+|   NULL: 
+|     Georgia SoftWorks Telnet Server for Windows NT/2000/XP/2003 Ver. 51130640
+|     Registered copy, 7users enabled.
+|     Please wait...
+|     User 3of 3n
+|_    login:
+10432/tcp open  telnet                HP JetDirect telnetd
+10433/tcp open  http-proxy            awarrenhttp http proxy D (Cyberoam CR200 proxy server)
+|_http-server-header: awarrenhttp/D
+|_http-title:  Internal Error 
+10434/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     000000000
+|     00000000000
+|     000000000000
+|     4000000
+|_    U000MSSQLServer0
+10435/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    Illegal TFTP operation0
+10436/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HBaTLQsM
+|_    thref="
+10437/tcp open  sip-proxy             SIP Express Router 3916 (1178)
+10438/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    :40:v
+10439/tcp open  speech                Festival Speech Synthesis System
+10440/tcp open  http-proxy            LastFMProxy HTTP-to-last.fm proxy rmAOWFVai
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: D41D8CD98F00B204E9800998ECF8427E
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-open-proxy: Proxy might be redirecting requests
+|_http-server-header: LastFMProxy/rmAOWFVai
+|_http-title: Site doesn't have a title.
+10441/tcp open  telnet                Tandberg MPS 800 telnetd
+10442/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    220erv-U FTPerver vXAEV
+10443/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    220
+10444/tcp open  telnet                Adtran TSU-ESP telnetd
+10445/tcp open  http                  Dot.Tunes iTunes sharing httpd RWwaL
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: D41D8CD98F00B204E9800998ECF8427E
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: DOT-TUNES
+|_http-title: Site doesn't have a title.
+10446/tcp open  pop3                  SocketMail pop3d wDLgTL
+10447/tcp open  ssh                   (protocol 2.0)
+| fingerprint-strings: 
+|   NULL: 
+|_    SSH-2.0-PGP
+10448/tcp open  telnet                BusyBox telnetd 0.61 - 1.00-pre7
+| fingerprint-strings: 
+|   NULL: 
+|     =============================================
+|     Welcome to ZXDSL AO : chipset BCMxr
+|     =============================================
+|     Inc., Software Release ZXDSL jLWHbVs_
+|     Release Date: redzAcJLQ
+|_    Login:
+10449/tcp open  ftp                   BSDI/Unixware ftpd tCLn
+10450/tcp open  ssh                   Seagate GoFlex NAS device sshd t (protocol 90)
+10451/tcp open  ssh                   (protocol 1.5)
+| fingerprint-strings: 
+|   NULL: 
+|_    SSH-1.5-FucKiT RootKit by Cyrax
+10452/tcp open  http                  Linksys WAP11 http config (Firmware 67251)
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: GST 67251 r
+|_http-title: Site doesn't have a title.
+10453/tcp open  http                  Vivotek Network Camera http config
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: D41D8CD98F00B204E9800998ECF8427E
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: Site doesn't have a title (text/html).
+10454/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     statusResponse
+|     kversion\(
+|     linux-IE
+|_    )(?=\)wgamenamebaseoa(?=\)
+10455/tcp open  http                  Virata-EmWeb 781 (HP LaserJet http config)
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: 0C7F4B4BA24BE775829771792CCD1F5D
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Virata-EmWeb/R781
+|_http-title: Site doesn't have a title (text/html;charset=utf-8).
+10456/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.097 k
+|_    Server: WEBrick/37869217 (Ruby/5592/8251) OpenSSL/iULAtmj
+10457/tcp open  nntp                  Cyrus nntpd o_aoGPIYt (posting ok)
+10458/tcp open  telnet                DataEngine telnetd zgo_
+10459/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.123 v
+|_    Server: Apache -OOPS Development Organization-
+10460/tcp open  sip                   QIP instant messenger SIP QnJqESl
+10461/tcp open  telnet-proxy          Blue Coat Shell proxy
+10462/tcp open  smtp                  NTMail smtpd 96229049
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10463/tcp open  daytime               American Dynamics EDVR security camera daytime
+10464/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.178n
+|     Date:s
+|_    Server: Stronghold
+10465/tcp open  http                  Network Associates ePolicy Orchestrator 624
+|_http-server-header: Agent-ListenServer-HttpSvr/1.0
+10466/tcp open  telnet                OpenVMS 8.3 telnetd (Swedish)
+10467/tcp open  http                  HP Dream Screen media player http config
+|_http-title: Site doesn't have a title (text/plain).
+10468/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     000M
+|     SMBr0000
+|     000000000000000@
+|_    000000
+10469/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    ygServerName;XuXLaffjq;InstanceName;OR;IsClustered;v{2,3};Version;2827829e;;
+10470/tcp open  domain                ISC BIND 00000yoNominum Vanti
+|_dns-nsid: ERROR: Script execution failed (use -d to debug)
+10471/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    0The IP address is not in the range of allowable addresses.0
+10472/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.401 Unauthorized
+|     Date: g
+|_    WWW-Authenticate: Basic realm="PIX"
+10473/tcp open  http                  AXIS 200+ camera httpd
+10474/tcp open  http                  Apple ODS DVD/CD Sharing Agent httpd FTT
+|_http-server-header: ODS/FTT
+10475/tcp open  smtp
+| fingerprint-strings: 
+|   NULL: 
+|_    220 niNldi ESMTP SonicWALL (7626)
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10476/tcp open  smtp                  Lotus Domino smtpd 4gup
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10477/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.500 o
+|     Server: Abyss/UhPWUAVZI (Win32) AbyssLib/740189
+|_    p/Abyss httpd/ v/$1/ i|AbyssLib/$2
+10478/tcp open  telnet                HP JetDirect printer telnetd
+10479/tcp open  ftp                   ProFTPD UrxDfMmm (CentOS _A)
+10480/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     0p29:70
+|     0f78:30
+|     micro_pause0 L
+|     00000000L
+|_    rest_break0
+10481/tcp open  rtsp                  Darwin Streaming Server 6915640
+|_rtsp-methods: ERROR: Script execution failed (use -d to debug)
+10482/tcp open  http                  TRENDnet TV-IP110W webcam display httpd
+|_http-title: Site doesn't have a title.
+10483/tcp open  smtp-proxy            1st SMTP relay
+10484/tcp open  http-proxy            Ositis-WinProxy http proxy
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: Site doesn't have a title.
+10485/tcp open  http                  jDownloader httpd
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: 522D4B3FCA9AFF2220B44D8E0DC6BC7F
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: jDownloader HTTP Server
+|_http-title: Site doesn't have a title (text/html).
+10486/tcp open  ftp                   Xerver Free ftpd 1572648
+10487/tcp open  http                  Apache httpd (Western Digital web management; Orion PhiTq)
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: D41D8CD98F00B204E9800998ECF8427E
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Apache
+|_http-title: Site doesn't have a title.
+10488/tcp open  http                  Omniture DC EJ
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: D41D8CD98F00B204E9800998ECF8427E
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Omniture DC/EJ
+|_http-title: Site doesn't have a title.
+10489/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|_    0fabqybo
+10490/tcp open  telnet                Vivotek 3102 Camera telnetd
+10491/tcp open  http                  Citrix Secure Gateway http admin
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: Did not follow redirect to /CitrixLogonPoint/Secured/
+10492/tcp open  http                  Vivotek Network Camera http config
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: D41D8CD98F00B204E9800998ECF8427E
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: Site doesn't have a title (text/html).
+10493/tcp open  unknown
+10494/tcp open  exec                  AIX rexecd (French)
+10495/tcp open  ftp                   VxWorks ftpd 9;v
+10496/tcp open  pop3-proxy            Avast! anti-virus pop3 proxy
+10497/tcp open  ftp
+| fingerprint-strings: 
+|   NULL: 
+|_    220 fsqfjwCftpu
+10498/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.0 126 i
+|     Set-Cookie: ssnid=
+|     path=/;
+|     Content-Type: text/html; charset=Tt]8
+|_    WWW-Authenticate: Basic realm="sapbc"
+10499/tcp open  smtp                  Postfix smtpd (Debian)
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10500/tcp open  pop3                  UW Imap pop3d 45778848
+10501/tcp open  rtsp                  Helix DNA Server 82353443
+|_rtsp-methods: ERROR: Script execution failed (use -d to debug)
+10502/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     0000g00
+|     00000
+|_    BADIP
+10503/tcp open  pop3                  Ocean Mail Server pop3d 06093
+10504/tcp open  ipp                   Kyocera Mita KM-1530 IPP
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: 13D7037402C7CAAE569951DCCD0FEA2B
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: Site doesn't have a title (text/html).
+10505/tcp open  sieve                 Cyrus timsieved TgEG
+10506/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     odec=6u=1 p=1 i=5 max entries = 2
+|     IMGREQUEST: request_stats, image buffers available = 4
+|_    MAIN: 5images(J=1 P=1 I=6) stored on disk in last minute
+10507/tcp open  http                  Winstone Servlet Engine GAh (Servlet ygSJsgBU)
+|_http-server-header: Winstone Servlet Engine vGAh
+|_http-title: Site doesn't have a title.
+10508/tcp open  ssh                   (protocol 2.0)
+| fingerprint-strings: 
+|   NULL: 
+|_    SSH-2.0-PGP
+10509/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     "?:Mi ortograf
+|     tiembla. Es bueno revisarla,|un hombre puede escalar a las m
+|     altas cumbre|Algo maravilloso a poner de manifiesto:|Cuando un necio hace algo de lo que se aveg
+|     enza,|En el cielo, un 
+|_    ngel no es nadie en concreto|Traigamos unos cuantos locos ahora.|Era tan verdad como los impuestos. Y no|Hay libros cortos que, para entenderlos como se merecen,|La prosperidad hace amistades, y la adversidad las|El uso principal de un PC es confirmar la ley de|Quedarse en lo conocido por miedo a lo desconocido,|Cuando las leyes son injustas, no obligan en el fuero|Magia equivale a cualquier avance en la ciencia.|Vale mejor consumir vanidades de la vida,
+10510/tcp open  pop3                  Mercur pop3d 63
+10511/tcp open  telnet-proxy          Blue Coat Shell proxy
+10512/tcp open  http                  Icecast streaming media server
+|_hadoop-datanode-info: 
+|_hadoop-jobtracker-info: 
+|_hadoop-tasktracker-info: 
+|_hbase-master-info: 
+|_http-favicon: Unknown favicon MD5: D41D8CD98F00B204E9800998ECF8427E
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: Site doesn't have a title (text/html).
+10513/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     E000
+|_    SFATAL0C0A0000Munsupported frontend protocol 3923.19778: server supports 1.0 to 3.00Fpostmaster.c0L25040RProcessStartupPacket00
+10514/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     \x8e
+|     1LXk
+|_    /p00
+10515/tcp open  smtp                  Quarkmail smtpd 820022748
+|_smtp-commands: SMTP EHLO nmap.scanme.org: failed to receive data: connection closed
+10516/tcp open  http                  Criston Precision Agent 1jmC
+|_http-server-header: Criston Precision Agent 1jmC
+10517/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     +-;;=
+|_    +.;M####+
+10518/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     HTTP/1.1 200 OK
+|_    s<TITLE>PA168S VM +</TITLE>h<script>function sf(){document.f.auth.focus();}</script>k<FONT size=5>Willkommen zur Administration des Telefons</FONT>
+10519/tcp open  unknown
+| fingerprint-strings: 
+|   NULL: 
+|     match telnet m%^
+|     +=++
+|     ConnectUPS Web/SNMP Card Configuration Utility ] +|
+|     +Firmware Revision VLEdTp +|
+|     +=++
+|_    Enter Password: % p|ConnectUPS Web/SNMP Card telnetd| v/$1/ d/power-device/
+10520/tcp open  icap                  IronNet Compliance Application 421
+21211/tcp open  ftp                   vsftpd 2.0.8 or later
+9 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port1-TCP:V=7.40%I=7%D=1/22%Time=58851502%P=x86_64-pc-linux-gnu%r(NULL,
+SF:41,"550\x2012345\x20000000000000000000000000000000000000000000000000000
+SF:0000");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port60-TCP:V=7.40%I=7%D=1/22%Time=58851502%P=x86_64-pc-linux-gnu%r(NULL
+SF:,13,"550\x204m2v4\x20FUZZ_HERE");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port81-TCP:V=7.40%I=7%D=1/22%Time=58851502%P=x86_64-pc-linux-gnu%r(NULL
+SF:,4C,"HTTP/1\.572\x20h\r\nDate:\x20q\r\nServer:\x20Embperl/pQ\x20Apache/
+SF:XsTNU\x20\(Debian\x20GNU/Linux\)\r\n\n");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port808-TCP:V=7.40%I=7%D=1/22%Time=58851502%P=x86_64-pc-linux-gnu%r(NUL
+SF:L,1E,"HTTP/1\.0\x20200\x20OK\r\nServer:\x20Nginx");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port1024-TCP:V=7.40%I=7%D=1/22%Time=58851502%P=x86_64-pc-linux-gnu%r(NU
+SF:LL,D,"200\x20FUZZ_HERE");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port1025-TCP:V=7.40%I=7%D=1/22%Time=58851502%P=x86_64-pc-linux-gnu%r(NU
+SF:LL,D,"200\x20FUZZ_HERE");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port1026-TCP:V=7.40%I=7%D=1/22%Time=58851502%P=x86_64-pc-linux-gnu%r(NU
+SF:LL,D,"200\x20FUZZ_HERE");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port1027-TCP:V=7.40%I=7%D=1/22%Time=58851502%P=x86_64-pc-linux-gnu%r(NU
+SF:LL,D,"200\x20FUZZ_HERE");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port1028-TCP:V=7.40%I=7%D=1/22%Time=58851502%P=x86_64-pc-linux-gnu%r(NU
+SF:LL,D,"200\x20FUZZ_HERE");
+MAC Address: 00:0C:29:2B:51:F9 (VMware)
+Device type: general purpose
+Running: Linux 3.X
+OS CPE: cpe:/o:linux:linux_kernel:3.16
+OS details: Linux 3.16
+Uptime guess: 0.008 days (since Sun Jan 22 22:22:46 2017)
+Network Distance: 1 hop
+TCP Sequence Prediction: Difficulty=260 (Good luck!)
+IP ID Sequence Generation: All zeros
+Service Info: Hosts: FUZZ_HERE, sV-xtIT, e_SumaCFn, S+, e; OSs: SCO UNIX, Unix, FortiOS, IOS, Linux; Devices: WAP, PBX, firewall, print server, router; CPE: cpe:/h:usrobotics:usr8200, cpe:/h:iogear:gmfpsu22w6, cpe:/h:adtran:atlass_500_t1, cpe:/o:sco:sco_unix, cpe:/h:fortinet:fortiwifi:80c
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.43 ms 192.168.190.132
+
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Sun Jan 22 22:34:35 2017 -- 1 IP address (1 host up) scanned in 748.93 seconds
