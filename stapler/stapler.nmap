@@ -1,0 +1,195 @@
+
+Starting Nmap 7.40 ( https://nmap.org ) at 2017-01-22 01:22 EET
+NSE: Loaded 143 scripts for scanning.
+NSE: Script Pre-scanning.
+Initiating NSE at 01:22
+Completed NSE at 01:22, 0.00s elapsed
+Initiating NSE at 01:22
+Completed NSE at 01:22, 0.00s elapsed
+Initiating ARP Ping Scan at 01:22
+Scanning 192.168.190.131 [1 port]
+Completed ARP Ping Scan at 01:22, 0.05s elapsed (1 total hosts)
+Initiating Parallel DNS resolution of 1 host. at 01:22
+Completed Parallel DNS resolution of 1 host. at 01:22, 0.00s elapsed
+Initiating SYN Stealth Scan at 01:22
+Scanning 192.168.190.131 [65535 ports]
+Discovered open port 53/tcp on 192.168.190.131
+Discovered open port 3306/tcp on 192.168.190.131
+Discovered open port 139/tcp on 192.168.190.131
+sendto in send_ip_packet_sd: sendto(7, packet, 44, 0, 192.168.190.131, 16) => Operation not permitted
+Offending packet: TCP 192.168.190.1:54991 > 192.168.190.131:1720 S ttl=41 id=38721 iplen=44  seq=3566956591 win=1024 <mss 1460>
+sendto in send_ip_packet_sd: sendto(7, packet, 44, 0, 192.168.190.131, 16) => Operation not permitted
+Offending packet: TCP 192.168.190.1:54991 > 192.168.190.131:80 S ttl=52 id=59499 iplen=44  seq=3566956591 win=1024 <mss 1460>
+sendto in send_ip_packet_sd: sendto(7, packet, 44, 0, 192.168.190.131, 16) => Operation not permitted
+Offending packet: TCP 192.168.190.1:54991 > 192.168.190.131:1723 S ttl=42 id=15921 iplen=44  seq=3566956591 win=1024 <mss 1460>
+sendto in send_ip_packet_sd: sendto(7, packet, 44, 0, 192.168.190.131, 16) => Operation not permitted
+Offending packet: TCP 192.168.190.1:54991 > 192.168.190.131:199 S ttl=47 id=23579 iplen=44  seq=3566956591 win=1024 <mss 1460>
+sendto in send_ip_packet_sd: sendto(7, packet, 44, 0, 192.168.190.131, 16) => Operation not permitted
+Offending packet: TCP 192.168.190.1:54991 > 192.168.190.131:23 S ttl=52 id=30524 iplen=44  seq=3566956591 win=1024 <mss 1460>
+sendto in send_ip_packet_sd: sendto(7, packet, 44, 0, 192.168.190.131, 16) => Operation not permitted
+Offending packet: TCP 192.168.190.1:54991 > 192.168.190.131:8888 S ttl=37 id=27922 iplen=44  seq=3566956591 win=1024 <mss 1460>
+sendto in send_ip_packet_sd: sendto(7, packet, 44, 0, 192.168.190.131, 16) => Operation not permitted
+Offending packet: TCP 192.168.190.1:54991 > 192.168.190.131:22 S ttl=57 id=40298 iplen=44  seq=3566956591 win=1024 <mss 1460>
+sendto in send_ip_packet_sd: sendto(7, packet, 44, 0, 192.168.190.131, 16) => Operation not permitted
+Offending packet: TCP 192.168.190.1:54991 > 192.168.190.131:143 S ttl=38 id=50216 iplen=44  seq=3566956591 win=1024 <mss 1460>
+sendto in send_ip_packet_sd: sendto(7, packet, 44, 0, 192.168.190.131, 16) => Operation not permitted
+Offending packet: TCP 192.168.190.1:54991 > 192.168.190.131:1025 S ttl=54 id=47245 iplen=44  seq=3566956591 win=1024 <mss 1460>
+sendto in send_ip_packet_sd: sendto(7, packet, 44, 0, 192.168.190.131, 16) => Operation not permitted
+Offending packet: TCP 192.168.190.1:54991 > 192.168.190.131:21 S ttl=37 id=44982 iplen=44  seq=3566956591 win=1024 <mss 1460>
+Omitting future Sendto error messages now that 10 have been shown.  Use -d2 if you really want to see them.
+Discovered open port 80/tcp on 192.168.190.131
+SYN Stealth Scan Timing: About 10.16% done; ETC: 01:27 (0:04:34 remaining)
+Discovered open port 12380/tcp on 192.168.190.131
+SYN Stealth Scan Timing: About 21.00% done; ETC: 01:27 (0:03:49 remaining)
+SYN Stealth Scan Timing: About 29.06% done; ETC: 01:28 (0:04:04 remaining)
+SYN Stealth Scan Timing: About 32.87% done; ETC: 01:29 (0:04:26 remaining)
+SYN Stealth Scan Timing: About 50.01% done; ETC: 01:27 (0:02:40 remaining)
+SYN Stealth Scan Timing: About 64.20% done; ETC: 01:27 (0:01:46 remaining)
+SYN Stealth Scan Timing: About 52.77% done; ETC: 01:29 (0:03:17 remaining)
+SYN Stealth Scan Timing: About 63.90% done; ETC: 01:29 (0:02:21 remaining)
+SYN Stealth Scan Timing: About 76.86% done; ETC: 01:28 (0:01:24 remaining)
+SYN Stealth Scan Timing: About 83.41% done; ETC: 01:28 (0:01:02 remaining)
+Completed SYN Stealth Scan at 01:28, 363.26s elapsed (65535 total ports)
+Initiating Service scan at 01:28
+Scanning 5 services on 192.168.190.131
+Completed Service scan at 01:28, 18.65s elapsed (5 services on 1 host)
+Initiating OS detection (try #1) against 192.168.190.131
+NSE: Script scanning 192.168.190.131.
+Initiating NSE at 01:28
+Completed NSE at 01:31, 127.64s elapsed
+Initiating NSE at 01:31
+Completed NSE at 01:31, 0.00s elapsed
+Nmap scan report for 192.168.190.131
+Host is up (0.00046s latency).
+Not shown: 65528 filtered ports
+PORT      STATE  SERVICE     VERSION
+20/tcp    closed ftp-data
+53/tcp    open   domain      dnsmasq 2.75
+| dns-nsid: 
+|_  bind.version: dnsmasq-2.75
+80/tcp    open   http
+| fingerprint-strings: 
+|   FourOhFourRequest: 
+|     HTTP/1.0 404 Not Found
+|     Connection: close
+|     Content-Type: text/html; charset=UTF-8
+|     Content-Length: 568
+|     <!doctype html><html><head><title>404 Not Found</title><style>
+|     body { background-color: #fcfcfc; color: #333333; margin: 0; padding:0; }
+|     font-size: 1.5em; font-weight: normal; background-color: #9999cc; min-height:2em; line-height:2em; border-bottom: 1px inset black; margin: 0; }
+|     padding-left: 10px; }
+|     code.url { background-color: #eeeeee; font-family:monospace; padding:0 2px;}
+|     </style>
+|     </head><body><h1>Not Found</h1><p>The requested resource <code class="url">/nice%20ports%2C/Tri%6Eity.txt%2ebak</code> was not found on this server.</p></body></html>
+|   GetRequest, HTTPOptions: 
+|     HTTP/1.0 404 Not Found
+|     Connection: close
+|     Content-Type: text/html; charset=UTF-8
+|     Content-Length: 533
+|     <!doctype html><html><head><title>404 Not Found</title><style>
+|     body { background-color: #fcfcfc; color: #333333; margin: 0; padding:0; }
+|     font-size: 1.5em; font-weight: normal; background-color: #9999cc; min-height:2em; line-height:2em; border-bottom: 1px inset black; margin: 0; }
+|     padding-left: 10px; }
+|     code.url { background-color: #eeeeee; font-family:monospace; padding:0 2px;}
+|     </style>
+|_    </head><body><h1>Not Found</h1><p>The requested resource <code class="url">/</code> was not found on this server.</p></body></html>
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: 404 Not Found
+137/tcp   closed netbios-ns
+139/tcp   open   netbios-ssn Samba smbd 4.3.9-Ubuntu (workgroup: WORKGROUP)
+3306/tcp  open   mysql       MySQL 5.7.12-0ubuntu1
+|_mysql-info: ERROR: Script execution failed (use -d to debug)
+12380/tcp open   http        Apache httpd 2.4.18 ((Ubuntu))
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: Site doesn't have a title (text/html).
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port80-TCP:V=7.40%I=7%D=1/22%Time=5883EEAD%P=x86_64-pc-linux-gnu%r(GetR
+SF:equest,27F,"HTTP/1\.0\x20404\x20Not\x20Found\r\nConnection:\x20close\r\
+SF:nContent-Type:\x20text/html;\x20charset=UTF-8\r\nContent-Length:\x20533
+SF:\r\n\r\n<!doctype\x20html><html><head><title>404\x20Not\x20Found</title
+SF:><style>\nbody\x20{\x20background-color:\x20#fcfcfc;\x20color:\x20#3333
+SF:33;\x20margin:\x200;\x20padding:0;\x20}\nh1\x20{\x20font-size:\x201\.5e
+SF:m;\x20font-weight:\x20normal;\x20background-color:\x20#9999cc;\x20min-h
+SF:eight:2em;\x20line-height:2em;\x20border-bottom:\x201px\x20inset\x20bla
+SF:ck;\x20margin:\x200;\x20}\nh1,\x20p\x20{\x20padding-left:\x2010px;\x20}
+SF:\ncode\.url\x20{\x20background-color:\x20#eeeeee;\x20font-family:monosp
+SF:ace;\x20padding:0\x202px;}\n</style>\n</head><body><h1>Not\x20Found</h1
+SF:><p>The\x20requested\x20resource\x20<code\x20class=\"url\">/</code>\x20
+SF:was\x20not\x20found\x20on\x20this\x20server\.</p></body></html>")%r(HTT
+SF:POptions,27F,"HTTP/1\.0\x20404\x20Not\x20Found\r\nConnection:\x20close\
+SF:r\nContent-Type:\x20text/html;\x20charset=UTF-8\r\nContent-Length:\x205
+SF:33\r\n\r\n<!doctype\x20html><html><head><title>404\x20Not\x20Found</tit
+SF:le><style>\nbody\x20{\x20background-color:\x20#fcfcfc;\x20color:\x20#33
+SF:3333;\x20margin:\x200;\x20padding:0;\x20}\nh1\x20{\x20font-size:\x201\.
+SF:5em;\x20font-weight:\x20normal;\x20background-color:\x20#9999cc;\x20min
+SF:-height:2em;\x20line-height:2em;\x20border-bottom:\x201px\x20inset\x20b
+SF:lack;\x20margin:\x200;\x20}\nh1,\x20p\x20{\x20padding-left:\x2010px;\x2
+SF:0}\ncode\.url\x20{\x20background-color:\x20#eeeeee;\x20font-family:mono
+SF:space;\x20padding:0\x202px;}\n</style>\n</head><body><h1>Not\x20Found</
+SF:h1><p>The\x20requested\x20resource\x20<code\x20class=\"url\">/</code>\x
+SF:20was\x20not\x20found\x20on\x20this\x20server\.</p></body></html>")%r(F
+SF:ourOhFourRequest,2A2,"HTTP/1\.0\x20404\x20Not\x20Found\r\nConnection:\x
+SF:20close\r\nContent-Type:\x20text/html;\x20charset=UTF-8\r\nContent-Leng
+SF:th:\x20568\r\n\r\n<!doctype\x20html><html><head><title>404\x20Not\x20Fo
+SF:und</title><style>\nbody\x20{\x20background-color:\x20#fcfcfc;\x20color
+SF::\x20#333333;\x20margin:\x200;\x20padding:0;\x20}\nh1\x20{\x20font-size
+SF::\x201\.5em;\x20font-weight:\x20normal;\x20background-color:\x20#9999cc
+SF:;\x20min-height:2em;\x20line-height:2em;\x20border-bottom:\x201px\x20in
+SF:set\x20black;\x20margin:\x200;\x20}\nh1,\x20p\x20{\x20padding-left:\x20
+SF:10px;\x20}\ncode\.url\x20{\x20background-color:\x20#eeeeee;\x20font-fam
+SF:ily:monospace;\x20padding:0\x202px;}\n</style>\n</head><body><h1>Not\x2
+SF:0Found</h1><p>The\x20requested\x20resource\x20<code\x20class=\"url\">/n
+SF:ice%20ports%2C/Tri%6Eity\.txt%2ebak</code>\x20was\x20not\x20found\x20on
+SF:\x20this\x20server\.</p></body></html>");
+MAC Address: 00:0C:29:01:F1:1D (VMware)
+Device type: general purpose
+Running: Linux 3.X|4.X
+OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4
+OS details: Linux 3.2 - 4.6
+Uptime guess: 0.094 days (since Sat Jan 21 23:16:03 2017)
+Network Distance: 1 hop
+TCP Sequence Prediction: Difficulty=264 (Good luck!)
+IP ID Sequence Generation: All zeros
+Service Info: Host: RED
+
+Host script results:
+|_clock-skew: mean: 1h57m38s, deviation: 0s, median: 1h57m38s
+| nbstat: NetBIOS name: RED, NetBIOS user: <unknown>, NetBIOS MAC: <unknown> (unknown)
+| Names:
+|   RED<00>              Flags: <unique><active>
+|   RED<03>              Flags: <unique><active>
+|   RED<20>              Flags: <unique><active>
+|   \x01\x02__MSBROWSE__\x02<01>  Flags: <group><active>
+|   WORKGROUP<00>        Flags: <group><active>
+|   WORKGROUP<1d>        Flags: <unique><active>
+|_  WORKGROUP<1e>        Flags: <group><active>
+| smb-os-discovery: 
+|   OS: Windows 6.1 (Samba 4.3.9-Ubuntu)
+|   Computer name: red
+|   NetBIOS computer name: RED\x00
+|   Domain name: \x00
+|   FQDN: red
+|_  System time: 2017-01-22T01:26:39+00:00
+| smb-security-mode: 
+|   account_used: guest
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: disabled (dangerous, but default)
+|_smbv2-enabled: Server supports SMBv2 protocol
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.46 ms 192.168.190.131
+
+NSE: Script Post-scanning.
+Initiating NSE at 01:31
+Completed NSE at 01:31, 0.00s elapsed
+Initiating NSE at 01:31
+Completed NSE at 01:31, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 512.10 seconds
+           Raw packets sent: 38023 (1.675MB) | Rcvd: 296 (12.944KB)

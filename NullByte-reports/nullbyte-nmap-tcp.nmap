@@ -1,0 +1,75 @@
+
+Starting Nmap 7.01 ( https://nmap.org ) at 2016-01-15 02:26 EST
+NSE: Loaded 132 scripts for scanning.
+NSE: Script Pre-scanning.
+Initiating NSE at 02:26
+Completed NSE at 02:26, 0.00s elapsed
+Initiating NSE at 02:26
+Completed NSE at 02:26, 0.00s elapsed
+Initiating ARP Ping Scan at 02:26
+Scanning 192.168.0.101 [1 port]
+Completed ARP Ping Scan at 02:26, 0.06s elapsed (1 total hosts)
+Initiating Parallel DNS resolution of 1 host. at 02:26
+Completed Parallel DNS resolution of 1 host. at 02:26, 0.48s elapsed
+Initiating SYN Stealth Scan at 02:26
+Scanning 192.168.0.101 [65535 ports]
+Discovered open port 111/tcp on 192.168.0.101
+Discovered open port 80/tcp on 192.168.0.101
+Discovered open port 777/tcp on 192.168.0.101
+Discovered open port 55922/tcp on 192.168.0.101
+Completed SYN Stealth Scan at 02:26, 4.80s elapsed (65535 total ports)
+Initiating Service scan at 02:26
+Scanning 4 services on 192.168.0.101
+Completed Service scan at 02:27, 11.02s elapsed (4 services on 1 host)
+Initiating OS detection (try #1) against 192.168.0.101
+NSE: Script scanning 192.168.0.101.
+Initiating NSE at 02:27
+Completed NSE at 02:27, 0.74s elapsed
+Initiating NSE at 02:27
+Completed NSE at 02:27, 0.01s elapsed
+Nmap scan report for 192.168.0.101
+Host is up (0.00080s latency).
+Not shown: 65531 closed ports
+PORT      STATE SERVICE VERSION
+80/tcp    open  http    Apache httpd 2.4.10 ((Debian))
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Apache/2.4.10 (Debian)
+|_http-title: Null Byte 00 - level 1
+111/tcp   open  rpcbind 2-4 (RPC #100000)
+| rpcinfo: 
+|   program version   port/proto  service
+|   100000  2,3,4        111/tcp  rpcbind
+|   100000  2,3,4        111/udp  rpcbind
+|   100024  1          35248/udp  status
+|_  100024  1          55922/tcp  status
+777/tcp   open  ssh     OpenSSH 6.7p1 Debian 5 (protocol 2.0)
+| ssh-hostkey: 
+|   1024 16:30:13:d9:d5:55:36:e8:1b:b7:d9:ba:55:2f:d7:44 (DSA)
+|   2048 29:aa:7d:2e:60:8b:a6:a1:c2:bd:7c:c8:bd:3c:f4:f2 (RSA)
+|_  256 60:06:e3:64:8f:8a:6f:a7:74:5a:8b:3f:e1:24:93:96 (ECDSA)
+55922/tcp open  status  1 (RPC #100024)
+MAC Address: C0:F8:DA:AF:D3:EF (Hon Hai Precision Ind.)
+Device type: general purpose
+Running: Linux 3.X|4.X
+OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4
+OS details: Linux 3.2 - 4.0
+Uptime guess: 0.000 days (since Fri Jan 15 02:26:26 2016)
+Network Distance: 1 hop
+TCP Sequence Prediction: Difficulty=260 (Good luck!)
+IP ID Sequence Generation: All zeros
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.80 ms 192.168.0.101
+
+NSE: Script Post-scanning.
+Initiating NSE at 02:27
+Completed NSE at 02:27, 0.00s elapsed
+Initiating NSE at 02:27
+Completed NSE at 02:27, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 21.27 seconds
+           Raw packets sent: 65558 (2.885MB) | Rcvd: 65550 (2.623MB)

@@ -1,0 +1,93 @@
+DirBuster 1.0-RC1 - Report
+http://www.owasp.org/index.php/Category:OWASP_DirBuster_Project
+Report produced on Fri Jan 15 03:13:13 EST 2016
+--------------------------------
+
+http://192.168.0.101:80
+--------------------------------
+Directories found during testing:
+
+Dirs found with a 200 response:
+
+/
+/uploads/
+/phpmyadmin/
+
+Dirs found with a 403 response:
+
+/icons/
+/icons/small/
+/javascript/
+/phpmyadmin/docs/
+/phpmyadmin/themes/
+/phpmyadmin/docs/html/
+/phpmyadmin/js/
+/phpmyadmin/libraries/
+/phpmyadmin/setup/lib/
+/phpmyadmin/themes/original/
+/phpmyadmin/themes/original/img/
+/phpmyadmin/themes/original/css/
+/phpmyadmin/locale/
+/phpmyadmin/locale/de/
+/phpmyadmin/locale/fr/
+/phpmyadmin/locale/it/
+/phpmyadmin/locale/nl/
+/phpmyadmin/locale/uk/
+/phpmyadmin/locale/es/
+/phpmyadmin/locale/cs/
+/phpmyadmin/locale/pl/
+/phpmyadmin/locale/id/
+/phpmyadmin/locale/tr/
+/phpmyadmin/locale/ca/
+/phpmyadmin/locale/ru/
+/phpmyadmin/locale/pt/
+/phpmyadmin/locale/ja/
+/phpmyadmin/locale/bg/
+/phpmyadmin/locale/ar/
+/phpmyadmin/locale/hu/
+/phpmyadmin/locale/fi/
+/phpmyadmin/locale/gl/
+/phpmyadmin/locale/da/
+/phpmyadmin/locale/si/
+/phpmyadmin/locale/sv/
+/phpmyadmin/locale/el/
+/phpmyadmin/locale/ko/
+/phpmyadmin/locale/sk/
+/phpmyadmin/locale/sl/
+/phpmyadmin/locale/ia/
+/phpmyadmin/locale/ro/
+/phpmyadmin/locale/lt/
+/phpmyadmin/locale/hi/
+/phpmyadmin/locale/az/
+/phpmyadmin/locale/et/
+/phpmyadmin/locale/bn/
+/phpmyadmin/locale/nb/
+
+Dirs found with a 401 response:
+
+/phpmyadmin/setup/
+
+
+--------------------------------
+Files found during testing:
+
+Files found with a 200 responce:
+
+/phpmyadmin/index.php
+/phpmyadmin/themes.php
+/phpmyadmin/webapp.php
+/phpmyadmin/license.php
+/phpmyadmin/navigation.php
+/phpmyadmin/changelog.php
+/phpmyadmin/export.php
+/phpmyadmin/js/messages.php
+/phpmyadmin/sql.php
+/phpmyadmin/import.php
+/phpmyadmin/js/whitelist.php
+
+Files found with a 302 responce:
+
+/phpmyadmin/url.php
+
+
+--------------------------------

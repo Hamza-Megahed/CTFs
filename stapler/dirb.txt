@@ -1,0 +1,73 @@
+
+-----------------
+DIRB v2.22    
+By The Dark Raver
+-----------------
+
+OUTPUT_FILE: dirb.txt
+START_TIME: Sun Jan 22 01:56:53 2017
+URL_BASE: https://192.168.190.131:12380/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+OPTION: Interactive Recursion
+
+-----------------
+
+GENERATED WORDS: 4612
+
+---- Scanning URL: https://192.168.190.131:12380/ ----
+==> DIRECTORY: https://192.168.190.131:12380/announcements/
++ https://192.168.190.131:12380/index.html (CODE:200|SIZE:21)
+==> DIRECTORY: https://192.168.190.131:12380/javascript/
+==> DIRECTORY: https://192.168.190.131:12380/phpmyadmin/
++ https://192.168.190.131:12380/robots.txt (CODE:200|SIZE:59)
++ https://192.168.190.131:12380/server-status (CODE:403|SIZE:306)
+
+---- Entering directory: https://192.168.190.131:12380/announcements/ ----
+(!) WARNING: Directory IS LISTABLE. No need to scan it.
+    (Use mode '-w' if you want to scan it anyway)
+
+---- Entering directory: https://192.168.190.131:12380/javascript/ ----
+==> DIRECTORY: https://192.168.190.131:12380/javascript/jquery/
+
+---- Entering directory: https://192.168.190.131:12380/phpmyadmin/ ----
+
+---- Entering directory: https://192.168.190.131:12380/javascript/jquery/ ----
+
+-----------------
+END_TIME: Sun Jan 22 01:57:18 2017
+DOWNLOADED: 9224 - FOUND: 3
+
+-----------------
+DIRB v2.22    
+By The Dark Raver
+-----------------
+
+OUTPUT_FILE: dirb.txt
+START_TIME: Sun Jan 22 01:57:41 2017
+URL_BASE: https://192.168.190.131:12380/
+WORDLIST_FILES: /usr/share/dirb/wordlists/common.txt
+OPTION: Interactive Recursion
+
+-----------------
+
+GENERATED WORDS: 4612
+
+---- Scanning URL: https://192.168.190.131:12380/ ----
+==> DIRECTORY: https://192.168.190.131:12380/announcements/
++ https://192.168.190.131:12380/index.html (CODE:200|SIZE:21)
+==> DIRECTORY: https://192.168.190.131:12380/javascript/
+==> DIRECTORY: https://192.168.190.131:12380/phpmyadmin/
++ https://192.168.190.131:12380/robots.txt (CODE:200|SIZE:59)
++ https://192.168.190.131:12380/server-status (CODE:403|SIZE:306)
+
+---- Entering directory: https://192.168.190.131:12380/announcements/ ----
+(!) WARNING: Directory IS LISTABLE. No need to scan it.
+    (Use mode '-w' if you want to scan it anyway)
+
+---- Entering directory: https://192.168.190.131:12380/javascript/ ----
+
+---- Entering directory: https://192.168.190.131:12380/phpmyadmin/ ----
+
+-----------------
+END_TIME: Sun Jan 22 01:57:48 2017
+DOWNLOADED: 4612 - FOUND: 3
