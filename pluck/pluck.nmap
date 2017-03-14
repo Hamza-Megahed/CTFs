@@ -1,0 +1,68 @@
+
+Starting Nmap 7.40 ( https://nmap.org ) at 2017-03-13 04:53 EET
+NSE: Loaded 143 scripts for scanning.
+NSE: Script Pre-scanning.
+Initiating NSE at 04:53
+Completed NSE at 04:53, 0.00s elapsed
+Initiating NSE at 04:53
+Completed NSE at 04:53, 0.00s elapsed
+Initiating ARP Ping Scan at 04:53
+Scanning 172.16.34.152 [1 port]
+Completed ARP Ping Scan at 04:53, 0.25s elapsed (1 total hosts)
+Initiating Parallel DNS resolution of 1 host. at 04:53
+Completed Parallel DNS resolution of 1 host. at 04:53, 6.50s elapsed
+Initiating SYN Stealth Scan at 04:53
+Scanning 172.16.34.152 [65535 ports]
+Discovered open port 22/tcp on 172.16.34.152
+Discovered open port 3306/tcp on 172.16.34.152
+Discovered open port 80/tcp on 172.16.34.152
+Discovered open port 5355/tcp on 172.16.34.152
+Completed SYN Stealth Scan at 04:53, 2.35s elapsed (65535 total ports)
+Initiating Service scan at 04:53
+Scanning 4 services on 172.16.34.152
+Completed Service scan at 04:55, 115.52s elapsed (4 services on 1 host)
+Initiating OS detection (try #1) against 172.16.34.152
+NSE: Script scanning 172.16.34.152.
+Initiating NSE at 04:55
+Completed NSE at 04:55, 0.70s elapsed
+Initiating NSE at 04:55
+Completed NSE at 04:55, 1.03s elapsed
+Nmap scan report for 172.16.34.152
+Host is up (0.00035s latency).
+Not shown: 65531 closed ports
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 7.3p1 Ubuntu 1 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 e8:87:ba:3e:d7:43:23:bf:4a:6b:9d:ae:63:14:ea:71 (RSA)
+|_  256 8f:8c:ac:8d:e8:cc:f9:0e:89:f7:5d:a0:6c:28:56:fd (ECDSA)
+80/tcp   open  http    Apache httpd 2.4.18 ((Ubuntu))
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: Pluck
+3306/tcp open  mysql   MySQL (unauthorized)
+5355/tcp open  llmnr?
+MAC Address: 00:0C:29:68:B9:5D (VMware)
+Device type: general purpose
+Running: Linux 3.X|4.X
+OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4
+OS details: Linux 3.2 - 4.6
+Uptime guess: 198.840 days (since Fri Aug 26 08:45:50 2016)
+Network Distance: 1 hop
+TCP Sequence Prediction: Difficulty=264 (Good luck!)
+IP ID Sequence Generation: All zeros
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.35 ms 172.16.34.152
+
+NSE: Script Post-scanning.
+Initiating NSE at 04:55
+Completed NSE at 04:55, 0.00s elapsed
+Initiating NSE at 04:55
+Completed NSE at 04:55, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 141.46 seconds
+           Raw packets sent: 65558 (2.885MB) | Rcvd: 65550 (2.623MB)
