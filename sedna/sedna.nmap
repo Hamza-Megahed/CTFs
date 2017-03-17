@@ -1,0 +1,143 @@
+
+Starting Nmap 7.40 ( https://nmap.org ) at 2017-03-16 03:01 EET
+NSE: Loaded 143 scripts for scanning.
+NSE: Script Pre-scanning.
+Initiating NSE at 03:01
+Completed NSE at 03:01, 0.00s elapsed
+Initiating NSE at 03:01
+Completed NSE at 03:01, 0.00s elapsed
+Initiating ARP Ping Scan at 03:01
+Scanning 172.16.34.154 [1 port]
+Completed ARP Ping Scan at 03:01, 0.04s elapsed (1 total hosts)
+Initiating Parallel DNS resolution of 1 host. at 03:01
+Completed Parallel DNS resolution of 1 host. at 03:01, 0.00s elapsed
+Initiating SYN Stealth Scan at 03:01
+Scanning 172.16.34.154 [65535 ports]
+Discovered open port 110/tcp on 172.16.34.154
+Discovered open port 53/tcp on 172.16.34.154
+Discovered open port 111/tcp on 172.16.34.154
+Discovered open port 993/tcp on 172.16.34.154
+Discovered open port 8080/tcp on 172.16.34.154
+Discovered open port 995/tcp on 172.16.34.154
+Discovered open port 139/tcp on 172.16.34.154
+Discovered open port 22/tcp on 172.16.34.154
+Discovered open port 80/tcp on 172.16.34.154
+Discovered open port 143/tcp on 172.16.34.154
+Discovered open port 445/tcp on 172.16.34.154
+Discovered open port 42181/tcp on 172.16.34.154
+Completed SYN Stealth Scan at 03:01, 2.05s elapsed (65535 total ports)
+Initiating Service scan at 03:01
+Scanning 12 services on 172.16.34.154
+Completed Service scan at 03:04, 147.92s elapsed (12 services on 1 host)
+Initiating OS detection (try #1) against 172.16.34.154
+NSE: Script scanning 172.16.34.154.
+Initiating NSE at 03:04
+Completed NSE at 03:04, 22.32s elapsed
+Initiating NSE at 03:04
+Completed NSE at 03:04, 1.07s elapsed
+Nmap scan report for 172.16.34.154
+Host is up (0.00026s latency).
+Not shown: 65523 closed ports
+PORT      STATE SERVICE     VERSION
+22/tcp    open  ssh         OpenSSH 6.6.1p1 Ubuntu 2ubuntu2 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   1024 aa:c3:9e:80:b4:81:15:dd:60:d5:08:ba:3f:e0:af:08 (DSA)
+|   2048 41:7f:c2:5d:d5:3a:68:e4:c5:d9:cc:60:06:76:93:a5 (RSA)
+|_  256 ef:2d:65:85:f8:3a:85:c2:33:0b:7d:f9:c8:92:22:03 (ECDSA)
+53/tcp    open  domain      ISC BIND 9.9.5-3-Ubuntu
+| dns-nsid: 
+|_  bind.version: 9.9.5-3-Ubuntu
+80/tcp    open  http        Apache httpd 2.4.7 ((Ubuntu))
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+| http-robots.txt: 1 disallowed entry 
+|_Hackers
+|_http-server-header: Apache/2.4.7 (Ubuntu)
+|_http-title: Site doesn't have a title (text/html).
+110/tcp   open  pop3?
+111/tcp   open  rpcbind     2-4 (RPC #100000)
+| rpcinfo: 
+|   program version   port/proto  service
+|   100000  2,3,4        111/tcp  rpcbind
+|   100000  2,3,4        111/udp  rpcbind
+|   100024  1          33379/udp  status
+|_  100024  1          42181/tcp  status
+139/tcp   open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
+143/tcp   open  imap        Dovecot imapd
+|_imap-capabilities: CAPABILITY
+445/tcp   open  netbios-ssn Samba smbd 4.1.6-Ubuntu (workgroup: WORKGROUP)
+993/tcp   open  ssl/imap    Dovecot imapd
+|_imap-capabilities: CAPABILITY
+| ssl-cert: Subject: commonName=localhost/organizationName=Dovecot mail server
+| Issuer: commonName=localhost/organizationName=Dovecot mail server
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha256WithRSAEncryption
+| Not valid before: 2016-10-07T19:17:14
+| Not valid after:  2026-10-07T19:17:14
+| MD5:   a32c 1b8e 97f3 210f d238 ba3d ac45 74f7
+|_SHA-1: 0b7b 4229 b7af 8f89 d533 2ecf 5a1f f652 a015 0295
+|_ssl-date: TLS randomness does not represent time
+995/tcp   open  ssl/pop3s?
+| ssl-cert: Subject: commonName=localhost/organizationName=Dovecot mail server
+| Issuer: commonName=localhost/organizationName=Dovecot mail server
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha256WithRSAEncryption
+| Not valid before: 2016-10-07T19:17:14
+| Not valid after:  2026-10-07T19:17:14
+| MD5:   a32c 1b8e 97f3 210f d238 ba3d ac45 74f7
+|_SHA-1: 0b7b 4229 b7af 8f89 d533 2ecf 5a1f f652 a015 0295
+|_ssl-date: TLS randomness does not represent time
+8080/tcp  open  http        Apache Tomcat/Coyote JSP engine 1.1
+| http-methods: 
+|   Supported Methods: GET HEAD POST PUT DELETE OPTIONS
+|_  Potentially risky methods: PUT DELETE
+|_http-open-proxy: Proxy might be redirecting requests
+|_http-server-header: Apache-Coyote/1.1
+|_http-title: Apache Tomcat
+42181/tcp open  status      1 (RPC #100024)
+MAC Address: 00:0C:29:8F:E1:99 (VMware)
+Device type: general purpose
+Running: Linux 3.X|4.X
+OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4
+OS details: Linux 3.2 - 4.6
+Uptime guess: 198.841 days (since Mon Aug 29 06:53:14 2016)
+Network Distance: 1 hop
+TCP Sequence Prediction: Difficulty=261 (Good luck!)
+IP ID Sequence Generation: All zeros
+Service Info: Host: SEDNA; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Host script results:
+| nbstat: NetBIOS name: SEDNA, NetBIOS user: <unknown>, NetBIOS MAC: <unknown> (unknown)
+| Names:
+|   SEDNA<00>            Flags: <unique><active>
+|   SEDNA<03>            Flags: <unique><active>
+|   SEDNA<20>            Flags: <unique><active>
+|   WORKGROUP<00>        Flags: <group><active>
+|_  WORKGROUP<1e>        Flags: <group><active>
+| smb-os-discovery: 
+|   OS: Unix (Samba 4.1.6-Ubuntu)
+|   NetBIOS computer name: SEDNA\x00
+|   Workgroup: WORKGROUP\x00
+|_  System time: 2017-03-15T21:04:11-04:00
+| smb-security-mode: 
+|   account_used: guest
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: disabled (dangerous, but default)
+|_smbv2-enabled: Server supports SMBv2 protocol
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.26 ms 172.16.34.154
+
+NSE: Script Post-scanning.
+Initiating NSE at 03:04
+Completed NSE at 03:04, 0.00s elapsed
+Initiating NSE at 03:04
+Completed NSE at 03:04, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 176.64 seconds
+           Raw packets sent: 65558 (2.885MB) | Rcvd: 65550 (2.623MB)
