@@ -1,0 +1,122 @@
+
+Starting Nmap 7.40 ( https://nmap.org ) at 2017-03-16 10:32 EET
+NSE: Loaded 143 scripts for scanning.
+NSE: Script Pre-scanning.
+Initiating NSE at 10:32
+Completed NSE at 10:32, 0.00s elapsed
+Initiating NSE at 10:32
+Completed NSE at 10:32, 0.00s elapsed
+Initiating ARP Ping Scan at 10:32
+Scanning 172.16.34.155 [1 port]
+Completed ARP Ping Scan at 10:32, 0.06s elapsed (1 total hosts)
+Initiating Parallel DNS resolution of 1 host. at 10:32
+Completed Parallel DNS resolution of 1 host. at 10:32, 0.00s elapsed
+Initiating SYN Stealth Scan at 10:32
+Scanning 172.16.34.155 [65535 ports]
+Discovered open port 53/tcp on 172.16.34.155
+Discovered open port 445/tcp on 172.16.34.155
+Discovered open port 139/tcp on 172.16.34.155
+Discovered open port 110/tcp on 172.16.34.155
+Discovered open port 993/tcp on 172.16.34.155
+Discovered open port 143/tcp on 172.16.34.155
+Discovered open port 22/tcp on 172.16.34.155
+Discovered open port 995/tcp on 172.16.34.155
+Discovered open port 80/tcp on 172.16.34.155
+Completed SYN Stealth Scan at 10:32, 1.36s elapsed (65535 total ports)
+Initiating Service scan at 10:32
+Scanning 9 services on 172.16.34.155
+Completed Service scan at 10:35, 154.49s elapsed (9 services on 1 host)
+Initiating OS detection (try #1) against 172.16.34.155
+NSE: Script scanning 172.16.34.155.
+Initiating NSE at 10:35
+Completed NSE at 10:35, 23.84s elapsed
+Initiating NSE at 10:35
+Completed NSE at 10:35, 1.45s elapsed
+Nmap scan report for 172.16.34.155
+Host is up (0.00033s latency).
+Not shown: 65526 closed ports
+PORT    STATE SERVICE     VERSION
+22/tcp  open  ssh         OpenSSH 5.9p1 Debian 5ubuntu1 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   1024 d0:0a:61:d5:d0:3a:38:c2:67:c3:c3:42:8f:ae:ab:e5 (DSA)
+|   2048 bc:e0:3b:ef:97:99:9a:8b:9e:96:cf:02:cd:f1:5e:dc (RSA)
+|_  256 8c:73:46:83:98:8f:0d:f7:f5:c8:e4:58:68:0f:80:75 (ECDSA)
+53/tcp  open  domain      ISC BIND 9.8.1-P1
+| dns-nsid: 
+|_  bind.version: 9.8.1-P1
+80/tcp  open  http        Apache httpd 2.2.22 ((Ubuntu))
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+| http-robots.txt: 1 disallowed entry 
+|_Hackers
+|_http-server-header: Apache/2.2.22 (Ubuntu)
+|_http-title: Site doesn't have a title (text/html).
+110/tcp open  pop3?
+139/tcp open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
+143/tcp open  imap        Dovecot imapd
+445/tcp open  netbios-ssn Samba smbd 3.6.3 (workgroup: WORKGROUP)
+993/tcp open  ssl/imap    Dovecot imapd
+| ssl-cert: Subject: commonName=ubuntu/organizationName=Dovecot mail server
+| Issuer: commonName=ubuntu/organizationName=Dovecot mail server
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha1WithRSAEncryption
+| Not valid before: 2016-10-07T04:32:43
+| Not valid after:  2026-10-07T04:32:43
+| MD5:   e242 d8cb 6557 1624 38af 0867 05e9 2677
+|_SHA-1: b5d0 537d 0850 11d0 e9c0 fb10 ca07 37c3 af10 9382
+995/tcp open  ssl/pop3s?
+| ssl-cert: Subject: commonName=ubuntu/organizationName=Dovecot mail server
+| Issuer: commonName=ubuntu/organizationName=Dovecot mail server
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha1WithRSAEncryption
+| Not valid before: 2016-10-07T04:32:43
+| Not valid after:  2026-10-07T04:32:43
+| MD5:   e242 d8cb 6557 1624 38af 0867 05e9 2677
+|_SHA-1: b5d0 537d 0850 11d0 e9c0 fb10 ca07 37c3 af10 9382
+MAC Address: 00:0C:29:F2:CD:60 (VMware)
+Device type: general purpose
+Running: Linux 2.6.X|3.X
+OS CPE: cpe:/o:linux:linux_kernel:2.6 cpe:/o:linux:linux_kernel:3
+OS details: Linux 2.6.32 - 3.5
+Uptime guess: 197.262 days (since Wed Aug 31 04:17:55 2016)
+Network Distance: 1 hop
+TCP Sequence Prediction: Difficulty=260 (Good luck!)
+IP ID Sequence Generation: All zeros
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Host script results:
+|_clock-skew: mean: -1h59m30s, deviation: 0s, median: -1h59m30s
+| nbstat: NetBIOS name: QUAOAR, NetBIOS user: <unknown>, NetBIOS MAC: <unknown> (unknown)
+| Names:
+|   QUAOAR<00>           Flags: <unique><active>
+|   QUAOAR<03>           Flags: <unique><active>
+|   QUAOAR<20>           Flags: <unique><active>
+|   WORKGROUP<1e>        Flags: <group><active>
+|_  WORKGROUP<00>        Flags: <group><active>
+| smb-os-discovery: 
+|   OS: Unix (Samba 3.6.3)
+|   NetBIOS computer name: 
+|   Workgroup: WORKGROUP\x00
+|_  System time: 2017-03-16T02:35:49-04:00
+| smb-security-mode: 
+|   account_used: guest
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: disabled (dangerous, but default)
+|_smbv2-enabled: Server doesn't support SMBv2 protocol
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.33 ms 172.16.34.155
+
+NSE: Script Post-scanning.
+Initiating NSE at 10:35
+Completed NSE at 10:35, 0.00s elapsed
+Initiating NSE at 10:35
+Completed NSE at 10:35, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 184.60 seconds
+           Raw packets sent: 65555 (2.885MB) | Rcvd: 65551 (2.623MB)
