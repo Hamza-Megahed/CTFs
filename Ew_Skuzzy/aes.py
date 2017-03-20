@@ -29,8 +29,8 @@ def main():
     res = combinations(words, 1)
     c = len(res)-1
     for idx, result in enumerate(res):
-        str1 = "openssl aes-256-cbc -d -md sha256 -in /media/root/new/ToAlice.csv.enc -out /root/Desktop/ouut.txt -passin pass:"+result[0]
-        if cmdline(str1) == s:
+        str1 = "openssl aes-256-cbc -d -md sha256 -in /media/root/new/ToAlice.csv.enc -out /root/Desktop/ouut.txt -pass pass:"+result[0]
+        if cmdline(str1) == "":
             print("\nKey Found! The key is: "+result[0])
             sys.exit()
         print(str(idx)+"/"+str(c))
