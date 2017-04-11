@@ -1,0 +1,183 @@
+
+Starting Nmap 7.40 ( https://nmap.org ) at 2017-03-18 09:26 EET
+NSE: Loaded 143 scripts for scanning.
+NSE: Script Pre-scanning.
+Initiating NSE at 09:26
+Completed NSE at 09:26, 0.00s elapsed
+Initiating NSE at 09:26
+Completed NSE at 09:26, 0.00s elapsed
+Initiating ARP Ping Scan at 09:26
+Scanning 172.16.34.157 [1 port]
+Completed ARP Ping Scan at 09:26, 0.05s elapsed (1 total hosts)
+Initiating Parallel DNS resolution of 1 host. at 09:26
+Completed Parallel DNS resolution of 1 host. at 09:26, 0.00s elapsed
+Initiating SYN Stealth Scan at 09:26
+Scanning 172.16.34.157 [65535 ports]
+Discovered open port 143/tcp on 172.16.34.157
+Discovered open port 995/tcp on 172.16.34.157
+Discovered open port 80/tcp on 172.16.34.157
+Discovered open port 22/tcp on 172.16.34.157
+Discovered open port 53/tcp on 172.16.34.157
+Discovered open port 110/tcp on 172.16.34.157
+Discovered open port 445/tcp on 172.16.34.157
+Discovered open port 139/tcp on 172.16.34.157
+Discovered open port 111/tcp on 172.16.34.157
+Discovered open port 993/tcp on 172.16.34.157
+Discovered open port 443/tcp on 172.16.34.157
+Discovered open port 51573/tcp on 172.16.34.157
+Discovered open port 42333/tcp on 172.16.34.157
+Discovered open port 34625/tcp on 172.16.34.157
+Discovered open port 50170/tcp on 172.16.34.157
+Discovered open port 2049/tcp on 172.16.34.157
+Completed SYN Stealth Scan at 09:26, 1.43s elapsed (65535 total ports)
+Initiating Service scan at 09:26
+Scanning 16 services on 172.16.34.157
+Completed Service scan at 09:26, 11.05s elapsed (16 services on 1 host)
+Initiating OS detection (try #1) against 172.16.34.157
+NSE: Script scanning 172.16.34.157.
+Initiating NSE at 09:26
+Completed NSE at 09:28, 91.78s elapsed
+Initiating NSE at 09:28
+Completed NSE at 09:28, 0.03s elapsed
+Nmap scan report for 172.16.34.157
+Host is up (0.00051s latency).
+Not shown: 65519 closed ports
+PORT      STATE SERVICE     VERSION
+22/tcp    open  ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.1 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 3a:48:6e:8e:3f:32:26:f8:b6:a1:c6:b1:70:73:37:75 (RSA)
+|_  256 04:55:e6:48:50:d6:93:d7:12:80:a0:68:bc:97:fa:33 (ECDSA)
+53/tcp    open  domain      ISC BIND 9.10.3-P4-Ubuntu
+| dns-nsid: 
+|_  bind.version: 9.10.3-P4-Ubuntu
+80/tcp    open  http        Apache httpd 2.4.18 ((Ubuntu))
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+| http-robots.txt: 30 disallowed entries (15 shown)
+| /exponent.js.php /exponent.js2.php /exponent.php 
+| /exponent_bootstrap.php /exponent_constants.php /exponent_php_setup.php 
+| /exponent_version.php /getswversion.php /login.php /overrides.php 
+| /popup.php /selector.php /site_rss.php /source_selector.php 
+|_/thumb.php
+|_http-server-header: Apache/2.4.18 (Ubuntu)
+|_http-title: Site doesn't have a title (text/html).
+110/tcp   open  pop3        Dovecot pop3d
+|_pop3-capabilities: UIDL AUTH-RESP-CODE SASL STLS PIPELINING CAPA RESP-CODES TOP
+| ssl-cert: Subject: commonName=localhost/organizationName=Dovecot mail server
+| Issuer: commonName=localhost/organizationName=Dovecot mail server
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha256WithRSAEncryption
+| Not valid before: 2016-10-09T03:44:10
+| Not valid after:  2026-10-09T03:44:10
+| MD5:   ad50 6e67 26f1 7969 4bcd 2696 5347 a592
+|_SHA-1: 01e5 ecc7 994a a19d 45e8 f4c2 b4cf 98b5 10a4 771f
+|_ssl-date: TLS randomness does not represent time
+111/tcp   open  rpcbind     2-4 (RPC #100000)
+| rpcinfo: 
+|   program version   port/proto  service
+|   100000  2,3,4        111/tcp  rpcbind
+|   100000  2,3,4        111/udp  rpcbind
+|   100003  2,3,4       2049/tcp  nfs
+|   100003  2,3,4       2049/udp  nfs
+|   100005  1,2,3      44330/udp  mountd
+|   100005  1,2,3      50170/tcp  mountd
+|   100021  1,3,4      33809/udp  nlockmgr
+|   100021  1,3,4      42333/tcp  nlockmgr
+|   100227  2,3         2049/tcp  nfs_acl
+|_  100227  2,3         2049/udp  nfs_acl
+139/tcp   open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)
+143/tcp   open  imap        Dovecot imapd
+|_imap-capabilities: more LITERAL+ ENABLE post-login IDLE STARTTLS IMAP4rev1 LOGIN-REFERRALS listed SASL-IR OK Pre-login LOGINDISABLEDA0001 capabilities have ID
+| ssl-cert: Subject: commonName=localhost/organizationName=Dovecot mail server
+| Issuer: commonName=localhost/organizationName=Dovecot mail server
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha256WithRSAEncryption
+| Not valid before: 2016-10-09T03:44:10
+| Not valid after:  2026-10-09T03:44:10
+| MD5:   ad50 6e67 26f1 7969 4bcd 2696 5347 a592
+|_SHA-1: 01e5 ecc7 994a a19d 45e8 f4c2 b4cf 98b5 10a4 771f
+|_ssl-date: TLS randomness does not represent time
+443/tcp   open  ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.1 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 3a:48:6e:8e:3f:32:26:f8:b6:a1:c6:b1:70:73:37:75 (RSA)
+|_  256 04:55:e6:48:50:d6:93:d7:12:80:a0:68:bc:97:fa:33 (ECDSA)
+445/tcp   open  netbios-ssn Samba smbd 4.3.11-Ubuntu (workgroup: WORKGROUP)
+993/tcp   open  ssl/imap    Dovecot imapd
+|_imap-capabilities: LITERAL+ more ENABLE post-login listed IMAP4rev1 LOGIN-REFERRALS AUTH=PLAINA0001 SASL-IR OK Pre-login IDLE capabilities have ID
+| ssl-cert: Subject: commonName=localhost/organizationName=Dovecot mail server
+| Issuer: commonName=localhost/organizationName=Dovecot mail server
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha256WithRSAEncryption
+| Not valid before: 2016-10-09T03:44:10
+| Not valid after:  2026-10-09T03:44:10
+| MD5:   ad50 6e67 26f1 7969 4bcd 2696 5347 a592
+|_SHA-1: 01e5 ecc7 994a a19d 45e8 f4c2 b4cf 98b5 10a4 771f
+|_ssl-date: TLS randomness does not represent time
+995/tcp   open  ssl/pop3    Dovecot pop3d
+|_pop3-capabilities: UIDL AUTH-RESP-CODE USER SASL(PLAIN) PIPELINING CAPA RESP-CODES TOP
+| ssl-cert: Subject: commonName=localhost/organizationName=Dovecot mail server
+| Issuer: commonName=localhost/organizationName=Dovecot mail server
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha256WithRSAEncryption
+| Not valid before: 2016-10-09T03:44:10
+| Not valid after:  2026-10-09T03:44:10
+| MD5:   ad50 6e67 26f1 7969 4bcd 2696 5347 a592
+|_SHA-1: 01e5 ecc7 994a a19d 45e8 f4c2 b4cf 98b5 10a4 771f
+|_ssl-date: TLS randomness does not represent time
+2049/tcp  open  nfs_acl     2-3 (RPC #100227)
+34625/tcp open  mountd      1-3 (RPC #100005)
+42333/tcp open  nlockmgr    1-4 (RPC #100021)
+50170/tcp open  mountd      1-3 (RPC #100005)
+51573/tcp open  mountd      1-3 (RPC #100005)
+MAC Address: 00:0C:29:1C:55:F8 (VMware)
+Device type: general purpose
+Running: Linux 3.X|4.X
+OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4
+OS details: Linux 3.2 - 4.6
+Uptime guess: 198.840 days (since Wed Aug 31 13:19:18 2016)
+Network Distance: 1 hop
+TCP Sequence Prediction: Difficulty=257 (Good luck!)
+IP ID Sequence Generation: All zeros
+Service Info: Host: ORCUS; OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Host script results:
+|_clock-skew: mean: 30s, deviation: 0s, median: 30s
+| nbstat: NetBIOS name: ORCUS, NetBIOS user: <unknown>, NetBIOS MAC: <unknown> (unknown)
+| Names:
+|   ORCUS<00>            Flags: <unique><active>
+|   ORCUS<03>            Flags: <unique><active>
+|   ORCUS<20>            Flags: <unique><active>
+|   \x01\x02__MSBROWSE__\x02<01>  Flags: <group><active>
+|   WORKGROUP<00>        Flags: <group><active>
+|   WORKGROUP<1d>        Flags: <unique><active>
+|_  WORKGROUP<1e>        Flags: <group><active>
+| smb-os-discovery: 
+|   OS: Windows 6.1 (Samba 4.3.11-Ubuntu)
+|   Computer name: \x00
+|   NetBIOS computer name: ORCUS\x00
+|   Workgroup: WORKGROUP\x00
+|_  System time: 2017-03-18T03:27:29-04:00
+| smb-security-mode: 
+|   account_used: guest
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: disabled (dangerous, but default)
+|_smbv2-enabled: Server supports SMBv2 protocol
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   0.51 ms 172.16.34.157
+
+NSE: Script Post-scanning.
+Initiating NSE at 09:28
+Completed NSE at 09:28, 0.00s elapsed
+Initiating NSE at 09:28
+Completed NSE at 09:28, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 107.95 seconds
+           Raw packets sent: 65558 (2.885MB) | Rcvd: 65550 (2.623MB)
