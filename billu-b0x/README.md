@@ -15,7 +15,7 @@
 >     |_http-server-header: Apache/2.2.22 (Ubuntu)<br />
 >     |_http-title: --==[[IndiShell Lab]]==--<br />
 
-`$ dirb http://192.168.190.133 /usr/share/wordlists/dirb/big.txt`
+`$ dirb http://192.168.190.133 /usr/share/wordlists/dirb/big.txt`<br />
 There is phpmyadmin in /phpmy/
 
 ----------
