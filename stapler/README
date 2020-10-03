@@ -3,6 +3,7 @@ Recon Phase:
 $ nmap -p 1-65535 -T4 -A -v 192.168.190.131
 $ dirb https://192.168.190.131:12380 -R
 $ nikto -host 192.168.190.131:12380
+$(If nikto doesn't work use nmap --script=http-enum <ip of target>)
 Let's scan workpress
 $ wpscan --disable-tls-checks --url https://192.168.190.131:12380/blogblog/ --enumerate u
 $ wpscan --disable-tls-checks --url https://192.168.190.131:12380/blogblog/ --enumerate p
